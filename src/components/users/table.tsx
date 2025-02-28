@@ -4,7 +4,7 @@ import Search from '@/components/search';
 import {
   UsersTableType,
   FormattedUsersTable,
-} from '@/services/definitions';
+} from '@/types/old/definitions';
 
 import { fetchFilteredUsers } from '@/services/users';
 

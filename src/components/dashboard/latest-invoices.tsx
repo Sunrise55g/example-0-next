@@ -4,8 +4,8 @@ import Image from 'next/image';
 import { lusitana } from '@/components/fonts';
 
 
-import { LatestInvoice } from '@/services/definitions';
-import { fetchLatestInvoices } from '@/services/invoices';
+import { LatestInvoice } from '@/types/old/definitions';
+import { fetchLatestInvoices } from '@/services/old/invoices';
 
 
 

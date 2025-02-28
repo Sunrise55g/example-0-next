@@ -6,7 +6,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { lusitana } from '@/components/fonts';
 
-import { fetchCardData } from '@/services/invoices';
+import { fetchCardData } from '@/services/old/invoices';
 
 
 

@@ -1,9 +1,9 @@
 import { generateYAxis } from '@/services/utils';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 import { lusitana } from '@/components/fonts';
-import { Revenue } from '@/services/definitions';
+import { Revenue } from '@/types/old/definitions';
 
-import { fetchRevenue } from '@/services/revenue';
+import { fetchRevenue } from '@/services/old/revenue';
 
 
 

@@ -8,7 +8,7 @@ import {
 	InvoicesTable,
 	LatestInvoiceRaw,
 	Revenue,
-} from './definitions';
+} from '../types/old/definitions';
 import { formatCurrency } from './utils';
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';

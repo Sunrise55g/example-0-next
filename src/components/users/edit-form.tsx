@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useActionState } from 'react';
 
-import { UserField, UserForm } from '@/services/definitions';
+import { UserField, UserForm } from '@/types/old/definitions';
 import {
   CheckIcon,
   ClockIcon,

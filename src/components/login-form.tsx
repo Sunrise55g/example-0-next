@@ -1,7 +1,6 @@
 'use client';
 
 import { useActionState } from 'react';
-import { authenticate } from '@/services/authenticate';
 import { useSearchParams } from 'next/navigation';
 
 import {
@@ -10,6 +9,9 @@ import {
   ExclamationCircleIcon,
 } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
+
+import { authenticate } from '@/services/old/authenticate.service';
+import { login } from '@/services/auth.service';
 
 import { Button } from './button';
 import { lusitana } from '@/components/fonts';
@@ -22,7 +24,8 @@ export default function LoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
   const [errorMessage, formAction, isPending] = useActionState(
-    authenticate,
+    // authenticate,
+    login,
     undefined
   );
 
@@ -37,17 +40,17 @@ export default function LoginForm() {
           <div>
             <label
               className="mb-3 mt-5 block text-xs font-medium text-gray-900"
-              htmlFor="email"
+              htmlFor="login"
             >
-              Email
+              Email or Username
             </label>
             <div className="relative">
               <input
                 className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
-                id="email"
-                type="email"
-                name="email"
-                placeholder="Enter your email address"
+                id="login"
+                type="login"
+                name="login"
+                placeholder="Enter your email address or Username"
                 required
               />
               <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />

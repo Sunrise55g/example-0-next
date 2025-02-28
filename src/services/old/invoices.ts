@@ -8,8 +8,8 @@ import {
 	InvoicesTable,
 	LatestInvoiceRaw,
 	Revenue,
-} from './definitions';
-import { formatCurrency } from './utils';
+} from '../../types/old/definitions';
+import { formatCurrency } from '../utils';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';

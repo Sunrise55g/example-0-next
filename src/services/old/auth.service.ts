@@ -1,8 +1,8 @@
 import NextAuth, { AuthError } from 'next-auth';
-import { authConfig } from '../auth.config';
+import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials'
 import { z } from 'zod';
-import type { User } from '@/services/definitions';
+import type { User } from '@/types/old/definitions';
 import bcrypt from 'bcryptjs';
 import postgres from 'postgres';
 

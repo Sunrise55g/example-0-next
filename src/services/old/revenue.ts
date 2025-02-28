@@ -8,8 +8,8 @@ import {
   InvoicesTable,
   LatestInvoiceRaw,
   Revenue,
-} from './definitions';
-import { formatCurrency } from './utils';
+} from '../../types/old/definitions';
+import { formatCurrency } from '../utils';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'prefer' });
 

@@ -8,7 +8,7 @@ import { CreateInvoice } from '@/components/invoices/buttons';
 import { lusitana } from '@/components/fonts';
 import { InvoicesTableSkeleton } from '@/components/skeletons';
 
-import { fetchInvoicesPages } from '@/services/invoices';
+import { fetchInvoicesPages } from '@/services/old/invoices';
 
 
 

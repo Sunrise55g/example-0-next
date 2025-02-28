@@ -5,7 +5,7 @@ import Form from '@/components/invoices/edit-form';
 import Breadcrumbs from '@/components/invoices/breadcrumbs';
 
 import { fetchUsers } from '@/services/users';
-import { fetchInvoiceById } from '@/services/revenue';
+import { fetchInvoiceById } from '@/services/old/revenue';
 
 
 
