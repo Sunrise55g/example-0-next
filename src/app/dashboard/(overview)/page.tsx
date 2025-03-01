@@ -13,7 +13,7 @@ import {
 } from '@/components/skeletons';
 
 import  getServerSession  from 'next-auth';
-import { authConfig } from '@/services/auth.config';
+import { authConfig } from '@/auth.config';
 
 
 

@@ -22,26 +22,22 @@ export default function Form() {
   const initialState = { message: '', errors: {} };
   const [state, formAction]: any = useActionState(profilesUsersServiceCore.profileUsersCreateOne, initialState)
 
-  const { data: session, status } = useSession();
-  console.log('session', session )
-  console.log('status', status )
-
   return (
     <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
 
         {/* User name */}
         <div className="mb-4">
-          <label htmlFor="name" className="mb-2 block text-sm font-medium">
-            Choose an name
+          <label htmlFor="username" className="mb-2 block text-sm font-medium">
+            Choose an username
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-                id="name"
-                name="name"
+                id="username"
+                name="username"
                 type="string"
-                placeholder="Enter User name"
+                placeholder="Enter username"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
               />
@@ -117,7 +113,91 @@ export default function Form() {
         </div>
 
 
-        {/* User imageUrl */}
+        {/* User phone */}
+        <div className="mb-4">
+          <label htmlFor="email" className="mb-2 block text-sm font-medium">
+            Choose an phone
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="phone"
+                name="phone"
+                type="string"
+                placeholder="Enter User email"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              />
+              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+            <div id="user-error" aria-live="polite" aria-atomic="true">
+              {state.errors?.email &&
+                state.errors.email.map((error: string) => (
+                  <p className="mt-2 text-sm text-red-500" key={error}>
+                    {error}
+                  </p>
+                ))}
+            </div>
+          </div>
+        </div>
+
+
+        {/* User firstName */}
+        <div className="mb-4">
+          <label htmlFor="email" className="mb-2 block text-sm font-medium">
+            Choose an firstName
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="firstName"
+                name="firstName"
+                type="string"
+                placeholder="Enter User email"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              />
+              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+            <div id="user-error" aria-live="polite" aria-atomic="true">
+              {state.errors?.email &&
+                state.errors.email.map((error: string) => (
+                  <p className="mt-2 text-sm text-red-500" key={error}>
+                    {error}
+                  </p>
+                ))}
+            </div>
+          </div>
+        </div>
+
+
+        {/* User lastName */}
+        <div className="mb-4">
+          <label htmlFor="email" className="mb-2 block text-sm font-medium">
+            Choose an lastName
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="lastName"
+                name="lastName"
+                type="string"
+                placeholder="Enter User email"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              />
+              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+            <div id="user-error" aria-live="polite" aria-atomic="true">
+              {state.errors?.email &&
+                state.errors.email.map((error: string) => (
+                  <p className="mt-2 text-sm text-red-500" key={error}>
+                    {error}
+                  </p>
+                ))}
+            </div>
+          </div>
+        </div>
+
+
+        {/* User imageUrl
         <div className="mb-4">
           <label htmlFor="imageUrl" className="mb-2 block text-sm font-medium">
             Choose an imageUrl
@@ -142,7 +222,7 @@ export default function Form() {
                 ))}
             </div>
           </div>
-        </div>
+        </div> */}
 
 
       </div>
@@ -156,7 +236,7 @@ export default function Form() {
         </Link>
         <Button type="submit">Create User</Button>
       </div>
-      
+
     </form>
   );
 }

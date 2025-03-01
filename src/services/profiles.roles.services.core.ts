@@ -8,6 +8,7 @@ import {
 import { axiosWithAuth } from '@/api/interceptors'
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { IProfileRolesReadBulkRes } from '@/types/profile.roles';
 
 
 
@@ -20,7 +21,7 @@ export type IprofilesRolesServiceCoreState = {
 
 class ProfilesRolesServiceCore {
 
-	private BASE_URL = '/profile/users/core'
+	private BASE_URL = '/profile/roles/core'
 
 
 	async profileUsersCreateOne(prevState: IprofilesRolesServiceCoreState, data: FormData) {
@@ -40,9 +41,9 @@ class ProfilesRolesServiceCore {
 
 
 
-	async profileUsersGetMany(query: any) {
+	async profileRolesGetMany(query?: any) {
 
-		const response = await axiosWithAuth.get<IProfileUsersReadBulkRes>(`${this.BASE_URL}`)
+		const response = await axiosWithAuth.get<IProfileRolesReadBulkRes>(`${this.BASE_URL}`)
 
 
 		return response.data

@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 
 import AcmeLogo from '@/components/acme-logo';
-import LoginForm from '@/app/auth/login/LoginForm';
+import RegistrationForm from '@/app/auth/registration/RegistrationForm';
 
 
 
@@ -11,17 +11,17 @@ export const metadata: Metadata = {
 };
 
 
-export default function LoginPage() {
+export default function RegistrationPage() {
     return (
         <main className="flex items-center justify-center md:h-screen">
             <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32">
                 <div className="flex h-20 w-full items-end rounded-lg bg-blue-500 p-3 md:h-36">
                     <div className="w-32 text-white md:w-36">
-                        <AcmeLogo />
+                       <AcmeLogo />
                     </div>
                 </div>
                 <Suspense>
-                    <LoginForm />
+                    <RegistrationForm />
                 </Suspense>
             </div>
         </main>

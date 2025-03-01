@@ -16,11 +16,52 @@ import clsx from 'clsx';
 const links = [
   { name: 'Home', href: '/dashboard', icon: HomeIcon },
   {
-    name: 'Invoices',
-    href: '/dashboard/invoices',
+    name: 'Profile Rolls',
+    href: '/dashboard/profile/roles',
     icon: DocumentDuplicateIcon,
   },
-  { name: 'Users', href: '/dashboard/users', icon: UserGroupIcon },
+
+  {
+    name: 'Profile Users',
+    href: '/dashboard/profile/users',
+    icon: DocumentDuplicateIcon,
+  },
+
+  {
+    name: 'Parts Categories',
+    href: '/dashboard/parts/categories',
+    icon: DocumentDuplicateIcon,
+  },
+
+  {
+    name: 'Parts Items',
+    href: '/dashboard/Parts/Items',
+    icon: DocumentDuplicateIcon,
+  },
+
+  {
+    name: 'Invoices Categories',
+    href: '/dashboard/invoices/categories',
+    icon: DocumentDuplicateIcon,
+  },
+
+  {
+    name: 'Tickets Categories',
+    href: '/dashboard/tickets/categories',
+    icon: DocumentDuplicateIcon,
+  },
+
+  {
+    name: 'Tickets Invoices',
+    href: '/dashboard/tickets/invoices',
+    icon: DocumentDuplicateIcon,
+  },
+
+  {
+    name: 'Tickets Items',
+    href: '/dashboard/tickets/items',
+    icon: DocumentDuplicateIcon,
+  },
 ];
 
 

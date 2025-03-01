@@ -19,12 +19,15 @@ export type IprofilesUsersServiceCoreState = {
 
 
 class ProfilesUsersServiceCore {
+
 	private BASE_URL = '/profile/users/core'
 
 
 	async profileUsersCreateOne(prevState: IprofilesUsersServiceCoreState, data: FormData) {
 
-		const response = await axiosWithAuth.post<IProfileUsersReadRes>(this.BASE_URL, data)
+		const response = await axiosWithAuth.post<IProfileUsersReadRes>('/profile/users/core', data)
+
+		console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', response.data);
 
 		if (![200, 201].includes(response.status)) {
 			return {
@@ -32,8 +35,8 @@ class ProfilesUsersServiceCore {
 			};
 		}
 
-		revalidatePath('/dashboard/users');
-		redirect('/dashboard/users');
+		revalidatePath('/dashboard/profile/users');
+		redirect('/dashboard/profile/users');
 	}
 
 

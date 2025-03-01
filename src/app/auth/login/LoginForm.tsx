@@ -10,7 +10,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 
-import { authenticate } from '@/services/authenticate.service';
+import { login } from '@/services/auth.service';
 
 import { Button } from '@/components/button';
 import { lusitana } from '@/components/fonts';
@@ -23,7 +23,7 @@ export default function LoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
   const [errorMessage, formAction, isPending] = useActionState(
-    authenticate,
+    login,
     undefined
   );
 

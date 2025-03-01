@@ -1,7 +1,9 @@
 import axios, { type CreateAxiosDefaults } from 'axios'
+import { Session } from 'next-auth'
 
 import { errorCatch } from './error'
-import { auth } from '@/services/auth.service';
+import { auth } from '@/auth';
+import { useSession } from 'next-auth/react';
 
 
 ////
@@ -22,11 +24,10 @@ const axiosWithAuth = axios.create(options)
 
 
 axiosWithAuth.interceptors.request.use(async (config) => {
-	const session: any = await auth();
-	console.log('!!!!!!!!!!!!!!!!!! session', session)
+
+	const session:Session | null = await auth();
 
 	const token = session?.user?.jwt
-	console.log('!!!!!!!!!!!!!!!!!! token', token)
 
 	if (config?.headers && token)
 		config.headers.Authorization = `Bearer ${token}`

@@ -3,8 +3,8 @@ import { Metadata } from 'next';
 import '@/components/global.css';
 import { inter } from '@/components/fonts';
 import Providers from '@/providers/Providers';
-import { authConfig } from '@/services/auth.config';
-import { auth } from '@/services/auth.service';
+import { authConfig } from '@/auth.config';
+import { auth } from '@/auth';
 
 
 

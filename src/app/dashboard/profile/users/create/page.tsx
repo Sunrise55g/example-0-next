@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
 
-import Form from '@/app/dashboard/users/create/create-form';
+import Form from '@/app/dashboard/profile/users/create/create-form';
 import Breadcrumbs from '@/components/users/breadcrumbs';
 
-// import { fetchUsers } from '@/services/users';
+import { profilesRolesServiceCore } from '@/services/profiles.roles.services.core';
 
 
 
@@ -15,16 +15,16 @@ export const metadata: Metadata = {
 
 export default async function Page() {
 
-  // const users = await fetchUsers();
+  const roles = (await profilesRolesServiceCore.profileRolesGetMany()).data;
 
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Users', href: '/dashboard/users' },
+          { label: 'Users', href: '/dashboard/profile/users' },
           {
             label: 'Create User',
-            href: '/dashboard/users/create',
+            href: '/dashboard/profile/users/create',
             active: true,
           },
         ]}
