@@ -25,6 +25,8 @@ export interface IAuthLoginReq {
 }
 
 export interface IAuthLoginRes {
-	profile_users: IProfileUsersReadRes;
+	user: IProfileUsersReadRes;
 	token: string;
 }
+
+

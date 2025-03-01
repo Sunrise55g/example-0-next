@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { lusitana } from '@/components/fonts';
 
 
-import { LatestInvoice } from '@/types/old/definitions';
+import { LatestInvoice } from '@/types/definitions';
 import { fetchLatestInvoices } from '@/services/old/invoices';
 
 

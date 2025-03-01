@@ -1,4 +1,4 @@
-import { Revenue } from '../types/old/definitions';
+import { Revenue } from '../types/definitions';
 
 export const formatCurrency = (amount: number) => {
   return (amount / 100).toLocaleString('en-US', {

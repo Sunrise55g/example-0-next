@@ -1,85 +1,67 @@
-'use server'
+import NextAuth, { User, AuthError } from 'next-auth';
+import Credentials from 'next-auth/providers/credentials'
+import { z } from 'zod';
 
-import { axiosClassic } from '@/api/interceptors'
-import { removeFromStorage, saveTokenStorage } from './auth-token.service'
-import {
-	IAuthRegistrationReq, IAuthRegistrationRes,
-	IAuthLoginReq, IAuthLoginRes
-} from '@/types/auth'
-
-
+import { authConfig } from './auth.config';
+// import type { User } from '@/types/definitions';
+import { axiosClassic } from '@/api/interceptors';
+import { IAuthLoginRes } from '@/types/auth';
 
 
 
-export async function registration(data: IAuthRegistrationReq) {
-	const response = await axiosClassic.post<IAuthRegistrationRes>(
-		`/auth/registration`,
-		data
-	)
 
-	if (response.data.token) saveTokenStorage(response.data.token)
+export const { auth, signIn, signOut } = NextAuth({
+  ...authConfig,
+  providers: [
+    Credentials({
 
-	return response
-}
+      async authorize(credentials) {
 
+        //
+        const parsedCredentials = z
+          .object({ username: z.string(), password: z.string().min(6) })
+          .safeParse(credentials);
 
-export async function login(
-	prevState: 'Success' | "Something went wrong." | undefined,
-	formData: FormData
-) {
-	// Преобразуем FormData в IAuthLoginReq
-	const data: IAuthLoginReq = {
-		login: formData.get('login') as string,
-		password: formData.get('password') as string,
-	};
-	
+        if (!parsedCredentials.success) {
+          console.log('Invalid credentials');
+          return null;
+        }
 
-	try {
-		const response = await axiosClassic.post<IAuthLoginRes>(
-			`/auth/login`,
-			data
-		);
-		console.log('response', { response });
-
-		if (response.data.token) {
-			saveTokenStorage(response.data.token);
-			return 'Success';
-		} else {
-			return 'Something went wrong.';
-		}
-	} catch (error) {
-		console.error('Login failed:', error);
-		return 'Something went wrong.';
-	}
-}
+        const { username, password } = parsedCredentials.data;
 
 
-export async function refresh() {
-	const response = await axiosClassic.post<{ token: string }>(
-		'/auth/refresh'
-	)
+        //
+        const response = await axiosClassic.post<IAuthLoginRes>(
+          `/auth/login`,
+          { login: username, password: password }
+        );
 
-	if (response.data.token) saveTokenStorage(response.data.token)
-
-	return response
-}
-
-
-export async function verify() {
-	const response = await axiosClassic.post<{ verify: true }>(
-		'/auth/verify'
-	)
-
-	return response
-}
+        const responseData = response.data
+        if (!responseData) {
+          console.log('Invalid credentials');
+          return null;
+        }
 
 
-export async function logout() {
-	// const response = await axiosClassic.post<boolean>('/auth/logout')
-	// if (response.data) removeFromStorage()
-	// return response
+        //
+        return {
+          id: responseData.user.id.toString(),
+          email: responseData.user.email,
+          username: responseData.user.username,
+          jwt: responseData.token,
+        } as User
+      },
+    }),
 
-	removeFromStorage()
-	return null;
-}
+  ],
 
+  callbacks: {
+    jwt({ token, user, account }) {
+      return { ...token, ...user }
+    },
+    session({ session, token, user }: any) {
+      session.user = token as User
+      return session
+    },
+  },
+});

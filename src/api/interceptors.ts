@@ -1,14 +1,10 @@
 import axios, { type CreateAxiosDefaults } from 'axios'
 
 import { errorCatch } from './error'
-import {
-	getAccessToken,
-	removeFromStorage
-} from '@/services/auth-token.service'
-import { refresh } from '@/services/auth.service'
+import { auth } from '@/services/auth.service';
 
 
-
+////
 const options: CreateAxiosDefaults = {
 	baseURL: 'http://localhost:4000/api',
 	headers: {
@@ -18,15 +14,22 @@ const options: CreateAxiosDefaults = {
 }
 
 const axiosClassic = axios.create(options)
+
+
+////
 const axiosWithAuth = axios.create(options)
 
 
-axiosWithAuth.interceptors.request.use(config => {
-	const accessToken = getAccessToken()
 
-	if (config?.headers && accessToken)
-		config.headers.Authorization = `Bearer ${accessToken}`
+axiosWithAuth.interceptors.request.use(async (config) => {
+	const session: any = await auth();
+	console.log('!!!!!!!!!!!!!!!!!! session', session)
 
+	const token = session?.user?.jwt
+	console.log('!!!!!!!!!!!!!!!!!! token', token)
+
+	if (config?.headers && token)
+		config.headers.Authorization = `Bearer ${token}`
 	return config
 })
 
@@ -44,16 +47,17 @@ axiosWithAuth.interceptors.response.use(
 			!error.config._isRetry
 		) {
 			originalRequest._isRetry = true
-			try {
-				await refresh()
-				return axiosWithAuth.request(originalRequest)
-			} catch (error) {
-				if (errorCatch(error) === 'jwt expired') removeFromStorage()
-			}
+			// try {
+			// 	return axiosWithAuth.request(originalRequest)
+			// } catch (error) {
+			// 	if (errorCatch(error) === 'jwt expired') signOut()
+			// }
 		}
 
 		throw error
 	}
 )
 
+
+////
 export { axiosClassic, axiosWithAuth }

@@ -1,6 +1,5 @@
 import { IProfileRolesReadRes } from "./profile.roles";
 
-
 export interface IProfileUsersCreateReq {
 	profileRoleId: number;
 	username: string;
@@ -36,10 +35,7 @@ export interface IProfileUsersReadBulkRes {
 }
 
 
-export interface IProfileUsersUpdateReq extends Partial<IProfileUsersCreateReq> { }
+export interface IProfileUsersUpdateReq extends Partial<IProfileUsersCreateReq> {
+	password?: string
+ }
 
-
-export interface ProfileUsersUpdatePasswordReq {
-	oldPassword: string;
-	newPassword: string;
-}

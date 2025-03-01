@@ -4,9 +4,9 @@ import Search from '@/components/search';
 import {
   UsersTableType,
   FormattedUsersTable,
-} from '@/types/old/definitions';
+} from '@/types/definitions';
 
-import { fetchFilteredUsers } from '@/services/users';
+import { profilesUsersServiceCore } from '@/services/profiles.users.services.core';
 
 
 export default async function UsersTable({
@@ -17,7 +17,7 @@ export default async function UsersTable({
   currentPage: number;
 }) {
 
-  const users = await fetchFilteredUsers(query, currentPage);
+  const users = await profilesUsersServiceCore.profileUsersGetMany(query);
 
 
   return (
@@ -27,7 +27,7 @@ export default async function UsersTable({
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden rounded-md bg-gray-50 p-2 md:pt-0">
               <div className="md:hidden">
-                {users?.map((user) => (
+                {users?.data.map((user) => (
                   <div
                     key={user.id}
                     className="mb-2 w-full rounded-md bg-white p-4"
@@ -36,7 +36,7 @@ export default async function UsersTable({
                       <div>
                         <div className="mb-2 flex items-center">
                           <div className="flex items-center gap-3">
-                            {user.image_url ?? (
+                            {/* {user.image_url ?? (
                               <Image
                                 src={user.image_url}
                                 className="rounded-full"
@@ -44,8 +44,8 @@ export default async function UsersTable({
                                 width={28}
                                 height={28}
                               />
-                            )}
-                            <p>{user.name}</p>
+                            )} */}
+                            <p>{user.username}</p>
                           </div>
                         </div>
                         <p className="text-sm text-gray-500">
@@ -53,7 +53,7 @@ export default async function UsersTable({
                         </p>
                       </div>
                     </div>
-                    <div className="flex w-full items-center justify-between border-b py-5">
+                    {/* <div className="flex w-full items-center justify-between border-b py-5">
                       <div className="flex w-1/2 flex-col">
                         <p className="text-xs">Pending</p>
                         <p className="font-medium">{user.total_pending}</p>
@@ -65,7 +65,7 @@ export default async function UsersTable({
                     </div>
                     <div className="pt-4 text-sm">
                       <p>{user.total_invoices} invoices</p>
-                    </div>
+                    </div> */}
                   </div>
                 ))}
               </div>
@@ -91,7 +91,7 @@ export default async function UsersTable({
                 </thead>
 
                 <tbody className="divide-y divide-gray-200 text-gray-900">
-                  {users.map((user) => (
+                  {users.data.map((user) => (
                     <tr key={user.id} className="group">
                       <td className="whitespace-nowrap bg-white py-5 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6">
                         <div className="flex items-center gap-3">
@@ -104,7 +104,7 @@ export default async function UsersTable({
                               height={28}
                             />
                           )}
-                          <p>{user.name}</p>
+                          <p>{user.username}</p>
                         </div>
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">

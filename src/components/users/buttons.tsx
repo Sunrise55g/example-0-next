@@ -1,7 +1,7 @@
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
-import { deleteUser } from '@/services/users';
+import { profilesUsersServiceCore } from '@/services/profiles.users.services.core';
 
 
 
@@ -31,15 +31,16 @@ export function UpdateUser({ id }: { id: string }) {
 
 export function DeleteUser({ id }: { id: string }) {
 
-  const deleteUserWithId = deleteUser.bind(null, id)
+  const deleteUserWithId = profilesUsersServiceCore.profileUsersDeleteOne.bind(id)
 
 
   return (
-    <form action={deleteUserWithId}>
-      <button type="submit" className="rounded-md border p-2 hover:bg-gray-100">
-        <span className="sr-only">Delete</span>
-        <TrashIcon className="w-5" />
-      </button>
-    </form>
+    // <form action={deleteUserWithId}>
+    //   <button type="submit" className="rounded-md border p-2 hover:bg-gray-100">
+    //     <span className="sr-only">Delete</span>
+    //     <TrashIcon className="w-5" />
+    //   </button>
+    // </form>
+    <p></p>
   );
 }

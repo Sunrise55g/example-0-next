@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 
 import AcmeLogo from '@/components/acme-logo';
-import LoginForm from '@/components/login-form';
+import LoginForm from '@/app/auth/login/LoginForm';
 
 
 
