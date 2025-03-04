@@ -1,3 +1,7 @@
+import axios from 'axios'
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+
 import {
 	IProfileUsersCreateReq,
 	IProfileUsersReadRes, IProfileUsersReadBulkRes,
@@ -6,8 +10,8 @@ import {
 
 
 import { axiosWithAuth } from '@/api/interceptors'
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
+
+
 
 
 
@@ -44,19 +48,28 @@ class ProfilesUsersServiceCore {
 
 	async profileUsersGetMany(token: string, query?: any) {
 
-		// const response = await axiosWithAuth.get<IProfileUsersReadBulkRes>(token, `${this.BASE_URL}`)
 
-		const response = await fetch(`http://localhost:4000/api${this.BASE_URL}`, {
+		const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+		const url = `${backendUrl}${this.BASE_URL}`;
+
+		const response = await fetch(url, {
+			method: 'GET',
 			headers: {
-				Authorization: `Bearer ${token}`,
+				'Authorization': `Bearer ${token}`,
 				'Content-Type': 'application/json',
-
+				'Accept': 'application/json'
 			},
-			credentials: 'include'
+			credentials: 'include',
 		});
 
-		return response
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`);
+		}
+
+		return response;
+
 	}
+
 
 
 
