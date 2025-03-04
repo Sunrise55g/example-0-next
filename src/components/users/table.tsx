@@ -1,3 +1,8 @@
+'use client';
+
+import { useSession } from 'next-auth/react';
+import { useState, useEffect } from 'react'
+
 import Image from 'next/image';
 import { lusitana } from '@/components/fonts';
 import Search from '@/components/search';
@@ -9,7 +14,7 @@ import {
 import { profilesUsersServiceCore } from '@/services/profiles.users.services.core';
 
 
-export default async function UsersTable({
+export default function UsersTable({
   query,
   currentPage,
 }: {
@@ -17,7 +22,32 @@ export default async function UsersTable({
   currentPage: number;
 }) {
 
-  const users = await profilesUsersServiceCore.profileUsersGetMany(query);
+  const { data: session, status }: any = useSession();
+  // console.log('session', session )
+  // console.log('status', status )
+
+  // const users:any = profilesUsersServiceCore.profileUsersGetMany(session?.user?.jwt, query);
+  // console.log('users', users )
+
+  const [data, setData]: any = useState(null)
+  const [isLoading, setLoading] = useState(true)
+
+  useEffect(() => {
+    profilesUsersServiceCore.profileUsersGetMany(session?.user?.jwt, query)
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data)
+        setLoading(false)
+      })
+  }, [])
+
+  // console.log('data', data)
+
+  if (isLoading) return <p>Loading...</p>
+  if (!data) return <p>No profile data</p>
+
+  const users:any = data
+  console.log('users', users)
 
 
   return (
@@ -27,7 +57,7 @@ export default async function UsersTable({
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden rounded-md bg-gray-50 p-2 md:pt-0">
               <div className="md:hidden">
-                {users?.data.map((user) => (
+                {users?.data.map((user:any) => (
                   <div
                     key={user.id}
                     className="mb-2 w-full rounded-md bg-white p-4"
@@ -91,7 +121,7 @@ export default async function UsersTable({
                 </thead>
 
                 <tbody className="divide-y divide-gray-200 text-gray-900">
-                  {users.data.map((user) => (
+                  {users.data.map((user:any) => (
                     <tr key={user.id} className="group">
                       <td className="whitespace-nowrap bg-white py-5 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6">
                         <div className="flex items-center gap-3">

@@ -42,11 +42,20 @@ class ProfilesUsersServiceCore {
 
 
 
-	async profileUsersGetMany(query?: any) {
+	async profileUsersGetMany(token: string, query?: any) {
 
-		const response = await axiosWithAuth.get<IProfileUsersReadBulkRes>(`${this.BASE_URL}`)
+		// const response = await axiosWithAuth.get<IProfileUsersReadBulkRes>(token, `${this.BASE_URL}`)
 
-		return response.data
+		const response = await fetch(`http://localhost:4000/api${this.BASE_URL}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+				'Content-Type': 'application/json',
+
+			},
+			credentials: 'include'
+		});
+
+		return response
 	}
 
 
