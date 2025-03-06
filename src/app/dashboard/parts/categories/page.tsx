@@ -1,9 +1,9 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 
-import Pagination from '@/components/users/pagination';
+import Pagination from '@/components/pagination';
 import Search from '@/components/search';
-import Table from '@/components/users/table';
+import Table from '@/app/dashboard/profile/users/table';
 import { CreateUser } from '@/components/users/buttons';
 import { lusitana } from '@/components/fonts';
 import { UsersTableSkeleton } from '@/components/skeletons';

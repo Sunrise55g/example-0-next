@@ -14,13 +14,48 @@ import { Button } from '@/components/button';
 import { IprofilesUsersServiceCoreState, profilesUsersServiceCore } from '@/services/profiles.users.services.core';
 
 import { useSession } from 'next-auth/react';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 
 
 export default function Form() {
 
+  //
+  const { data: session, status }: any = useSession();
+  const token = session?.user?.jwt
+
+  //
   const initialState = { message: '', errors: {} };
-  const [state, formAction]: any = useActionState(profilesUsersServiceCore.profileUsersCreateOne, initialState)
+  const [state, formAction]: any = useActionState(action, initialState);
+
+  async function action(prevState: IprofilesUsersServiceCoreState, formData: FormData) {
+
+    const rawFormData = {
+      username: formData.get('username'),
+      password: formData.get('password'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      firstName: formData.get('firstName'),
+      lastName: formData.get('lastName'),
+    }
+    // console.log('rawFormData:', { rawFormData })
+
+    const serviceResponse:any = await profilesUsersServiceCore.createOne(rawFormData, token);
+
+    if (serviceResponse.error || serviceResponse.message) {
+      const message = serviceResponse.message;
+      const statusCode = serviceResponse.statusCode;
+      return {
+        errors: { statusCode: message },
+        message: `Error: Received status ${statusCode}`,
+      };
+    }
+
+    // revalidatePath('/dashboard/profile/users');
+    redirect('/dashboard/profile/users');
+  }
+
 
   return (
     <form action={formAction}>
@@ -224,6 +259,13 @@ export default function Form() {
           </div>
         </div> */}
 
+        <div id="user-error" aria-live="polite" aria-atomic="true">
+          {state.errors && state.message &&
+            <p className="mt-2 text-sm text-red-500">
+              {state.message}
+            </p>
+          }
+        </div>
 
       </div>
 

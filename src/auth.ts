@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 import { authConfig } from './auth.config';
 // import type { User } from '@/types/definitions';
-import { axiosClassic } from '@/api/interceptors';
+import { apiClient } from '@/interceptors/api.fetch.interceptor';
 import { IAuthLoginRes, IAuthRegistrationRes } from '@/types/auth';
 
 
@@ -54,22 +54,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           
           console.log('test1:', reqData);
 
-          const response = await axiosClassic.post(
+          const response: any = await apiClient.post(
             `/auth/registration`, reqData
 
           );
-          console.log('response:', response.data);
+          console.log('response:', response);
 
-          const responseData = response.data
-          if (!responseData) {
+          if (!response) {
             console.log('Invalid credentials');
             return null;
           }
           return {
-            id: responseData.user.id.toString(),
-            email: responseData.user.email,
-            username: responseData.user.username,
-            jwt: responseData.token,
+            id: response.user.id.toString(),
+            email: response.user.email,
+            username: response.user.username,
+            jwt: response.token,
           } as User
         }
         else {
@@ -85,21 +84,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           const { username, password } = parsedCredentials.data;
 
-          const response = await axiosClassic.post<IAuthLoginRes>(
+          const response: any = await apiClient.post(
             `/auth/login`,
             { login: username, password: password }
           );
 
-          const responseData = response.data
-          if (!responseData) {
+          if (!response) {
             console.log('Invalid credentials');
             return null;
           }
           return {
-            id: responseData.user.id.toString(),
-            email: responseData.user.email,
-            username: responseData.user.username,
-            jwt: responseData.token,
+            id: response.user.id.toString(),
+            email: response.user.email,
+            username: response.user.username,
+            jwt: response.token,
           } as User
 
         }

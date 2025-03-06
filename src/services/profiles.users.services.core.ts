@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
@@ -9,8 +8,7 @@ import {
 } from '@/types/profile.users.d'
 
 
-import { axiosWithAuth } from '@/api/interceptors'
-
+import { apiClient } from '@/interceptors/api.fetch.interceptor'
 
 
 
@@ -27,11 +25,50 @@ class ProfilesUsersServiceCore {
 	private BASE_URL = '/profile/users/core'
 
 
-	async profileUsersCreateOne(prevState: IprofilesUsersServiceCoreState, data: FormData) {
 
-		const response = await axiosWithAuth.post<IProfileUsersReadRes>('/profile/users/core', data)
+	public async createOne(data: any, token: string) {
+		// console.log('data:', data);
+		// console.log('token:', token);
 
-		console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', response.data);
+		const response: any = await apiClient.post('/profile/users/core', data, token)
+		// console.log('response:', response);
+
+		return response;
+	}
+
+
+
+
+	async findMany(query?: any, token?: string) {
+		// console.log('findMany: query:', query);
+		// console.log('findMany: token:', token);
+
+		const response = await apiClient.get(this.BASE_URL, query, token)
+		console.log('profileUsersGetMany', response);
+
+		return response;
+	}
+
+
+
+	async findOne(id: number, query?: any) {
+
+		const response = await apiClient.get(`${this.BASE_URL}/${id}`)
+
+		if (![200, 201].includes(response.status)) {
+			return {
+				message: `Error: Received status ${response.status}`,
+			};
+		}
+
+		return response
+	}
+
+
+
+	async updateOne(id: number, data: any, token: string) {
+
+		const response = await apiClient.patch(`${this.BASE_URL}/${id}`, data, token)
 
 		if (![200, 201].includes(response.status)) {
 			return {
@@ -46,36 +83,9 @@ class ProfilesUsersServiceCore {
 
 
 
-	async profileUsersGetMany(token: string, query?: any) {
+	async deleteOne(id: number, token: string) {
 
-
-		const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-		const url = `${backendUrl}${this.BASE_URL}`;
-
-		const response = await fetch(url, {
-			method: 'GET',
-			headers: {
-				'Authorization': `Bearer ${token}`,
-				'Content-Type': 'application/json',
-				'Accept': 'application/json'
-			},
-			credentials: 'include',
-		});
-
-		if (!response.ok) {
-			throw new Error(`HTTP error! status: ${response.status}`);
-		}
-
-		return response;
-
-	}
-
-
-
-
-	async profileUsersGetOne(id: number, query?: any) {
-
-		const response = await axiosWithAuth.get<IProfileUsersReadRes>(`${this.BASE_URL}/${id}`)
+		const response = await apiClient.delete(`${this.BASE_URL}/${id}`, token)
 
 		if (![200, 201].includes(response.status)) {
 			return {
@@ -83,37 +93,8 @@ class ProfilesUsersServiceCore {
 			};
 		}
 
-		return response.data
-	}
-
-
-	async profileUsersUpdateOne(id: number, data: any) {
-
-		const response = await axiosWithAuth.patch<IProfileUsersReadRes>(`${this.BASE_URL}/${id}`, data)
-
-		if (![200, 201].includes(response.status)) {
-			return {
-				message: `Error: Received status ${response.status}`,
-			};
-		}
-
-		return response.data
-	}
-
-
-
-
-	async profileUsersDeleteOne(id: number) {
-
-		const response = await axiosWithAuth.delete<IProfileUsersReadRes>(`${this.BASE_URL}/${id}`)
-
-		if (![200, 201].includes(response.status)) {
-			return {
-				message: `Error: Received status ${response.status}`,
-			};
-		}
-
-		return response.data
+		revalidatePath('/dashboard/profile/users');
+		redirect('/dashboard/profile/users');
 	}
 
 }

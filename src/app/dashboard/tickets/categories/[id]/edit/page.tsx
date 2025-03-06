@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 
 import Form from '@/app/dashboard/users/[id]/edit/edit-form';
-import Breadcrumbs from '@/components/users/breadcrumbs';
+import Breadcrumbs from '@/components/breadcrumbs';
 
 import { fetchUserById } from '@/services/profiles.users.services.core';
 

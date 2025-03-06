@@ -1,14 +1,15 @@
-import {
-	IProfileUsersCreateReq,
-	IProfileUsersReadRes, IProfileUsersReadBulkRes,
-	IProfileUsersUpdateReq
-} from '@/types/profile.users.d'
-
-
-import { axiosWithAuth } from '@/api/interceptors'
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { IProfileRolesReadBulkRes } from '@/types/profile.roles';
+
+import {
+	IProfileRolesCreateReq,
+	IProfileRolesReadRes, IProfileRolesReadBulkRes,
+	IProfileRolesUpdateReq
+} from '@/types/profile.roles.d'
+
+
+import { apiClient } from '@/interceptors/api.fetch.interceptor'
+
 
 
 
@@ -24,36 +25,10 @@ class ProfilesRolesServiceCore {
 	private BASE_URL = '/profile/roles/core'
 
 
-	async profileUsersCreateOne(prevState: IprofilesRolesServiceCoreState, data: FormData) {
 
-		const response = await axiosWithAuth.post<IProfileUsersReadRes>(this.BASE_URL, data)
+	public async createOne(prevState: IprofilesRolesServiceCoreState, data: FormData, token: string) {
 
-		if (![200, 201].includes(response.status)) {
-			return {
-				message: `Error: Received status ${response.status}`,
-			};
-		}
-
-		revalidatePath('/dashboard/users');
-		redirect('/dashboard/users');
-	}
-
-
-
-
-	async profileRolesGetMany(query?: any) {
-
-		const response = await axiosWithAuth.get<IProfileRolesReadBulkRes>(`${this.BASE_URL}`)
-
-
-		return response.data
-	}
-
-
-
-	async profileUsersGetOne(id: number, query: any) {
-
-		const response = await axiosWithAuth.get<IProfileUsersReadRes>(`${this.BASE_URL}/${id}`)
+		const response = await apiClient.post(this.BASE_URL, data, token)
 
 		if (![200, 201].includes(response.status)) {
 			return {
@@ -61,13 +36,26 @@ class ProfilesRolesServiceCore {
 			};
 		}
 
-		return response.data
+		revalidatePath('/dashboard/profile/roles');
+		redirect('/dashboard/profile/roles');
 	}
 
 
-	async profileUsersUpdateOne(id: number, data: any) {
 
-		const response = await axiosWithAuth.patch<IProfileUsersReadRes>(`${this.BASE_URL}/${id}`, data)
+
+	async findMany(token: string, query?: any) {
+
+		const response = await apiClient.get(this.BASE_URL, token)
+		// console.log('profileUsersGetMany', response);
+
+		return response;
+	}
+
+
+
+	async findOne(id: number, query?: any) {
+
+		const response = await apiClient.get(`${this.BASE_URL}/${id}`)
 
 		if (![200, 201].includes(response.status)) {
 			return {
@@ -75,16 +63,14 @@ class ProfilesRolesServiceCore {
 			};
 		}
 
-		revalidatePath('/dashboard/users');
-		redirect('/dashboard/users');
+		return response
 	}
 
 
 
+	async updateOne(id: number, data: any, token: string) {
 
-	async profileUsersDeleteOne(id: number) {
-
-		const response = await axiosWithAuth.delete<IProfileUsersReadRes>(`${this.BASE_URL}/${id}`)
+		const response = await apiClient.patch(`${this.BASE_URL}/${id}`, data, token)
 
 		if (![200, 201].includes(response.status)) {
 			return {
@@ -92,7 +78,25 @@ class ProfilesRolesServiceCore {
 			};
 		}
 
-		return response.data
+		revalidatePath('/dashboard/profile/roles');
+		redirect('/dashboard/profile/roles');
+	}
+
+
+
+
+	async deleteOne(id: number, token: string) {
+
+		const response = await apiClient.delete(`${this.BASE_URL}/${id}`, token)
+
+		if (![200, 201].includes(response.status)) {
+			return {
+				message: `Error: Received status ${response.status}`,
+			};
+		}
+
+		revalidatePath('/dashboard/profile/roles');
+		redirect('/dashboard/profile/roles');
 	}
 
 }

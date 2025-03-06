@@ -5,7 +5,7 @@ import {
 } from '@/types/profile.users.d'
 
 
-import { axiosWithAuth } from '@/api/interceptors'
+import { axiosWithAuth } from '@/interceptors/api.axios.interceptor'
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 

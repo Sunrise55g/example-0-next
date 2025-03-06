@@ -23,20 +23,24 @@ export default function UsersTable({
 }) {
 
   const { data: session, status }: any = useSession();
-  // console.log('session', session )
-  // console.log('status', status )
-
-  // const users:any = profilesUsersServiceCore.profileUsersGetMany(session?.user?.jwt, query);
-  // console.log('users', users )
+  const token = session?.user?.jwt
 
   const [data, setData]: any = useState(null)
   const [isLoading, setLoading] = useState(true)
 
+
+  let searchParams = `page=${currentPage}`
+  if (query) {
+    searchParams = `page=${currentPage}&s=${query}`
+  }
+
+  console.log('UsersTable: searchParams:', searchParams)
+
+  
   useEffect(() => {
-    profilesUsersServiceCore.profileUsersGetMany(session?.user?.jwt, query)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data)
+    profilesUsersServiceCore.findMany(searchParams, token)
+      .then((res) => {
+        setData(res)
         setLoading(false)
       })
   }, [])
@@ -48,7 +52,7 @@ export default function UsersTable({
   if (!data) return <p>No profile data</p>
 
   const users: any = data
-  console.log('users', users)
+  // console.log('users', users)
 
 
   return (

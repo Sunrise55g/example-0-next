@@ -1,14 +1,15 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
+import { auth } from '@/auth';
 
-import Pagination from '@/components/users/pagination';
-import Search from '@/components/search';
-import Table from '@/components/users/table';
-import { CreateUser } from '@/components/users/buttons';
 import { lusitana } from '@/components/fonts';
+import Pagination from '@/components/pagination';
+import { CreateUser } from '@/components/users/buttons';
+import Search from '@/components/search';
+import Table from '@/app/dashboard/profile/users/table';
 import { UsersTableSkeleton } from '@/components/skeletons';
 
-// import { fetchUsersPages } from '@/services/users.services.core';
+import { profilesUsersServiceCore } from '@/services/profiles.users.services.core';
 
 
 
@@ -27,10 +28,21 @@ export default async function Page(
   }
 ) {
 
+  const session:any = await auth();
+  const token = session?.user?.jwt
+
+
   const searchParams = await props.searchParams;
   const query = searchParams?.query || '';
-  const currentPage = Number(searchParams?.page) || 1;
-  // const totalPages = await fetchUsersPages(query);
+
+  console.log('Page: searchParams:', searchParams);
+
+  const usersObj:any = await profilesUsersServiceCore.findMany(searchParams, token);
+  console.log('usersObj:', {usersObj})
+
+  const totalPages = usersObj.pageCount
+  const currentPage = usersObj.page
+
 
 
   return (
@@ -45,9 +57,9 @@ export default async function Page(
       <Suspense key={query + currentPage} fallback={<UsersTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />
       </Suspense>
-      {/* <div className="mt-5 flex w-full justify-center">
+      <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
-      </div> */}
+      </div>
     </div>
   );
 }

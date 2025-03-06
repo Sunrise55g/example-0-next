@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 import Form from '@/app/dashboard/users/create/create-form';
-import Breadcrumbs from '@/components/users/breadcrumbs';
+import Breadcrumbs from '@/components/breadcrumbs';
 
 // import { fetchUsers } from '@/services/users';
 

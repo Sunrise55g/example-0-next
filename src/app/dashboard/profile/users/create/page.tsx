@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
 
-import Form from '@/app/dashboard/profile/users/create/create-form';
-import Breadcrumbs from '@/components/users/breadcrumbs';
+import Form from '@/app/dashboard/profile/users/create/form';
+import Breadcrumbs from '@/components/breadcrumbs';
 
 import { profilesRolesServiceCore } from '@/services/profiles.roles.services.core';
+import { auth } from '@/auth';
 
 
 
@@ -15,8 +16,13 @@ export const metadata: Metadata = {
 
 export default async function Page() {
 
-  const roles = (await profilesRolesServiceCore.profileRolesGetMany()).data;
+  const session:any = await auth();
+  const token = session?.user?.token
 
+  const rolesObj:any = await profilesRolesServiceCore.findMany(token)
+  const roles = rolesObj.data
+
+  
   return (
     <main>
       <Breadcrumbs

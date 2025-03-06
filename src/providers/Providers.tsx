@@ -1,4 +1,4 @@
-'use client'; // Указываем, что это Client Component
+'use client';
 
 import { SessionProvider } from 'next-auth/react';
 
@@ -8,7 +8,7 @@ export default function Providers({
   session,
 }: {
   children: React.ReactNode;
-  session: any; // Тип сессии можно уточнить
+  session: any;
 }) {
   return <SessionProvider session={session}>
     {children}
