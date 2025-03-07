@@ -1,9 +1,9 @@
 import { Suspense, useContext } from 'react';
 import { Metadata } from 'next';
 
-import CardWrapper from '@/components/dashboard/cards';
-import RevenueChart from '@/components/dashboard/revenue-chart';
-import LatestInvoices from '@/components/dashboard/latest-invoices';
+import CardWrapper from '@/app/dashboard/(overview)/cards';
+import RevenueChart from '@/app/dashboard/(overview)/revenue-chart';
+import LatestInvoices from '@/app/dashboard/(overview)/latest-invoices';
 import { lusitana } from '@/components/fonts';
 
 import {

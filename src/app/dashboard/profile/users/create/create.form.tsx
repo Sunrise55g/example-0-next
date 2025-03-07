@@ -19,7 +19,7 @@ import { redirect } from 'next/navigation';
 
 
 
-export default function Form() {
+export default function CreateForm({ roles }: { roles: any }) {
 
   //
   const { data: session, status }: any = useSession();
@@ -32,6 +32,7 @@ export default function Form() {
   async function action(prevState: IprofilesUsersServiceCoreState, formData: FormData) {
 
     const rawFormData = {
+      roleId: formData.get('roleId'),
       username: formData.get('username'),
       password: formData.get('password'),
       email: formData.get('email'),
@@ -60,6 +61,41 @@ export default function Form() {
   return (
     <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
+
+        {/* Roles */}
+        <div className="mb-4">
+          <label htmlFor="role" className="mb-2 block text-sm font-medium">
+            Choose role
+          </label>
+          <div className="relative">
+            <select
+              id="role"
+              name="roleId"
+              className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              defaultValue=""
+              aria-describedby="user-error"
+            >
+              <option value="" disabled>
+                Select a role
+              </option>
+              {roles.map((role:any) => (
+                <option key={role.id} value={role.id}>
+                  {role.name}
+                </option>
+              ))}
+            </select>
+            <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+          </div>
+          <div id="user-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.roleId &&
+              state.errors.roleId.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+        </div>
+
 
         {/* User name */}
         <div className="mb-4">

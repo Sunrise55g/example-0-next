@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import Pagination from '@/components/pagination';
 import Search from '@/components/search';
 import Table from '@/app/dashboard/tickets/invoices/table';
-import { CreateInvoice } from '@/components/invoices/buttons';
+import { CreateInvoice } from '@/app/dashboard/tickets/invoices/buttons';
 import { lusitana } from '@/components/fonts';
 import { InvoicesTableSkeleton } from '@/components/skeletons';
 

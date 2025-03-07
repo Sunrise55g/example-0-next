@@ -45,7 +45,7 @@ class ProfilesRolesServiceCore {
 
 	async findMany(token: string, query?: any) {
 
-		const response = await apiClient.get(this.BASE_URL, token)
+		const response = await apiClient.get(this.BASE_URL, query, token)
 		// console.log('profileUsersGetMany', response);
 
 		return response;

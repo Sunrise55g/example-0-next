@@ -16,7 +16,7 @@ import clsx from 'clsx';
 const links = [
   { name: 'Home', href: '/dashboard', icon: HomeIcon },
   {
-    name: 'Profile Rolls',
+    name: 'Profile Rolles',
     href: '/dashboard/profile/roles',
     icon: DocumentDuplicateIcon,
   },

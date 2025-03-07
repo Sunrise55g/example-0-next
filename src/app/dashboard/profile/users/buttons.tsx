@@ -31,7 +31,7 @@ export function UpdateUser({ id }: { id: string }) {
 
 export function DeleteUser({ id }: { id: string }) {
 
-  const deleteUserWithId = profilesUsersServiceCore.profileUsersDeleteOne.bind(id)
+  const deleteUserWithId = profilesUsersServiceCore.deleteOne.bind(id)
 
 
   return (

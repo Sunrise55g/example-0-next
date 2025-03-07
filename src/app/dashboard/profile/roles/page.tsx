@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import Pagination from '@/components/pagination';
 import Search from '@/components/search';
 import Table from '@/app/dashboard/profile/users/table';
-import { CreateUser } from '@/components/users/buttons';
+import { CreateUser } from '@/app/dashboard/profile/users/buttons';
 import { lusitana } from '@/components/fonts';
 import { UsersTableSkeleton } from '@/components/skeletons';
 
