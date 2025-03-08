@@ -1,35 +1,42 @@
 import { Metadata } from 'next';
 
-import Form from '@/app/dashboard/users/create/create-form';
+import Form from './create.form';
 import Breadcrumbs from '@/components/breadcrumbs';
 
-// import { fetchUsers } from '@/services/users';
+import { partsCategoriesService } from '@/services/parts.categories.service';
+import { auth } from '@/auth';
 
 
 
 export const metadata: Metadata = {
-  title: 'Create User',
+  title: 'Create Category',
 };
 
 
 
 export default async function Page() {
 
-  // const users = await fetchUsers();
+  const session:any = await auth();
+  const token = session?.user?.jwt
 
+  const categoriesObj:any = await partsCategoriesService.findMany(undefined, token)
+  console.log('categoriesObj:', {categoriesObj})
+  const categories = categoriesObj.data
+
+  
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Users', href: '/dashboard/users' },
+          { label: 'Items', href: '/dashboard/parts/items' },
           {
-            label: 'Create User',
-            href: '/dashboard/users/create',
+            label: 'Create Item',
+            href: '/dashboard/parts/items/create',
             active: true,
           },
         ]}
       />
-      <Form />
+      <Form categories={categories} />
     </main>
   );
 }

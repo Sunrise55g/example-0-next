@@ -16,8 +16,6 @@ import { profileUsersService } from '@/services/profile.users.service';
 import { useSession } from 'next-auth/react';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { UserField, UserForm } from '@/types/definitions';
-
 
 
 
@@ -26,7 +24,7 @@ export default function EditForm({
   user
 }: {
   roles: any;
-  user: UserForm;
+  user: any;
 }) {
 
   //
@@ -58,6 +56,7 @@ export default function EditForm({
       phone: formData.get('phone'),
       firstName: formData.get('firstName'),
       lastName: formData.get('lastName'),
+      active: formData.get('active') === 'on'
     }
     // console.log('rawFormData:', { rawFormData })
 
@@ -281,6 +280,33 @@ export default function EditForm({
             <div id="user-error" aria-live="polite" aria-atomic="true">
               {state.errors?.email &&
                 state.errors.email.map((error: string) => (
+                  <p className="mt-2 text-sm text-red-500" key={error}>
+                    {error}
+                  </p>
+                ))}
+            </div>
+          </div>
+        </div>
+
+
+        {/* active */}
+        <div className="mb-4">
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="active"
+                name="active"
+                type="checkbox"  // Изменено на чекбокс
+                className="peer h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                defaultChecked={user.active}
+              />
+              <label htmlFor="active" className="ml-2 text-sm text-gray-900">
+                User is Active
+              </label>
+            </div>
+            <div id="role-error" aria-live="polite" aria-atomic="true">
+              {state.errors?.active &&
+                state.errors.active.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
                   </p>

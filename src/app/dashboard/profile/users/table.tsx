@@ -2,6 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react'
+import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
 import Image from 'next/image';
 import { lusitana } from '@/components/fonts';
@@ -126,13 +127,19 @@ export default function UsersTable({
                       Email
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      Total Invoices
+                      First name
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      Total Pending
+                      Last Name
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
-                      Total Paid
+                      Administrator
+                    </th>
+                    <th scope="col" className="px-4 py-5 font-medium">
+                      Moderator
+                    </th>
+                    <th scope="col" className="px-4 py-5 font-medium">
+                      Active
                     </th>
                   </tr>
                 </thead>
@@ -158,18 +165,33 @@ export default function UsersTable({
                         {user.email}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {user.total_invoices}
+                        {user.firstName}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {user.total_pending}
+                        {user.lastName}
+                      </td>
+                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                        {user.profile_roles?.administrator ? (
+                          <CheckIcon className="h-5 w-5 text-green-500" />
+                        ) : (
+                          <XMarkIcon className="h-5 w-5 text-red-500" />
+                        )}
+                      </td>
+                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                        {user.profile_roles?.moderator ? (
+                          <CheckIcon className="h-5 w-5 text-green-500" />
+                        ) : (
+                          <XMarkIcon className="h-5 w-5 text-red-500" />
+                        )}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
-                        {user.total_paid}
+                        {user.active ? (
+                          <span className="text-green-500">Active</span>
+                        ) : (
+                          <span className="text-red-500">Inactive</span>
+                        )}
                       </td>
-                      {/* <td className="whitespace-nowrap px-3 py-3">
-                        <InvoiceStatus status={invoice.status} />
-                      </td> */}
-                      <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                      <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                         <div className="flex justify-end gap-3">
                           <UpdateUser id={user.id} />
                           <DeleteUser id={user.id} />

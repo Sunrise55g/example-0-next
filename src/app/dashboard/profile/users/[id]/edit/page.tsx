@@ -24,7 +24,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 	// console.log('token:', token)
 
 
-	const rolesObj: any = await profileRolesService.findMany(token)
+	const rolesObj: any = await profileRolesService.findMany(undefined, token)
 	// console.log('rolesObj:', {rolesObj})
 	const roles = rolesObj.data
 

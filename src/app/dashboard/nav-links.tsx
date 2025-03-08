@@ -42,7 +42,7 @@ const links = [
 
   {
     name: 'Parts Items',
-    href: '/dashboard/Parts/Items',
+    href: '/dashboard/parts/items',
     icon: DocumentDuplicateIcon,
     administrator: true,
     moderator: true

@@ -8,11 +8,11 @@ import Image from 'next/image';
 import { lusitana } from '@/components/fonts';
 import Search from '@/components/search';
 
-import { profileRolesService } from '@/services/profile.roles.service';
-import { DeleteRole, UpdateRole } from './buttons';
+import { partsCategoriesService } from '@/services/parts.categories.service';
+import { DeleteCategory, UpdateCategory } from './buttons';
 
 
-export default function RolesTable({
+export default function CategoriesTable({
   query,
   currentPage,
 }: {
@@ -32,11 +32,11 @@ export default function RolesTable({
     searchParams = `page=${currentPage}&s=${query}`
   }
 
-  console.log('RolesTable: searchParams:', searchParams)
+  console.log('CategoriesTable: searchParams:', searchParams)
 
 
   useEffect(() => {
-    profileRolesService.findMany(searchParams, token)
+    partsCategoriesService.findMany(searchParams, token)
       .then((res) => {
         setData(res)
         setLoading(false)
@@ -47,10 +47,10 @@ export default function RolesTable({
   // console.log('data', data)
 
   if (isLoading) return <p>Loading...</p>
-  if (!data) return <p>No roles data</p>
+  if (!data) return <p>No categories data</p>
 
-  const roles: any = data
-  // console.log('roles', roles)
+  const categories: any = data
+  // console.log('categories', categories)
 
 
   return (
@@ -60,50 +60,28 @@ export default function RolesTable({
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden rounded-md bg-gray-50 p-2 md:pt-0">
               <div className="md:hidden">
-                {roles?.data.map((role: any) => (
+                {categories?.data.map((category: any) => (
                   <div
-                    key={role.id}
+                    key={category.id}
                     className="mb-2 w-full rounded-md bg-white p-4"
                   >
                     <div className="flex items-center justify-between border-b pb-4">
                       <div>
                         <div className="mb-2 flex items-center">
                           <div className="flex items-center gap-3">
-                            <p>{role.name}</p>
+                            <p>{category.name}</p>
                           </div>
                         </div>
                         <p className="text-sm text-gray-500">
-                          {role.description}
+                          {category.description}
                         </p>
                       </div>
                     </div>
 
-
-                    <div className="flex w-full items-center justify-between border-b py-5">
-                      <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">Administrator</p>
-                        <p className="font-medium">
-                          {role.administrator ? (
-                            <CheckIcon className="h-5 w-5 text-green-500" />
-                          ) : (
-                            <XMarkIcon className="h-5 w-5 text-red-500" />
-                          )}
-                        </p>
-                      </div>
-                      <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">Moderator</p>
-                        <p className="font-medium">
-                          {role.moderator ? (
-                            <CheckIcon className="h-5 w-5 text-green-500" />
-                          ) : (
-                            <XMarkIcon className="h-5 w-5 text-red-500" />
-                          )}
-                        </p>
-                      </div>
-                    </div>
+                    
                     <div className="pt-4 text-sm">
                       <p>
-                        {role.active ? (
+                        {category.active ? (
                           <span className="text-green-500">Active</span>
                         ) : (
                           <span className="text-red-500">Inactive</span>
@@ -114,8 +92,8 @@ export default function RolesTable({
 
                     <div className="flex w-full items-center justify-between pt-4">
                       <div className="flex justify-end gap-2">
-                        <UpdateRole id={role.id} />
-                        <DeleteRole id={role.id} />
+                        <UpdateCategory id={category.id} />
+                        <DeleteCategory id={category.id} />
                       </div>
                     </div>
 
@@ -131,12 +109,6 @@ export default function RolesTable({
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
                       Description
-                    </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
-                      Administrator
-                    </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
-                      Moderator
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
                       Active
@@ -154,47 +126,33 @@ export default function RolesTable({
                 </thead>
 
                 <tbody className="divide-y divide-gray-200 text-gray-900">
-                  {roles.data.map((role: any) => (
-                    <tr key={role.id} className="group">
+                  {categories.data.map((category: any) => (
+                    <tr key={category.id} className="group">
                       <td className="whitespace-nowrap bg-white py-5 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6">
                         <div className="flex items-center gap-3">
-                          <p>{role.name}</p>
+                          <p>{category.name}</p>
                         </div>
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {role.description}
-                      </td>
-                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {role.administrator ? (
-                          <CheckIcon className="h-5 w-5 text-green-500" />
-                        ) : (
-                          <XMarkIcon className="h-5 w-5 text-red-500" />
-                        )}
-                      </td>
-                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {role.moderator ? (
-                          <CheckIcon className="h-5 w-5 text-green-500" />
-                        ) : (
-                          <XMarkIcon className="h-5 w-5 text-red-500" />
-                        )}
+                        {category.description}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
-                        {role.active ? (
+                        {category.active ? (
                           <span className="text-green-500">Active</span>
                         ) : (
                           <span className="text-red-500">Inactive</span>
                         )}
                       </td>
                       <td className="whitespace-nowrap bg-white px-3 py-3">
-                        {new Date(role.createdAt).toLocaleDateString()}
+                        {new Date(category.createdAt).toLocaleDateString()}
                       </td>
                       <td className="whitespace-nowrap bg-white px-3 py-3">
-                        {new Date(role.updatedAt).toLocaleDateString()}
+                        {new Date(category.updatedAt).toLocaleDateString()}
                       </td>
                       <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                         <div className="flex  justify-end gap-3">
-                          <UpdateRole id={role.id} />
-                          <DeleteRole id={role.id} />
+                          <UpdateCategory id={category.id} />
+                          <DeleteCategory id={category.id} />
                         </div>
                       </td>
                     </tr>

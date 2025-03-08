@@ -1,102 +1,88 @@
-import {
-	IProfileUsersCreateReq,
-	IProfileUsersReadRes, IProfileUsersReadBulkRes,
-	IProfileUsersUpdateReq
-} from '@/types/profile.users.d'
-
-
-import { axiosWithAuth } from '@/interceptors/api.axios.interceptor'
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
+import {
+	IPartsCategoriesCreateReq,
+	IPartsCategoriesReadRes, IPartsCategoriesReadBulkRes,
+	IPartsCategoriesUpdateReq
+} from '@/types/parts.categories.d'
 
 
-export type IPartsCategoriesServiceCoreState = {
-	errors?: {};
-	message?: string;
-};
+import { apiClient } from '@/interceptors/api.fetch.interceptor'
 
 
 
-class PartsCategoriesServiceCore {
-	private BASE_URL = '/profile/users/core'
 
 
-	async profileUsersCreateOne(prevState: IPartsCategoriesServiceCoreState, data: FormData) {
+class PartsCategoriesService {
 
-		const response = await axiosWithAuth.post<IProfileUsersReadRes>(this.BASE_URL, data)
+	private BASE_URL = '/parts/categories/core'
 
-		if (![200, 201].includes(response.status)) {
-			return {
-				message: `Error: Received status ${response.status}`,
-			};
+
+
+	public async createOne(data: any, token: string) {
+		// console.log('PartsCategoriesServiceCore: createOne: data:', data);
+		// console.log('PartsCategoriesServiceCore: createOne: token:', token);
+
+		const response: any = await apiClient.post(this.BASE_URL, data, token)
+		// console.log('PartsCategoriesServiceCore: createOne: response:', response);
+
+		return response;
+	}
+
+
+
+	async findMany(query?: any, token?: string) {
+		// console.log('PartsCategoriesServiceCore: findMany: query:', query);
+		// console.log('ProfileRolesServiceCore: findMany: token:', token);
+
+		const response = await apiClient.get(this.BASE_URL, query, token)
+		// console.log('PartsCategoriesServiceCore: findMany: response', response);
+
+		return response;
+	}
+
+
+
+	async findOne(id: number, token?: string) {
+
+		const response = await apiClient.get(`${this.BASE_URL}/${id}`, undefined, token)
+		console.log('PartsCategoriesServiceCore: findOne: response', response);
+
+		return response;
+	}
+
+
+
+	async updateOne(id: number, data: any, token: string) {
+
+		let dataObj = data;
+
+		if (!dataObj.roleId || dataObj.roleId === '') {
+			delete dataObj.roleId
 		}
 
-		revalidatePath('/dashboard/users');
-		redirect('/dashboard/users');
+		if (!dataObj.password || dataObj.password === '') {
+			delete dataObj.password
+		}
+
+		const response = await apiClient.patch(`${this.BASE_URL}/${id}`, data, token)
+		// console.log('PartsCategoriesServiceCore: findOne: response', response);
+
+		return response;
 	}
 
 
 
 
-	async profileUsersGetMany(query: any) {
+	async deleteOne(id: number, token: string) {
 
-		const response = await axiosWithAuth.get<IProfileUsersReadBulkRes>(`${this.BASE_URL}`)
+		const response = await apiClient.delete(`${this.BASE_URL}/${id}`, token)
+		// console.log('PartsCategoriesServiceCore: deleteOne: response', response);
 
-		if (![200, 201].includes(response.status)) {
-			return {
-				message: `Error: Received status ${response.status}`,
-			};
-		}
-
-		return response.data
-	}
-
-
-
-	async profileUsersGetOne(id: number, query: any) {
-
-		const response = await axiosWithAuth.get<IProfileUsersReadRes>(`${this.BASE_URL}/${id}`)
-
-		if (![200, 201].includes(response.status)) {
-			return {
-				message: `Error: Received status ${response.status}`,
-			};
-		}
-
-		return response.data
-	}
-
-
-	async profileUsersUpdateOne(id: number, data: any) {
-
-		const response = await axiosWithAuth.patch<IProfileUsersReadRes>(`${this.BASE_URL}/${id}`, data)
-
-		if (![200, 201].includes(response.status)) {
-			return {
-				message: `Error: Received status ${response.status}`,
-			};
-		}
-
-		return response.data
-	}
-
-
-
-
-	async profileUsersDeleteOne(id: number) {
-
-		const response = await axiosWithAuth.delete<IProfileUsersReadRes>(`${this.BASE_URL}/${id}`)
-
-		if (![200, 201].includes(response.status)) {
-			return {
-				message: `Error: Received status ${response.status}`,
-			};
-		}
-
-		return response.data
+		return response;
 	}
 
 }
 
-export const partsCategoriesServiceCore = new PartsCategoriesServiceCore()
+export const partsCategoriesService = new PartsCategoriesService()

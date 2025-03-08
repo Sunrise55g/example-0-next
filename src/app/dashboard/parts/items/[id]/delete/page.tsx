@@ -2,15 +2,16 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
 
-import EditForm from './edit.form';
+import DeleteForm from './delete.form';
 import Breadcrumbs from '@/components/breadcrumbs';
 
 import { partsCategoriesService } from '@/services/parts.categories.service';
+import { partsItemsService } from '@/services/parts.items.service';
 
 
 
 export const metadata: Metadata = {
-	title: 'Edit Category',
+	title: 'Delete Item',
 };
 
 
@@ -23,14 +24,19 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 	// console.log('token:', token)
 
 
+	const categoriesObj: any = await partsCategoriesService.findMany(undefined, token)
+	// console.log('categoriesObj:', {categoriesObj})
+	const categories = categoriesObj.data
+
+
 	//
 	const params = await props.params;
 	const id = params.id;
 
-	const category: any = await partsCategoriesService.findOne(+id, token)
-	// console.log('Page: role:', {role})
+	const item: any = await partsItemsService.findOne(+id, token)
+	// console.log('Page: item:', {item})
 
-	if (category.statusCode) {
+	if (item.statusCode) {
 		notFound();
 	}
 
@@ -39,15 +45,15 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 		<main>
 			<Breadcrumbs
 				breadcrumbs={[
-					{ label: 'Categories', href: '/dashboard/parts/categories' },
+					{ label: 'Items', href: '/dashboard/parts/items' },
 					{
-						label: 'Edit Category',
-						href: `/dashboard/parts/categories/${id}/edit`,
+						label: 'Delete Item',
+						href: `/dashboard/parts/items/${id}/delete`,
 						active: true,
 					},
 				]}
 			/>
-			<EditForm category={category} />
+			<DeleteForm categories={categories} item={item} />
 		</main>
 	);
 }

@@ -46,6 +46,7 @@ export default function CreateForm({ roles }: { roles: any }) {
       phone: formData.get('phone'),
       firstName: formData.get('firstName'),
       lastName: formData.get('lastName'),
+      active: formData.get('active') === 'on'
     }
     // console.log('rawFormData:', { rawFormData })
 
@@ -275,6 +276,32 @@ export default function CreateForm({ roles }: { roles: any }) {
         </div>
 
 
+        {/* active */}
+        <div className="mb-4">
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="active"
+                name="active"
+                type="checkbox"
+                className="peer h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+              />
+              <label htmlFor="active" className="ml-2 text-sm text-gray-900">
+                User is Active
+              </label>
+            </div>
+            <div id="user-error" aria-live="polite" aria-atomic="true">
+              {state.errors?.active &&
+                state.errors.active.map((error: string) => (
+                  <p className="mt-2 text-sm text-red-500" key={error}>
+                    {error}
+                  </p>
+                ))}
+            </div>
+          </div>
+        </div>
+
+
         {/* User imageUrl
         <div className="mb-4">
           <label htmlFor="imageUrl" className="mb-2 block text-sm font-medium">
@@ -314,7 +341,7 @@ export default function CreateForm({ roles }: { roles: any }) {
 
       <div className="mt-6 flex justify-end gap-4">
         <Link
-          href="/dashboard/users"
+          href="/dashboard/profile/users"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancel

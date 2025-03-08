@@ -19,7 +19,7 @@ export default async function Page() {
   const session:any = await auth();
   const token = session?.user?.jwt
 
-  const rolesObj:any = await profileRolesService.findMany(token)
+  const rolesObj:any = await profileRolesService.findMany(undefined, token)
   console.log('rolesObj:', {rolesObj})
   const roles = rolesObj.data
 
