@@ -1,35 +1,42 @@
 import { Metadata } from 'next';
 
-import Form from '@/app/dashboard/profile/roles/create/form';
+import Form from './create.form';
 import Breadcrumbs from '@/components/breadcrumbs';
 
-// import { fetchUsers } from '@/services/users';
+import { profileRolesService } from '@/services/profile.roles.service';
+import { auth } from '@/auth';
 
 
 
 export const metadata: Metadata = {
-  title: 'Create User',
+  title: 'Create Role',
 };
 
 
 
 export default async function Page() {
 
-  // const users = await fetchUsers();
+  const session:any = await auth();
+  const token = session?.user?.jwt
 
+  const rolesObj:any = await profileRolesService.findMany(token)
+  console.log('rolesObj:', {rolesObj})
+  const roles = rolesObj.data
+
+  
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Users', href: '/dashboard/users' },
+          { label: 'Roles', href: '/dashboard/profile/roles' },
           {
-            label: 'Create User',
-            href: '/dashboard/users/create',
+            label: 'Create Role',
+            href: '/dashboard/profile/roles/create',
             active: true,
           },
         ]}
       />
-      <Form />
+      <Form roles={roles} />
     </main>
   );
 }

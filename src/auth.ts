@@ -9,6 +9,23 @@ import { IAuthLoginRes, IAuthRegistrationRes } from '@/types/auth';
 
 
 
+declare module 'next-auth' {
+  interface User {
+    id?: string | undefined;
+    email?: string | null | undefined;
+    username?: string | null | undefined;
+    jwt?: string | null | undefined;
+    profileRoleId?: string | null | undefined;
+    profile_roles?: any;
+  }
+
+  interface Session {
+    user: User;
+  }
+}
+
+
+
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
@@ -69,6 +86,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             email: response.user.email,
             username: response.user.username,
             jwt: response.token,
+            profileRoleId: response.user.profileRoleId.toString(),
+            profile_roles: response.user.profile_roles
           } as User
         }
         else {
@@ -88,16 +107,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             `/auth/login`,
             { login: username, password: password }
           );
+          console.log('response:', {response});
 
           if (!response) {
             console.log('Invalid credentials');
             return null;
           }
+
           return {
             id: response.user.id.toString(),
             email: response.user.email,
             username: response.user.username,
             jwt: response.token,
+            profileRoleId: response.user.profileRoleId.toString(),
+            profile_roles: response.user.profile_roles
           } as User
 
         }

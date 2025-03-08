@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
 
-import Form from '@/app/dashboard/profile/users/create/create.form';
+import Form from './create.form';
 import Breadcrumbs from '@/components/breadcrumbs';
 
-import { profilesRolesServiceCore } from '@/services/profiles.roles.services.core';
+import { profileRolesService } from '@/services/profile.roles.service';
 import { auth } from '@/auth';
 
 
@@ -19,7 +19,7 @@ export default async function Page() {
   const session:any = await auth();
   const token = session?.user?.jwt
 
-  const rolesObj:any = await profilesRolesServiceCore.findMany(token)
+  const rolesObj:any = await profileRolesService.findMany(token)
   console.log('rolesObj:', {rolesObj})
   const roles = rolesObj.data
 

@@ -20,12 +20,18 @@ import { UserField, UserForm } from '@/types/definitions';
 
 
 
-export default function CreateForm({ roles }: { roles: any }) {
+
+export default function DeleteForm({
+  roles,
+  user
+}: {
+  roles: any;
+  user: UserForm;
+}) {
 
   //
   const { data: session, status }: any = useSession();
   const token = session?.user?.jwt
-
 
   //
   type IState = {
@@ -38,18 +44,8 @@ export default function CreateForm({ roles }: { roles: any }) {
 
   async function action(prevState: IState, formData: FormData) {
 
-    const rawFormData = {
-      roleId: formData.get('roleId'),
-      username: formData.get('username'),
-      password: formData.get('password'),
-      email: formData.get('email'),
-      phone: formData.get('phone'),
-      firstName: formData.get('firstName'),
-      lastName: formData.get('lastName'),
-    }
-    // console.log('rawFormData:', { rawFormData })
 
-    const serviceResponse: any = await profileUsersService.createOne(rawFormData, token);
+    const serviceResponse: any = await profileUsersService.deleteOne(+user.id, token);
 
     if (serviceResponse.error || serviceResponse.message) {
       const message = serviceResponse.message;
@@ -63,6 +59,7 @@ export default function CreateForm({ roles }: { roles: any }) {
     // revalidatePath('/dashboard/profile/users');
     redirect('/dashboard/profile/users');
   }
+
 
 
   return (
@@ -79,8 +76,9 @@ export default function CreateForm({ roles }: { roles: any }) {
               id="role"
               name="roleId"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue=""
+              defaultValue={user.roleId}
               aria-describedby="user-error"
+              disabled
             >
               <option value="" disabled>
                 Select a role
@@ -117,42 +115,14 @@ export default function CreateForm({ roles }: { roles: any }) {
                 type="string"
                 placeholder="Enter username"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                required
+                defaultValue={user?.username}
+                disabled
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
             <div id="user-error" aria-live="polite" aria-atomic="true">
               {state?.errors?.name &&
                 state?.errors?.name.map((error: string) => (
-                  <p className="mt-2 text-sm text-red-500" key={error}>
-                    {error}
-                  </p>
-                ))}
-            </div>
-          </div>
-        </div>
-
-
-        {/* User password */}
-        <div className="mb-4">
-          <label htmlFor="password" className="mb-2 block text-sm font-medium">
-            Choose an password
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="password"
-                name="password"
-                type="string"
-                placeholder="Enter User password"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                required
-              />
-              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
-            <div id="user-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.password &&
-                state.errors.password.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
                   </p>
@@ -175,7 +145,8 @@ export default function CreateForm({ roles }: { roles: any }) {
                 type="string"
                 placeholder="Enter User email"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                required
+                defaultValue={user?.email}
+                disabled
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
@@ -204,6 +175,8 @@ export default function CreateForm({ roles }: { roles: any }) {
                 type="string"
                 placeholder="Enter User email"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                defaultValue={user?.phone}
+                disabled
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
@@ -232,6 +205,8 @@ export default function CreateForm({ roles }: { roles: any }) {
                 type="string"
                 placeholder="Enter User email"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                defaultValue={user?.firstName}
+                disabled
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
@@ -260,6 +235,8 @@ export default function CreateForm({ roles }: { roles: any }) {
                 type="string"
                 placeholder="Enter User email"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                defaultValue={user?.lastName}
+                disabled
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
@@ -314,12 +291,12 @@ export default function CreateForm({ roles }: { roles: any }) {
 
       <div className="mt-6 flex justify-end gap-4">
         <Link
-          href="/dashboard/users"
+          href="/dashboard/profile/users"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancel
         </Link>
-        <Button type="submit">Create User</Button>
+        <Button type="submit">Delete User</Button>
       </div>
 
     </form>

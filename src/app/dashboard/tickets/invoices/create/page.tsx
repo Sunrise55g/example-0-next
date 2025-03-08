@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import Form from '@/app/dashboard/tickets/invoices/create/create-form';
 import Breadcrumbs from '@/components/invoices/breadcrumbs';
 
-import { profilesUsersServiceCore } from '@/services/profiles.users.services.core';
+import { profilesUsersServiceCore } from '@/services/profile.users.service';
  
 
 

@@ -94,8 +94,12 @@ export type InvoiceForm = {
 
 export type UserForm = {
   id: string;
-  name: string;
+  roleId: number;
+  username: string;
   password: string;
   email: string;
+  phone: string;
+  firstName: string;
+  lastName: string;
   image_url: string
 };

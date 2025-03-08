@@ -2,16 +2,15 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
 
-import EditForm from './edit.form';
+import DeleteForm from './delete.form';
 import Breadcrumbs from '@/components/breadcrumbs';
 
-import { profileUsersService } from '@/services/profile.users.service';
 import { profileRolesService } from '@/services/profile.roles.service';
 
 
 
 export const metadata: Metadata = {
-	title: 'Edit User',
+	title: 'Delete Role',
 };
 
 
@@ -23,20 +22,14 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 	const token = session?.user?.jwt
 	// console.log('token:', token)
 
-
-	const rolesObj: any = await profileRolesService.findMany(token)
-	// console.log('rolesObj:', {rolesObj})
-	const roles = rolesObj.data
-
-
 	//
 	const params = await props.params;
 	const id = params.id;
 
-	const user: any = await profileUsersService.findOne(+id, token)
-	// console.log('Page: user:', {user})
+	const role: any = await profileRolesService.findOne(+id, token)
+	// console.log('Page: role:', {role})
 
-	if (user.statusCode) {
+	if (role.statusCode) {
 		notFound();
 	}
 
@@ -45,15 +38,15 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 		<main>
 			<Breadcrumbs
 				breadcrumbs={[
-					{ label: 'Users', href: '/dashboard/users' },
+					{ label: 'Roles', href: '/dashboard/profile/roles' },
 					{
-						label: 'Edit User',
-						href: `/dashboard/users/${id}/edit`,
+						label: 'Delete Role',
+						href: `/dashboard/profile/roles/${id}/delete`,
 						active: true,
 					},
 				]}
 			/>
-			<EditForm roles={roles} user={user} />
+			<DeleteForm role={role} />
 		</main>
 	);
 }

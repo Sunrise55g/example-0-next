@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
 
-import EditForm from './edit.form';
+import DeleteForm from './delete.form';
 import Breadcrumbs from '@/components/breadcrumbs';
 
 import { profileUsersService } from '@/services/profile.users.service';
@@ -11,7 +11,7 @@ import { profileRolesService } from '@/services/profile.roles.service';
 
 
 export const metadata: Metadata = {
-	title: 'Edit User',
+	title: 'Delete User',
 };
 
 
@@ -45,15 +45,15 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 		<main>
 			<Breadcrumbs
 				breadcrumbs={[
-					{ label: 'Users', href: '/dashboard/users' },
+					{ label: 'Users', href: '/dashboard/profile/users' },
 					{
-						label: 'Edit User',
-						href: `/dashboard/users/${id}/edit`,
+						label: 'Delete User',
+						href: `/dashboard/profile/users/${id}/delete`,
 						active: true,
 					},
 				]}
 			/>
-			<EditForm roles={roles} user={user} />
+			<DeleteForm roles={roles} user={user} />
 		</main>
 	);
 }

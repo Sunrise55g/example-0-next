@@ -4,12 +4,12 @@ import { auth } from '@/auth';
 
 import { lusitana } from '@/components/fonts';
 import Pagination from '@/components/pagination';
-import { CreateUser } from '@/app/dashboard/profile/users/buttons';
+import { CreateUser } from './buttons';
 import Search from '@/components/search';
-import Table from '@/app/dashboard/profile/users/table';
+import Table from './table';
 import { UsersTableSkeleton } from '@/components/skeletons';
 
-import { profilesUsersServiceCore } from '@/services/profiles.users.services.core';
+import { profileUsersService } from '@/services/profile.users.service';
 
 
 
@@ -30,6 +30,7 @@ export default async function Page(
 
   const session:any = await auth();
   const token = session?.user?.jwt
+  // console.log('token:', token)
 
 
   const searchParams = await props.searchParams;
@@ -37,7 +38,7 @@ export default async function Page(
 
   console.log('Page: searchParams:', searchParams);
 
-  const usersObj:any = await profilesUsersServiceCore.findMany(searchParams, token);
+  const usersObj:any = await profileUsersService.findMany(searchParams, token);
   console.log('usersObj:', {usersObj})
 
   const totalPages = usersObj.pageCount

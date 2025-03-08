@@ -11,7 +11,7 @@ import {
 import { useActionState } from 'react';
 
 import { Button } from '@/components/button';
-import { IprofilesUsersServiceCoreState, profilesUsersServiceCore } from '@/services/profiles.users.services.core';
+import { IprofileUsersServiceState, profileUsersService } from '@/services/profile.users.service';
 
 import { useSession } from 'next-auth/react';
 
@@ -20,7 +20,7 @@ import { useSession } from 'next-auth/react';
 export default function Form() {
 
   const initialState = { message: '', errors: {} };
-  const [state, formAction]: any = useActionState(profilesUsersServiceCore.profileUsersCreateOne, initialState)
+  const [state, formAction]: any = useActionState(profileUsersService.createOne, initialState)
 
   const { data: session, status } = useSession();
   console.log('session', session )

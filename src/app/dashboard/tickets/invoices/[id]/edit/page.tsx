@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import Form from '@/app/dashboard/tickets/invoices/[id]/edit/edit-form';
 import Breadcrumbs from '@/components/invoices/breadcrumbs';
 
-import { fetchUsers } from '@/services/profiles.users.services.core';
+import { fetchUsers } from '@/services/profile.users.service';
 import { fetchInvoiceById } from '@/services/old/revenue';
 
 

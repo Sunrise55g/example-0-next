@@ -11,7 +11,7 @@ import {
 import { useActionState } from 'react';
 
 import { Button } from '@/components/button';
-import { IprofilesUsersServiceCoreState, profilesUsersServiceCore } from '@/services/profiles.users.services.core';
+import { IprofilesUsersServiceCoreState, profilesUsersServiceCore } from '@/services/profile.users.service';
 
 import { useSession } from 'next-auth/react';
 

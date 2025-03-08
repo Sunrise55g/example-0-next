@@ -1,57 +1,142 @@
 'use client';
 
 import Link from 'next/link';
-import { useActionState } from 'react';
-
-import { UserField, UserForm } from '@/types/definitions';
 import {
   CheckIcon,
   ClockIcon,
   CurrencyDollarIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
-import { Button } from '@/components/button';
 
-import { updateUser, State } from '@/services/profiles.users.services.core';
+import { useActionState } from 'react';
+
+import { Button } from '@/components/button';
+import { profileUsersService } from '@/services/profile.users.service';
+
+import { useSession } from 'next-auth/react';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+import { UserField, UserForm } from '@/types/definitions';
 
 
 
 
 export default function EditForm({
+  roles,
   user
 }: {
+  roles: any;
   user: UserForm;
 }) {
 
-  const initialState: State = { message: null, errors: {} };
-  const updateUserWithId = updateUser.bind(null, user.id);
-  const [state, formAction] = useActionState(updateUserWithId, initialState);
+  //
+  const { data: session, status }: any = useSession();
+  const token = session?.user?.jwt
+
+  // const initialState: State = { message: null, errors: {} };
+  // const updateUserWithId = updateUser.bind(null, user.id);
+  // const [state, formAction] = useActionState(updateUserWithId, initialState);
+
+
+
+  //
+  type IState = {
+    errors?: {};
+    message?: string;
+  };
+
+  const initialState = { message: '', errors: {} };
+  const [state, formAction]: any = useActionState(action, initialState);
+
+  async function action(prevState: IState, formData: FormData) {
+
+    const rawFormData = {
+      roleId: formData.get('roleId'),
+      username: formData.get('username'),
+      password: formData.get('password'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      firstName: formData.get('firstName'),
+      lastName: formData.get('lastName'),
+    }
+    // console.log('rawFormData:', { rawFormData })
+
+    const serviceResponse: any = await profileUsersService.updateOne(+user.id, rawFormData, token);
+
+    if (serviceResponse.error || serviceResponse.message) {
+      const message = serviceResponse.message;
+      const statusCode = serviceResponse.statusCode;
+      return {
+        errors: { statusCode: message },
+        message: `Error: Received status ${statusCode}`,
+      };
+    }
+
+    // revalidatePath('/dashboard/profile/users');
+    redirect('/dashboard/profile/users');
+  }
+
 
 
   return (
     <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
 
+        {/* Roles */}
+        <div className="mb-4">
+          <label htmlFor="role" className="mb-2 block text-sm font-medium">
+            Choose role
+          </label>
+          <div className="relative">
+            <select
+              id="role"
+              name="roleId"
+              className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              defaultValue=""
+              aria-describedby="user-error"
+            >
+              <option value="" disabled>
+                Select a role
+              </option>
+              {roles.map((role: any) => (
+                <option key={role.id} value={role.id}>
+                  {role.name}
+                </option>
+              ))}
+            </select>
+            <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+          </div>
+          <div id="user-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.roleId &&
+              state.errors.roleId.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+        </div>
+
+
         {/* User name */}
         <div className="mb-4">
-          <label htmlFor="name" className="mb-2 block text-sm font-medium">
-            Choose an name
+          <label htmlFor="username" className="mb-2 block text-sm font-medium">
+            Choose an username
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-                id="name"
-                name="name"
+                id="username"
+                name="username"
                 type="string"
-                placeholder="Enter User name"
+                placeholder="Enter username"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                required
+                defaultValue={user?.username}
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
             <div id="user-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.name &&
-                state.errors.name.map((error: string) => (
+              {state?.errors?.name &&
+                state?.errors?.name.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
                   </p>
@@ -74,7 +159,6 @@ export default function EditForm({
                 type="string"
                 placeholder="Enter User password"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                required
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
@@ -103,7 +187,7 @@ export default function EditForm({
                 type="string"
                 placeholder="Enter User email"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                required
+                defaultValue={user?.email}
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
@@ -119,10 +203,97 @@ export default function EditForm({
         </div>
 
 
-        {/* User imageUrl */}
+        {/* User phone */}
+        <div className="mb-4">
+          <label htmlFor="email" className="mb-2 block text-sm font-medium">
+            Choose an phone
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="phone"
+                name="phone"
+                type="string"
+                placeholder="Enter User email"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                defaultValue={user?.phone}
+              />
+              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+            <div id="user-error" aria-live="polite" aria-atomic="true">
+              {state.errors?.email &&
+                state.errors.email.map((error: string) => (
+                  <p className="mt-2 text-sm text-red-500" key={error}>
+                    {error}
+                  </p>
+                ))}
+            </div>
+          </div>
+        </div>
+
+
+        {/* User firstName */}
+        <div className="mb-4">
+          <label htmlFor="email" className="mb-2 block text-sm font-medium">
+            Choose an firstName
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="firstName"
+                name="firstName"
+                type="string"
+                placeholder="Enter User email"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                defaultValue={user?.firstName}
+              />
+              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+            <div id="user-error" aria-live="polite" aria-atomic="true">
+              {state.errors?.email &&
+                state.errors.email.map((error: string) => (
+                  <p className="mt-2 text-sm text-red-500" key={error}>
+                    {error}
+                  </p>
+                ))}
+            </div>
+          </div>
+        </div>
+
+
+        {/* User lastName */}
+        <div className="mb-4">
+          <label htmlFor="email" className="mb-2 block text-sm font-medium">
+            Choose an lastName
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="lastName"
+                name="lastName"
+                type="string"
+                placeholder="Enter User email"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                defaultValue={user?.lastName}
+              />
+              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+            <div id="user-error" aria-live="polite" aria-atomic="true">
+              {state.errors?.email &&
+                state.errors.email.map((error: string) => (
+                  <p className="mt-2 text-sm text-red-500" key={error}>
+                    {error}
+                  </p>
+                ))}
+            </div>
+          </div>
+        </div>
+
+
+        {/* User imageUrl
         <div className="mb-4">
           <label htmlFor="imageUrl" className="mb-2 block text-sm font-medium">
-            Choose an email
+            Choose an imageUrl
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -144,18 +315,28 @@ export default function EditForm({
                 ))}
             </div>
           </div>
+        </div> */}
+
+        <div id="user-error" aria-live="polite" aria-atomic="true">
+          {state.errors && state.message &&
+            <p className="mt-2 text-sm text-red-500">
+              {state.message}
+            </p>
+          }
         </div>
-        
+
       </div>
+
       <div className="mt-6 flex justify-end gap-4">
         <Link
-          href="/dashboard/users"
+          href="/dashboard/profile/users"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancel
         </Link>
-        <Button type="submit">Edit User</Button>
+        <Button type="submit">Update User</Button>
       </div>
+
     </form>
   );
 }

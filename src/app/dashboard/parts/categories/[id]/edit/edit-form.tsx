@@ -11,7 +11,7 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/components/button';
-import { updateUser, State } from '@/services/profiles.users.services.core';
+import { updateUser, State } from '@/services/profile.users.service';
 
 
 

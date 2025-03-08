@@ -2,20 +2,17 @@
 
 import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react'
+import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
 import Image from 'next/image';
 import { lusitana } from '@/components/fonts';
 import Search from '@/components/search';
-import {
-  UsersTableType,
-  FormattedUsersTable,
-} from '@/types/definitions';
 
-import { profileUsersService } from '@/services/profile.users.service';
-import { DeleteUser, UpdateUser } from './buttons';
+import { profileRolesService } from '@/services/profile.roles.service';
+import { DeleteRole, UpdateRole } from './buttons';
 
 
-export default function UsersTable({
+export default function RolesTable({
   query,
   currentPage,
 }: {
@@ -24,7 +21,6 @@ export default function UsersTable({
 }) {
 
   const { data: session, status }: any = useSession();
-  console.log('session:', session)
   const token = session?.user?.jwt
 
   const [data, setData]: any = useState(null)
@@ -36,11 +32,11 @@ export default function UsersTable({
     searchParams = `page=${currentPage}&s=${query}`
   }
 
-  console.log('UsersTable: searchParams:', searchParams)
+  console.log('RolesTable: searchParams:', searchParams)
 
 
   useEffect(() => {
-    profileUsersService.findMany(searchParams, token)
+    profileRolesService.findMany(searchParams, token)
       .then((res) => {
         setData(res)
         setLoading(false)
@@ -51,10 +47,10 @@ export default function UsersTable({
   // console.log('data', data)
 
   if (isLoading) return <p>Loading...</p>
-  if (!data) return <p>No profile data</p>
+  if (!data) return <p>No roles data</p>
 
-  const users: any = data
-  // console.log('users', users)
+  const roles: any = data
+  // console.log('roles', roles)
 
 
   return (
@@ -64,51 +60,62 @@ export default function UsersTable({
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden rounded-md bg-gray-50 p-2 md:pt-0">
               <div className="md:hidden">
-                {users?.data.map((user: any) => (
+                {roles?.data.map((role: any) => (
                   <div
-                    key={user.id}
+                    key={role.id}
                     className="mb-2 w-full rounded-md bg-white p-4"
                   >
                     <div className="flex items-center justify-between border-b pb-4">
                       <div>
                         <div className="mb-2 flex items-center">
                           <div className="flex items-center gap-3">
-                            {/* {user.image_url ?? (
-                              <Image
-                                src={user.image_url}
-                                className="rounded-full"
-                                alt={`${user.name}'s profile picture`}
-                                width={28}
-                                height={28}
-                              />
-                            )} */}
-                            <p>{user.username}</p>
+                            <p>{role.name}</p>
                           </div>
                         </div>
                         <p className="text-sm text-gray-500">
-                          {user.email}
+                          {role.description}
                         </p>
                       </div>
                     </div>
-                    {/* <div className="flex w-full items-center justify-between border-b py-5">
+
+
+                    <div className="flex w-full items-center justify-between border-b py-5">
                       <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">Pending</p>
-                        <p className="font-medium">{user.total_pending}</p>
+                        <p className="text-xs">Administrator</p>
+                        <p className="font-medium">
+                          {role.administrator ? (
+                            <CheckIcon className="h-5 w-5 text-green-500" />
+                          ) : (
+                            <XMarkIcon className="h-5 w-5 text-red-500" />
+                          )}
+                        </p>
                       </div>
                       <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">Paid</p>
-                        <p className="font-medium">{user.total_paid}</p>
+                        <p className="text-xs">Moderator</p>
+                        <p className="font-medium">
+                          {role.moderator ? (
+                            <CheckIcon className="h-5 w-5 text-green-500" />
+                          ) : (
+                            <XMarkIcon className="h-5 w-5 text-red-500" />
+                          )}
+                        </p>
                       </div>
                     </div>
                     <div className="pt-4 text-sm">
-                      <p>{user.total_invoices} invoices</p>
-                    </div> */}
+                      <p>
+                        {role.active ? (
+                          <span className="text-green-500">Active</span>
+                        ) : (
+                          <span className="text-red-500">Inactive</span>
+                        )}
+                      </p>
+                    </div>
 
 
                     <div className="flex w-full items-center justify-between pt-4">
                       <div className="flex justify-end gap-2">
-                        <UpdateUser id={user.id} />
-                        <DeleteUser id={user.id} />
+                        <UpdateRole id={role.id} />
+                        <DeleteRole id={role.id} />
                       </div>
                     </div>
 
@@ -123,56 +130,71 @@ export default function UsersTable({
                       Name
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      Email
+                      Description
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      Total Invoices
+                      Administrator
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      Total Pending
+                      Moderator
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
-                      Total Paid
+                      Active
                     </th>
+                    <th scope="col" className="px-4 py-5 font-medium">
+                      Created At
+                    </th>
+                    <th scope="col" className="px-4 py-5 font-medium">
+                      Updated At
+                    </th>
+                    {/* <th scope="col" className="px-4 py-5 font-medium">
+                      Actions
+                    </th> */}
                   </tr>
                 </thead>
 
                 <tbody className="divide-y divide-gray-200 text-gray-900">
-                  {users.data.map((user: any) => (
-                    <tr key={user.id} className="group">
+                  {roles.data.map((role: any) => (
+                    <tr key={role.id} className="group">
                       <td className="whitespace-nowrap bg-white py-5 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6">
                         <div className="flex items-center gap-3">
-                          {user.image_url && (
-                            <Image
-                              src={user.image_url}
-                              className="rounded-full"
-                              alt={`${user.name}'s profile picture`}
-                              width={28}
-                              height={28}
-                            />
-                          )}
-                          <p>{user.username}</p>
+                          <p>{role.name}</p>
                         </div>
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {user.email}
+                        {role.description}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {user.total_invoices}
+                        {role.administrator ? (
+                          <CheckIcon className="h-5 w-5 text-green-500" />
+                        ) : (
+                          <XMarkIcon className="h-5 w-5 text-red-500" />
+                        )}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {user.total_pending}
+                        {role.moderator ? (
+                          <CheckIcon className="h-5 w-5 text-green-500" />
+                        ) : (
+                          <XMarkIcon className="h-5 w-5 text-red-500" />
+                        )}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
-                        {user.total_paid}
+                        {role.active ? (
+                          <span className="text-green-500">Active</span>
+                        ) : (
+                          <span className="text-red-500">Inactive</span>
+                        )}
                       </td>
-                      {/* <td className="whitespace-nowrap px-3 py-3">
-                        <InvoiceStatus status={invoice.status} />
-                      </td> */}
+                      <td className="whitespace-nowrap px-3 py-3">
+                        {new Date(role.createdAt).toLocaleDateString()}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-3">
+                        {new Date(role.updatedAt).toLocaleDateString()}
+                      </td>
                       <td className="whitespace-nowrap py-3 pl-6 pr-3">
                         <div className="flex justify-end gap-3">
-                          <UpdateUser id={user.id} />
-                          <DeleteUser id={user.id} />
+                          <UpdateRole id={role.id} />
+                          <DeleteRole id={role.id} />
                         </div>
                       </td>
                     </tr>
