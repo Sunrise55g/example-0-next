@@ -8,6 +8,7 @@ import {
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
+import { useSession } from 'next-auth/react';
 
 
 
@@ -16,51 +17,67 @@ import clsx from 'clsx';
 const links = [
   { name: 'Home', href: '/dashboard', icon: HomeIcon },
   {
-    name: 'Profile Rolles',
+    name: 'Profile Roles',
     href: '/dashboard/profile/roles',
     icon: DocumentDuplicateIcon,
+    administrator: true,
+    moderator: true
   },
 
   {
     name: 'Profile Users',
     href: '/dashboard/profile/users',
     icon: DocumentDuplicateIcon,
+    administrator: true,
+    moderator: true
   },
 
   {
     name: 'Parts Categories',
     href: '/dashboard/parts/categories',
     icon: DocumentDuplicateIcon,
+    administrator: true,
+    moderator: true
   },
 
   {
     name: 'Parts Items',
     href: '/dashboard/Parts/Items',
     icon: DocumentDuplicateIcon,
+    administrator: true,
+    moderator: true
   },
 
   {
     name: 'Invoices Categories',
     href: '/dashboard/invoices/categories',
     icon: DocumentDuplicateIcon,
+    administrator: true,
+    moderator: true
   },
 
   {
     name: 'Tickets Categories',
     href: '/dashboard/tickets/categories',
     icon: DocumentDuplicateIcon,
+    administrator: true,
+    moderator: true
   },
 
   {
     name: 'Tickets Invoices',
     href: '/dashboard/tickets/invoices',
     icon: DocumentDuplicateIcon,
+    administrator: true,
+    moderator: true
   },
 
   {
     name: 'Tickets Items',
     href: '/dashboard/tickets/items',
     icon: DocumentDuplicateIcon,
+    administrator: true,
+    moderator: true
   },
 ];
 
@@ -68,6 +85,16 @@ const links = [
 
 export default function NavLinks() {
 
+  //
+  const { data: session, status }: any = useSession();
+  
+  const administrator = session?.user?.profile_roles?.administrator || false;
+  const moderator = session?.user?.profile_roles?.moderator || false;
+
+  console.log('administrator:', administrator)
+  console.log('moderator:', moderator)
+
+  //
   const pathname = usePathname();
 
 
