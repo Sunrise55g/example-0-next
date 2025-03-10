@@ -16,7 +16,8 @@ import { apiClient } from '@/interceptors/api.fetch.interceptor'
 
 class TicketsInvoicesService {
 
-	private BASE_URL = '/tickets/invoices/core'
+	private CORE_URL = '/tickets/invoices/core'
+	private CURRENT_URL = '/tickets/invoices/current'
 
 
 
@@ -24,7 +25,7 @@ class TicketsInvoicesService {
 		// console.log('TicketsInvoicesServiceCore: createOne: data:', data);
 		// console.log('TicketsInvoicesServiceCore: createOne: token:', token);
 
-		const response: any = await apiClient.post(this.BASE_URL, data, token)
+		const response: any = await apiClient.post(this.CORE_URL, data, token)
 		// console.log('TicketsInvoicesServiceCore: createOne: response:', response);
 
 		return response;
@@ -36,7 +37,7 @@ class TicketsInvoicesService {
 		// console.log('TicketsInvoicesServiceCore: findMany: query:', query);
 		// console.log('ProfileRolesServiceCore: findMany: token:', token);
 
-		const response = await apiClient.get(this.BASE_URL, query, token)
+		const response: any = await apiClient.get(this.CORE_URL, query, token)
 		// console.log('TicketsInvoicesServiceCore: findMany: response', response);
 
 		return response;
@@ -46,7 +47,7 @@ class TicketsInvoicesService {
 
 	async findOne(id: number, token?: string) {
 
-		const response = await apiClient.get(`${this.BASE_URL}/${id}`, undefined, token)
+		const response = await apiClient.get(`${this.CORE_URL}/${id}`, undefined, token)
 		console.log('TicketsInvoicesServiceCore: findOne: response', response);
 
 		return response;
@@ -66,7 +67,7 @@ class TicketsInvoicesService {
 			delete dataObj.password
 		}
 
-		const response = await apiClient.patch(`${this.BASE_URL}/${id}`, data, token)
+		const response = await apiClient.patch(`${this.CORE_URL}/${id}`, data, token)
 		// console.log('TicketsInvoicesServiceCore: findOne: response', response);
 
 		return response;
@@ -77,8 +78,45 @@ class TicketsInvoicesService {
 
 	async deleteOne(id: number, token: string) {
 
-		const response = await apiClient.delete(`${this.BASE_URL}/${id}`, token)
+		const response = await apiClient.delete(`${this.CORE_URL}/${id}`, token)
 		// console.log('TicketsInvoicesServiceCore: deleteOne: response', response);
+
+		return response;
+	}
+
+
+
+	async totalCountCore(token: string) {
+
+		const response: any = await apiClient.get(`${this.CORE_URL}/totalCount`, undefined, token)
+		console.log('ProfileUsersServiceCore: findOne: response', response);
+
+		return response;
+	}
+
+
+	async totalCountCurrent(token: string) {
+
+		const response: any = await apiClient.get(`${this.CURRENT_URL}/totalCount`, undefined, token)
+		console.log('ProfileUsersServiceCore: findOne: response', response);
+
+		return response;
+	}
+
+
+	async statsByDaysCore(token: string) {
+
+		const response: any = await apiClient.get(`${this.CORE_URL}/statsByDays`, undefined, token)
+		console.log('ProfileUsersServiceCore: findOne: response', response);
+
+		return response;
+	}
+
+
+	async statsByDaysCurrent(token: string) {
+
+		const response: any = await apiClient.get(`${this.CURRENT_URL}/statsByDays`, undefined, token)
+		console.log('ProfileUsersServiceCore: findOne: response', response);
 
 		return response;
 	}
