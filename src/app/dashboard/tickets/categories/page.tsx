@@ -1,20 +1,21 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
+import { auth } from '@/auth';
 
-import Pagination from '@/components/pagination';
-import Search from '@/components/search';
-import Table from '@/app/dashboard/profile/users/table';
-import { CreateUser } from '@/app/dashboard/profile/users/buttons';
 import { lusitana } from '@/components/fonts';
-import { UsersTableSkeleton } from '@/components/skeletons';
+import Pagination from '@/components/pagination';
+import { CreateButton } from '@/components/buttons';
+import Search from '@/components/search';
+import Table from './table';
+import { RolesTableSkeleton } from './skeletons';
 
-// import { fetchUsersPages } from '@/services/users.services.core';
+import { ticketsCategoriesService } from '@/services/tickets.categories.service';
 
 
 
 
 export const metadata: Metadata = {
-  title: 'Users',
+  title: 'Categories',
 };
 
 
@@ -27,27 +28,39 @@ export default async function Page(
   }
 ) {
 
+  const session:any = await auth();
+  const token = session?.user?.jwt
+  // console.log('token:', token)
+
+
   const searchParams = await props.searchParams;
   const query = searchParams?.query || '';
-  const currentPage = Number(searchParams?.page) || 1;
-  // const totalPages = await fetchUsersPages(query);
+
+  console.log('Page: searchParams:', searchParams);
+
+  const categoriesObj:any = await ticketsCategoriesService.findMany(searchParams, token);
+  console.log('categoriesObj:', {categoriesObj})
+
+  const totalPages = categoriesObj.pageCount
+  const currentPage = categoriesObj.page
+
 
 
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
-        <h1 className={`${lusitana.className} text-2xl`}>Users</h1>
+        <h1 className={`${lusitana.className} text-2xl`}>Categories</h1>
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Search users..." />
-        <CreateUser />
+        <Search placeholder="Search categories..." />
+        <CreateButton href="/dashboard/tickets/categories/create" />
       </div>
-      <Suspense key={query + currentPage} fallback={<UsersTableSkeleton />}>
+      <Suspense key={query + currentPage} fallback={<RolesTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />
       </Suspense>
-      {/* <div className="mt-5 flex w-full justify-center">
+      <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
-      </div> */}
+      </div>
     </div>
   );
 }

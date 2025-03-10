@@ -4,7 +4,7 @@ import { auth } from '@/auth';
 
 import { lusitana } from '@/components/fonts';
 import Pagination from '@/components/pagination';
-import { CreateUser } from './buttons';
+import { CreateButton } from '@/components/buttons';
 import Search from '@/components/search';
 import Table from './table';
 import { UsersTableSkeleton } from '@/components/skeletons';
@@ -53,7 +53,7 @@ export default async function Page(
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Search users..." />
-        <CreateUser />
+        <CreateButton href="/dashboard/profile/users/create" />
       </div>
       <Suspense key={query + currentPage} fallback={<UsersTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />

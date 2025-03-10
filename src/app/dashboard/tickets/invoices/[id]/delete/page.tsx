@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
 
-import EditForm from './edit.form';
+import DeleteForm from './delete.form';
 import Breadcrumbs from '@/components/breadcrumbs';
 
 import { partsCategoriesService } from '@/services/parts.categories.service';
@@ -11,7 +11,7 @@ import { partsItemsService } from '@/services/parts.items.service';
 
 
 export const metadata: Metadata = {
-	title: 'Edit Item',
+	title: 'Delete Item',
 };
 
 
@@ -45,15 +45,15 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 		<main>
 			<Breadcrumbs
 				breadcrumbs={[
-					{ label: 'Items', href: '/dashboard/items' },
+					{ label: 'Items', href: '/dashboard/parts/items' },
 					{
-						label: 'Edit Item',
-						href: `/dashboard/items/${id}/edit`,
+						label: 'Delete Item',
+						href: `/dashboard/parts/items/${id}/delete`,
 						active: true,
 					},
 				]}
 			/>
-			<EditForm categories={categories} item={item} />
+			<DeleteForm categories={categories} item={item} />
 		</main>
 	);
 }

@@ -13,7 +13,7 @@ export interface IAuthRegistrationReq {
 }
 
 export interface IAuthRegistrationRes {
-	profile_users: IProfileUsersReadRes;
+	profileRole: IProfileUsersReadRes;
 	token: string;
 }
 

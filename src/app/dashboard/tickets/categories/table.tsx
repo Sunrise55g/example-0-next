@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { lusitana } from '@/components/fonts';
 import Search from '@/components/search';
 
-import { partsCategoriesService } from '@/services/parts.categories.service';
+import { ticketsCategoriesService } from '@/services/tickets.categories.service';
 import { UpdateButton, DeleteButton } from '@/components/buttons';
 
 
@@ -36,7 +36,7 @@ export default function CategoriesTable({
 
 
   useEffect(() => {
-    partsCategoriesService.findMany(searchParams, token)
+    ticketsCategoriesService.findMany(searchParams, token)
       .then((res) => {
         setData(res)
         setLoading(false)
@@ -92,8 +92,8 @@ export default function CategoriesTable({
 
                     <div className="flex w-full items-center justify-between pt-4">
                       <div className="flex justify-end gap-2">
-                        <UpdateButton href={`/dashboard/parts/categories/${category.id}/edit`} />
-                        <DeleteButton href={`/dashboard/parts/categories/${category.id}/delete`} />
+                        <UpdateButton href={`/dashboard/tickets/categories/${category.id}/edit`} />
+                        <DeleteButton href={`/dashboard/tickets/categories/${category.id}/delete`} />
                       </div>
                     </div>
 
@@ -151,8 +151,8 @@ export default function CategoriesTable({
                       </td>
                       <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                         <div className="flex  justify-end gap-3">
-                          <UpdateButton href={`/dashboard/parts/categories/${category.id}/edit`} />
-                          <DeleteButton href={`/dashboard/parts/categories/${category.id}/delete`} />
+                          <UpdateButton href={`/dashboard/tickets/categories/${category.id}/edit`} />
+                          <DeleteButton href={`/dashboard/tickets/categories/${category.id}/delete`} />
                         </div>
                       </td>
                     </tr>

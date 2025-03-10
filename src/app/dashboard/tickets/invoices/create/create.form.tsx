@@ -11,18 +11,24 @@ import {
 import { useActionState } from 'react';
 
 import { Button } from '@/components/buttons';
-import { profileRolesService } from '@/services/profile.roles.service';
+import { ticketsInvoicesService } from '@/services/tickets.invoices.service';
 
 import { useSession } from 'next-auth/react';
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { UserField, UserForm } from '@/types/definitions';
 
 
 
-export default function CreateForm({ roles }: { roles: any }) {
+export default function CreateForm(
+  { categories, users }: 
+  { categories: any, users: any }
+) {
 
   //
   const { data: session, status }: any = useSession();
   const token = session?.user?.jwt
+
 
   //
   type IState = {
@@ -36,15 +42,15 @@ export default function CreateForm({ roles }: { roles: any }) {
   async function action(prevState: IState, formData: FormData) {
 
     const rawFormData = {
+      ticketsCategoryId: formData.get('ticketsCategoryId'),
+      customerUserId: formData.get('customerUserId'),
       name: formData.get('name'),
       description: formData.get('description'),
-      administrator: formData.get('administrator') === 'on',
-      moderator: formData.get('moderator') === 'on',
-      active: formData.get('active') === 'on',
+      active: formData.get('active') === 'on'
     }
-    console.log('rawFormData:', { rawFormData })
+   // console.log('rawFormData:', { rawFormData })
 
-    const serviceResponse: any = await profileRolesService.createOne(rawFormData, token);
+    const serviceResponse: any = await ticketsInvoicesService.createOne(rawFormData, token);
 
     if (serviceResponse.error || serviceResponse.message) {
       const message = serviceResponse.message;
@@ -55,7 +61,7 @@ export default function CreateForm({ roles }: { roles: any }) {
       };
     }
 
-    redirect('/dashboard/profile/roles');
+    redirect('/dashboard/tickets/invoices');
   }
 
 
@@ -63,10 +69,80 @@ export default function CreateForm({ roles }: { roles: any }) {
     <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
 
+        {/* Categories */}
+        <div className="mb-4">
+          <label htmlFor="ticketsCategoryId" className="mb-2 block text-sm font-medium">
+            Choose Category
+          </label>
+          <div className="relative">
+            <select
+              id="ticketsCategoryId"
+              name="ticketsCategoryId"
+              className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              defaultValue=""
+              aria-describedby="invoice-error"
+            >
+              <option value="" disabled>
+                Select a category
+              </option>
+              {categories.map((category: any) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+            <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+          </div>
+          <div id="invoice-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.categoryId &&
+              state.errors.categoryId.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+        </div>
+
+
+        {/* customerUserId */}
+        <div className="mb-4">
+          <label htmlFor="customerUserId" className="mb-2 block text-sm font-medium">
+            Choose Customer User
+          </label>
+          <div className="relative">
+            <select
+              id="customerUserId"
+              name="customerUserId"
+              className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              defaultValue=""
+              aria-describedby="invoice-error"
+            >
+              <option value="" disabled>
+                Select a customes
+              </option>
+              {users.map((user: any) => (
+                <option key={user.id} value={user.id}>
+                  {user.username}
+                </option>
+              ))}
+            </select>
+            <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+          </div>
+          <div id="invoice-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.categoryId &&
+              state.errors.categoryId.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+        </div>
+
+
         {/* Name */}
         <div className="mb-4">
           <label htmlFor="name" className="mb-2 block text-sm font-medium">
-            Name
+            Choose an name
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -80,7 +156,7 @@ export default function CreateForm({ roles }: { roles: any }) {
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
-            <div id="role-error" aria-live="polite" aria-atomic="true">
+            <div id="invoice-error" aria-live="polite" aria-atomic="true">
               {state?.errors?.name &&
                 state?.errors?.name.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
@@ -95,7 +171,7 @@ export default function CreateForm({ roles }: { roles: any }) {
         {/* Description */}
         <div className="mb-4">
           <label htmlFor="description" className="mb-2 block text-sm font-medium">
-            Description
+            Write a description
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -103,67 +179,15 @@ export default function CreateForm({ roles }: { roles: any }) {
                 id="description"
                 name="description"
                 type="string"
-                placeholder="Enter Description"
+                placeholder="Enter invoice description"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
-            <div id="role-error" aria-live="polite" aria-atomic="true">
+            <div id="invoice-error" aria-live="polite" aria-atomic="true">
               {state.errors?.description &&
                 state.errors.description.map((error: string) => (
-                  <p className="mt-2 text-sm text-red-500" key={error}>
-                    {error}
-                  </p>
-                ))}
-            </div>
-          </div>
-        </div>
-
-
-        {/* administrator */}
-        <div className="mb-4">
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="administrator"
-                name="administrator"
-                type="checkbox"
-                className="peer h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-              />
-              <label htmlFor="administrator" className="ml-2 text-sm text-gray-900">
-                This is Administrator
-              </label>
-            </div>
-            <div id="role-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.administrator &&
-                state.errors.administrator.map((error: string) => (
-                  <p className="mt-2 text-sm text-red-500" key={error}>
-                    {error}
-                  </p>
-                ))}
-            </div>
-          </div>
-        </div>
-
-
-        {/* moderator */}
-        <div className="mb-4">
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="moderator"
-                name="moderator"
-                type="checkbox"
-                className="peer h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-              />
-              <label htmlFor="moderator" className="ml-2 text-sm text-gray-900">
-                This is Moderator
-              </label>
-            </div>
-            <div id="role-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.moderator &&
-                state.errors.moderator.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
                   </p>
@@ -184,10 +208,10 @@ export default function CreateForm({ roles }: { roles: any }) {
                 className="peer h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
               />
               <label htmlFor="active" className="ml-2 text-sm text-gray-900">
-                Role is Active
+                Invoice is Active
               </label>
             </div>
-            <div id="role-error" aria-live="polite" aria-atomic="true">
+            <div id="invoice-error" aria-live="polite" aria-atomic="true">
               {state.errors?.active &&
                 state.errors.active.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
@@ -199,7 +223,7 @@ export default function CreateForm({ roles }: { roles: any }) {
         </div>
 
 
-        <div id="role-error" aria-live="polite" aria-atomic="true">
+        <div id="invoice-error" aria-live="polite" aria-atomic="true">
           {state.errors && state.message &&
             <p className="mt-2 text-sm text-red-500">
               {state.message}
@@ -211,12 +235,12 @@ export default function CreateForm({ roles }: { roles: any }) {
 
       <div className="mt-6 flex justify-end gap-4">
         <Link
-          href="/dashboard/profile/roles"
+          href="/dashboard/tickets/invoices"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancel
         </Link>
-        <Button type="submit">Create Role</Button>
+        <Button type="submit">Create Tickets Invoice</Button>
       </div>
 
     </form>

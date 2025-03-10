@@ -9,7 +9,7 @@ import { lusitana } from '@/components/fonts';
 import Search from '@/components/search';
 
 import { profileRolesService } from '@/services/profile.roles.service';
-import { DeleteRole, UpdateRole } from './buttons';
+import { UpdateButton, DeleteButton } from '@/components/buttons';
 
 
 export default function RolesTable({
@@ -114,8 +114,8 @@ export default function RolesTable({
 
                     <div className="flex w-full items-center justify-between pt-4">
                       <div className="flex justify-end gap-2">
-                        <UpdateRole id={role.id} />
-                        <DeleteRole id={role.id} />
+                        <UpdateButton href={`/dashboard/profile/roles/${role.id}/edit`} />
+                        <DeleteButton href={`/dashboard/profile/roles/${role.id}/delete`} />
                       </div>
                     </div>
 
@@ -193,8 +193,8 @@ export default function RolesTable({
                       </td>
                       <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                         <div className="flex  justify-end gap-3">
-                          <UpdateRole id={role.id} />
-                          <DeleteRole id={role.id} />
+                          <UpdateButton href={`/dashboard/profile/roles/${role.id}/edit`} />
+                          <DeleteButton href={`/dashboard/profile/roles/${role.id}/delete`} />
                         </div>
                       </td>
                     </tr>

@@ -13,7 +13,7 @@ export interface IPartsItemsCreateReq {
 export interface IPartsItemsReadRes {
 	id: number;
 	partsCategoryId: number;
-	parts_categories: IPartsCategoriesReadRes;
+	partsCategory: IPartsCategoriesReadRes;
 	name: string;
 	description: string;
 	active: boolean;

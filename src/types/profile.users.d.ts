@@ -14,7 +14,7 @@ export interface IProfileUsersCreateReq {
 export interface IProfileUsersReadRes {
 	id: number;
 	profileRoleId: number;
-	profile_roles: IProfileRolesReadRes;
+	profileRole: IProfileRolesReadRes;
 	username: string;
 	email: string;
 	phone: string;

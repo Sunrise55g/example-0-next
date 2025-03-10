@@ -13,7 +13,7 @@ import {
 } from '@/types/definitions';
 
 import { partsItemsService } from '@/services/parts.items.service';
-import { DeleteItem, UpdateItem } from './buttons';
+import { UpdateButton, DeleteButton } from '@/components/buttons';
 
 
 export default function ItemsTable({
@@ -86,8 +86,8 @@ export default function ItemsTable({
 
                     <div className="flex w-full items-center justify-between pt-4">
                       <div className="flex justify-end gap-2">
-                        <UpdateItem id={item.id} />
-                        <DeleteItem id={item.id} />
+                        <UpdateButton href={`/dashboard/parts/items/${item.id}/edit`} />
+                        <DeleteButton href={`/dashboard/parts/items/${item.id}/delete`} />
                       </div>
                     </div>
 
@@ -131,7 +131,7 @@ export default function ItemsTable({
                         {item.partsCategoryId}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {item.parts_categories?.name}
+                        {item.partsCategory?.name}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
                         {item.active ? (
@@ -142,8 +142,8 @@ export default function ItemsTable({
                       </td>
                       <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                         <div className="flex justify-end gap-3">
-                          <UpdateItem id={item.id} />
-                          <DeleteItem id={item.id} />
+                          <UpdateButton href={`/dashboard/parts/items/${item.id}/edit`} />
+                          <DeleteButton href={`/dashboard/parts/items/${item.id}/delete`} />
                         </div>
                       </td>
                     </tr>

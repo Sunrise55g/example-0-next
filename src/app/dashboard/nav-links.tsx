@@ -1,9 +1,13 @@
 'use client';
 
 import {
-  UserGroupIcon,
   HomeIcon,
+  UserGroupIcon,
+  UserIcon,
+  RectangleGroupIcon,
+  ServerIcon,
   DocumentDuplicateIcon,
+  TicketIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -15,11 +19,14 @@ import { useSession } from 'next-auth/react';
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
 const links = [
-  { name: 'Home', href: '/dashboard', icon: HomeIcon },
+  { name: 'Home', 
+    href: '/dashboard', 
+    icon: HomeIcon 
+  },
   {
     name: 'Profile Roles',
     href: '/dashboard/profile/roles',
-    icon: DocumentDuplicateIcon,
+    icon: UserGroupIcon,
     administrator: true,
     moderator: true
   },
@@ -27,7 +34,7 @@ const links = [
   {
     name: 'Profile Users',
     href: '/dashboard/profile/users',
-    icon: DocumentDuplicateIcon,
+    icon: UserIcon,
     administrator: true,
     moderator: true
   },
@@ -35,7 +42,7 @@ const links = [
   {
     name: 'Parts Categories',
     href: '/dashboard/parts/categories',
-    icon: DocumentDuplicateIcon,
+    icon: RectangleGroupIcon,
     administrator: true,
     moderator: true
   },
@@ -43,15 +50,7 @@ const links = [
   {
     name: 'Parts Items',
     href: '/dashboard/parts/items',
-    icon: DocumentDuplicateIcon,
-    administrator: true,
-    moderator: true
-  },
-
-  {
-    name: 'Invoices Categories',
-    href: '/dashboard/invoices/categories',
-    icon: DocumentDuplicateIcon,
+    icon: ServerIcon,
     administrator: true,
     moderator: true
   },
@@ -67,18 +66,11 @@ const links = [
   {
     name: 'Tickets Invoices',
     href: '/dashboard/tickets/invoices',
-    icon: DocumentDuplicateIcon,
+    icon: TicketIcon,
     administrator: true,
     moderator: true
   },
 
-  {
-    name: 'Tickets Items',
-    href: '/dashboard/tickets/items',
-    icon: DocumentDuplicateIcon,
-    administrator: true,
-    moderator: true
-  },
 ];
 
 
@@ -88,8 +80,8 @@ export default function NavLinks() {
   //
   const { data: session, status }: any = useSession();
   
-  const administrator = session?.user?.profile_roles?.administrator || false;
-  const moderator = session?.user?.profile_roles?.moderator || false;
+  const administrator = session?.user?.profileRole?.administrator || false;
+  const moderator = session?.user?.profileRole?.moderator || false;
 
   console.log('administrator:', administrator)
   console.log('moderator:', moderator)

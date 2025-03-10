@@ -4,7 +4,7 @@ import { auth } from '@/auth';
 
 import { lusitana } from '@/components/fonts';
 import Pagination from '@/components/pagination';
-import { CreateRole } from '@/app/dashboard/profile/roles/buttons';
+import { CreateButton } from '@/components/buttons';
 import Search from '@/components/search';
 import Table from '@/app/dashboard/profile/roles/table';
 import { RolesTableSkeleton } from './skeletons';
@@ -53,7 +53,7 @@ export default async function Page(
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Search roles..." />
-        <CreateRole />
+        <CreateButton href="/dashboard/profile/roles/create" />
       </div>
       <Suspense key={query + currentPage} fallback={<RolesTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />

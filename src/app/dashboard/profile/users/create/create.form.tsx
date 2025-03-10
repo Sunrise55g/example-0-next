@@ -10,7 +10,7 @@ import {
 
 import { useActionState } from 'react';
 
-import { Button } from '@/components/button';
+import { Button } from '@/components/buttons';
 import { profileUsersService } from '@/services/profile.users.service';
 
 import { useSession } from 'next-auth/react';

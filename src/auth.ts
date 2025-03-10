@@ -16,7 +16,7 @@ declare module 'next-auth' {
     username?: string | null | undefined;
     jwt?: string | null | undefined;
     profileRoleId?: string | null | undefined;
-    profile_roles?: any;
+    profileRole?: any;
   }
 
   interface Session {
@@ -87,7 +87,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             username: response.user.username,
             jwt: response.token,
             profileRoleId: response.user.profileRoleId.toString(),
-            profile_roles: response.user.profile_roles
+            profileRole: response.user.profileRole
           } as User
         }
         else {
@@ -120,7 +120,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             username: response.user.username,
             jwt: response.token,
             profileRoleId: response.user.profileRoleId.toString(),
-            profile_roles: response.user.profile_roles
+            profileRole: response.user.profileRole
           } as User
 
         }

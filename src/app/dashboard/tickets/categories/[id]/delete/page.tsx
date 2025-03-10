@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
 
-import EditForm from './edit.form';
+import DeleteForm from './delete.form';
 import Breadcrumbs from '@/components/breadcrumbs';
 
 import { ticketsCategoriesService } from '@/services/tickets.categories.service';
@@ -10,7 +10,7 @@ import { ticketsCategoriesService } from '@/services/tickets.categories.service'
 
 
 export const metadata: Metadata = {
-	title: 'Edit Category',
+	title: 'Delete Category',
 };
 
 
@@ -21,7 +21,6 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 	const session: any = await auth();
 	const token = session?.user?.jwt
 	// console.log('token:', token)
-
 
 	//
 	const params = await props.params;
@@ -41,13 +40,13 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 				breadcrumbs={[
 					{ label: 'Categories', href: '/dashboard/tickets/categories' },
 					{
-						label: 'Edit Category',
-						href: `/dashboard/tickets/categories/${id}/edit`,
+						label: 'Delete Category',
+						href: `/dashboard/tickets/categories/${id}/delete`,
 						active: true,
 					},
 				]}
 			/>
-			<EditForm category={category} />
+			<DeleteForm category={category} />
 		</main>
 	);
 }

@@ -10,7 +10,7 @@ import {
 
 import { useActionState } from 'react';
 
-import { Button } from '@/components/button';
+import { Button } from '@/components/buttons';
 import { partsItemsService } from '@/services/parts.items.service';
 
 import { useSession } from 'next-auth/react';

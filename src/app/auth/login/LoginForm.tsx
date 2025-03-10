@@ -12,7 +12,7 @@ import { ArrowRightIcon } from '@heroicons/react/20/solid';
 
 import { login } from '@/services/auth.service';
 
-import { Button } from '@/components/button';
+import { Button } from '@/components/buttons';
 import { lusitana } from '@/components/fonts';
 
 

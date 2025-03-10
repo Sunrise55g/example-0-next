@@ -13,7 +13,7 @@ import {
 } from '@/types/definitions';
 
 import { profileUsersService } from '@/services/profile.users.service';
-import { DeleteUser, UpdateUser } from './buttons';
+import { UpdateButton, DeleteButton } from '@/components/buttons';
 
 
 export default function UsersTable({
@@ -108,8 +108,8 @@ export default function UsersTable({
 
                     <div className="flex w-full items-center justify-between pt-4">
                       <div className="flex justify-end gap-2">
-                        <UpdateUser id={user.id} />
-                        <DeleteUser id={user.id} />
+                        <UpdateButton href={`/dashboard/profile/users/${user.id}/edit`} />
+                        <DeleteButton href={`/dashboard/profile/users/${user.id}/delete`} />
                       </div>
                     </div>
 
@@ -171,14 +171,14 @@ export default function UsersTable({
                         {user.lastName}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {user.profile_roles?.administrator ? (
+                        {user.profileRole?.administrator ? (
                           <CheckIcon className="h-5 w-5 text-green-500" />
                         ) : (
                           <XMarkIcon className="h-5 w-5 text-red-500" />
                         )}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {user.profile_roles?.moderator ? (
+                        {user.profileRole?.moderator ? (
                           <CheckIcon className="h-5 w-5 text-green-500" />
                         ) : (
                           <XMarkIcon className="h-5 w-5 text-red-500" />
@@ -193,8 +193,8 @@ export default function UsersTable({
                       </td>
                       <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                         <div className="flex justify-end gap-3">
-                          <UpdateUser id={user.id} />
-                          <DeleteUser id={user.id} />
+                          <UpdateButton href={`/dashboard/profile/users/${user.id}/edit`} />
+                          <DeleteButton href={`/dashboard/profile/users/${user.id}/delete`} />
                         </div>
                       </td>
                     </tr>
