@@ -2,7 +2,7 @@
 
 import { useActionState } from 'react';
 import { useSearchParams } from 'next/navigation';
-
+import { useLocale, useTranslations } from 'next-intl';
 import {
   AtSymbolIcon,
   KeyIcon,
@@ -10,16 +10,20 @@ import {
 } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 
-import { login } from '@/services/auth.service';
-
 import { Button } from '@/components/buttons';
 import { lusitana } from '@/components/fonts';
 
+import { login } from '@/services/auth.service';
 
 
 
 export default function LoginForm() {
 
+  //
+  const locale = useLocale();
+  const t = useTranslations('AuthLogin');
+
+  //
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
   const [errorMessage, formAction, isPending] = useActionState(
@@ -30,9 +34,9 @@ export default function LoginForm() {
 
   return (
     <form action={formAction} className="space-y-3">
-      <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
+      <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-2 pt-1">
         <h1 className={`${lusitana.className} mb-3 text-2xl`}>
-          Please log in to continue.
+          {t('description')}
         </h1>
         <div className="w-full">
           <div>
@@ -40,7 +44,7 @@ export default function LoginForm() {
               className="mb-3 mt-5 block text-xs font-medium text-gray-900"
               htmlFor="login"
             >
-              Username or Email
+              {t('fields.usernameOrEmail')}
             </label>
             <div className="relative">
               <input
@@ -48,7 +52,7 @@ export default function LoginForm() {
                 id="username"
                 type="username"
                 name="username"
-                placeholder="Enter your email address or Username"
+                placeholder={t('alts.usernameOrEmail')}
                 required
               />
               <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
@@ -59,7 +63,7 @@ export default function LoginForm() {
               className="mb-3 mt-5 block text-xs font-medium text-gray-900"
               htmlFor="password"
             >
-              Password
+              {t('fields.password')}
             </label>
             <div className="relative">
               <input
@@ -67,7 +71,7 @@ export default function LoginForm() {
                 id="password"
                 type="password"
                 name="password"
-                placeholder="Enter password"
+                placeholder={t('fields.password')}
                 required
                 minLength={6}
               />
@@ -77,7 +81,8 @@ export default function LoginForm() {
         </div>
         <input type="hidden" name="redirectTo" value={callbackUrl} />
         <Button className="mt-4 w-full" aria-disabled={isPending}>
-          Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
+          {t('buttons.login')}
+          <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
         </Button>
         <div
           className="flex h-8 items-end space-x-1"

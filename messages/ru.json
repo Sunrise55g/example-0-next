@@ -10,6 +10,10 @@
   "LocaleLayout": {
     "title": "next-intl example"
   },
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": "{locale, select, ru {Russian} en {English} other {Unknown}}"
+  },
   "Manifest": {
     "name": "next-intl example"
   },
@@ -39,88 +43,19 @@
     "description": "<p>The pathnames are internationalized too.</p><p>If you're using the default language English, you'll see <code>/en/pathnames</code> in the browser address bar on this page.</p><p>If you change the locale to German, the URL is localized accordingly (<code>/de/pfadnamen</code>).</p>",
     "title": "Pathnames"
   },
-  "LocaleSwitcher": {
-    "label": "Change language",
-    "locale": "{locale, select, ru {Russian} en {English} other {Unknown}}"
-  },
+
+
+
   "FirstPage": {
-    "title": "First Page",
-    "description": "First Page Description",
-    "descriptionAdd": "Additional First Page Description",
+    "title": "Первая страница",
+    "description": "Описание первой страницы",
+    "descriptionAdd": "Дополнительное описание первой страницы",
     "buttons": {
-      "login": "Log In",
-      "registration": "Registration"
+      "login": "Войти",
+      "registration": "Регистрация" 
     }
   },
-  "AuthLogin": {
-    "title": "Login",
-    "description": "Please log in to continue.",
-    "fields": {
-      "usernameOrEmail": "Username or Email",
-      "password": "Password"
-    },
-    "alts": {
-      "usernameOrEmail": "Enter your username or email",
-      "password": "Enter your password"
-    },
-    "buttons": {
-      "login": "Log In"
-    },
-    "errors": {}
-  },
-  "AuthRegistration": {
-    "title": "Registration",
-    "description": "Please sign on to continue.",
-    "fields": {
-      "username": "Username",
-      "password": "Password",
-      "passwordRepeat": "Password Repeat",
-      "email": "Email",
-      "phone": "Phone",
-      "firstName": "First Name",
-      "lastName": "Last Name"
-    },
-    "alts": {
-      "username": "Please enter your username",
-      "password": "Please enter your password",
-      "passwordRepeat": "Please repeat your password",
-      "email": "Please enter your email",
-      "phone": "Please enter your phone",
-      "firstName": "Enter your First Name",
-      "lastName": "Enter your Last Name"
-    },
-    "buttons": {
-      "registration": "Registration"
-    },
-    "errors": {}
-  },
-  "SideNav": {
-    "items": {
-      "dashboard": "Dashboard",
-      "profileRoles": "Profile Roles",
-      "profileUsers": "Profile Users",
-      "partsCategories": "Parts Categories",
-      "partsItems": "Parts Items",
-      "ticketsCategories": "Tickets Categories",
-      "ticketsInvoices": "Tickets Invoices"
-    },
-    "buttons": {
-      "logout": "Log Out"
-    }
-  },
-  "Dashboard": {
-    "title": "Dashboard",
-    "description": "Dashboard Description",
-    "texts": {
-      "totalItems": "Total Items",
-      "totalInvoices": "Total Invoices",
-      "totalUsers": "Total Users",
-      "recentInvoices": "Recent Invoices",
-      "latestInvoices": "Latest Invoices",
-      "lastDays": "Last days",
-      "updatedJustNow": "Updated just now"
-    }
-  },
+
   "ProfileRoles": {
     "fields": {
       "name": "Name",

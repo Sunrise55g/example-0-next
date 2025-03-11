@@ -25,7 +25,7 @@ export default function UsersTable({
 }) {
 
   const { data: session, status }: any = useSession();
-  // console.log('session:', session)
+  console.log('session:', session)
   const token = session?.user?.jwt
 
   const [data, setData]: any = useState(null)

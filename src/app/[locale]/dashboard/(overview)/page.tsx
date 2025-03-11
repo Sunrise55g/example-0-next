@@ -1,5 +1,6 @@
 import { Suspense, useContext } from 'react';
 import { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
 
 import CardWrapper from '@/app/[locale]/dashboard/(overview)/cards';
 import InvoicesChart from '@/app/[locale]/dashboard/(overview)/invoices-chart';
@@ -12,8 +13,6 @@ import {
   CardsSkeleton
 } from '@/components/skeletons';
 
-import  getServerSession  from 'next-auth';
-import { authConfig } from '@/auth.config';
 
 
 
@@ -23,16 +22,18 @@ export const metadata: Metadata = {
 
 
 
-export default async function Page() {
 
-  // const session = await getServerSession(authConfig);
-  // console.log(session);
+export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
+
+  //
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'Dashboard' });
   
 
   return (
     <main>
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        Dashboard
+        {t('title')}
       </h1>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Suspense fallback={<CardsSkeleton />}>

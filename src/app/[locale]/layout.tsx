@@ -5,7 +5,6 @@ import { getMessages } from 'next-intl/server';
 
 import '@/components/global.css';
 import { inter } from '@/components/fonts';
-import Providers from '@/providers/Providers';
 import { authConfig } from '@/auth.config';
 import { auth } from '@/auth';
 import { routing } from '@/i18n/routing';
@@ -38,13 +37,13 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <NextIntlClientProvider locale={locale} messages={messages}>
-        <SessionProvider session={session}>
-          <body className={`${inter.className} antialiased`}>
-          {children}
-          </body>
-        </SessionProvider>
-      </NextIntlClientProvider>
+      <body className={`${inter.className} antialiased`}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <SessionProvider session={session}>
+            {children}
+          </SessionProvider>
+        </NextIntlClientProvider>
+      </body>
     </html>
   );
 }

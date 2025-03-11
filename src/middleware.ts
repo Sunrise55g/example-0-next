@@ -1,38 +1,56 @@
 import { NextRequest, NextResponse } from 'next/server';
-import createIntlMiddleware from 'next-intl/middleware';
+import createMiddleware from 'next-intl/middleware';
 
 import { handlers, auth } from '@/auth';
 import { authConfig } from './auth.config';
 import { routing } from './i18n/routing';
 
 
-// Конфигурация локалей
-const locales = ['en', 'de']; // Список поддерживаемых локалей
-const defaultLocale = 'en'; // Локаль по умолчанию
-
+//
 const publicRoutes = ['/_next', '/api/auth'];
 const noLoginRoutes = ['/', '/auth/login', '/auth/registration'];
 
 
-// export default NextAuth(authConfig).auth;
+//
+// const locales = ['en', 'ru'];
+// const defaultLocale = 'en';
 
-const intlMiddleware = createIntlMiddleware({
-  locales,
-  defaultLocale,
-  localePrefix: 'always',
-});
+// const intlMiddleware = createIntlMiddleware({
+//   locales,
+//   defaultLocale,
+//   localePrefix: 'always',
+// });
+
+const locales = routing.locales;
+const defaultLocale = routing.defaultLocale;
+const intlMiddleware = createMiddleware(routing);
+
 
 
 export default async function middleware(req: NextRequest) {
 
-  ////
+  //// extract session
   const session = await auth();
   // console.log('middleware: session:', { session })
 
 
-  ////
+  //// extract pathname
   const { pathname } = req.nextUrl;
   // console.log('middleware: pathname:', pathname)
+
+
+  //// extratc current locale from cookie
+  const localeFromCookie: any = req.cookies.get('NEXT_LOCALE')?.value;
+  const currentLocale = locales.includes(localeFromCookie) ? localeFromCookie : defaultLocale;
+  // console.log('middleware: currentLocale:', currentLocale);
+
+
+  //// routes handle
+  if (pathname.endsWith('.js.map')) {
+    // console.log('Caught .js.map request:', pathname);
+    return new NextResponse(null, { status: 404 });
+  }
+
 
   //
   const isPublicRoute = publicRoutes.some(route => {
@@ -79,13 +97,13 @@ export default async function middleware(req: NextRequest) {
   }
 
   if (!session && !isNoLoginRoute) {
-    const loginUrl = new URL(`/${defaultLocale}/auth/login`, req.url);
+    const loginUrl = new URL(`/${currentLocale}/auth/login`, req.url);
     loginUrl.searchParams.set('callbackUrl', encodeURIComponent(pathname));
     return NextResponse.redirect(loginUrl);
   }
 
   if (session && isNoLoginRoute) {
-    const dashboardUrl = new URL(`/${defaultLocale}/dashboard`, req.url);
+    const dashboardUrl = new URL(`/${currentLocale}/dashboard`, req.url);
     dashboardUrl.searchParams.set('callbackUrl', encodeURIComponent(pathname));
     return NextResponse.redirect(dashboardUrl);
   }

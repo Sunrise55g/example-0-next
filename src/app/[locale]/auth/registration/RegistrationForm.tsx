@@ -2,7 +2,7 @@
 
 import { useActionState } from 'react';
 import { useSearchParams } from 'next/navigation';
-
+import { useLocale, useTranslations } from 'next-intl';
 import {
   AtSymbolIcon,
   KeyIcon,
@@ -10,16 +10,21 @@ import {
 } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 
-import { registration } from '@/services/auth.service';
-
 import { Button } from '@/components/buttons';
 import { lusitana } from '@/components/fonts';
+
+import { registration } from '@/services/auth.service';
 
 
 
 
 export default function RegistrationForm() {
 
+  //
+  const locale = useLocale();
+  const t = useTranslations('AuthRegistration');
+
+  //
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
   const [errorMessage, formAction, isPending] = useActionState(
@@ -30,9 +35,9 @@ export default function RegistrationForm() {
 
   return (
     <form action={formAction} className="space-y-3">
-      <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
-        <h1 className={`${lusitana.className} mb-3 text-2xl`}>
-          Пожалуйста зарегистрируйтесь для продолжения.
+      <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-2 pt-1">
+        <h1 className={`${lusitana.className} mb-1 text-2xl`}>
+          {t('description')}
         </h1>
         <div className="w-full">
           <div>
@@ -40,7 +45,7 @@ export default function RegistrationForm() {
               className="mb-3 mt-5 block text-xs font-medium text-gray-900"
               htmlFor="registration"
             >
-              Username
+              {t('fields.username')}
             </label>
             <div className="relative">
               <input
@@ -48,7 +53,7 @@ export default function RegistrationForm() {
                 id="username"
                 type="username"
                 name="username"
-                placeholder="Пожалуйста введите имя пользователя"
+                placeholder={t('alts.username')}
                 required
               />
               <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
@@ -59,7 +64,7 @@ export default function RegistrationForm() {
               className="mb-3 mt-5 block text-xs font-medium text-gray-900"
               htmlFor="password"
             >
-              Password
+              {t('fields.password')}
             </label>
             <div className="relative">
               <input
@@ -67,7 +72,7 @@ export default function RegistrationForm() {
                 id="password"
                 type="password"
                 name="password"
-                placeholder="Enter password"
+                placeholder={t('alts.password')}
                 required
                 minLength={6}
               />
@@ -79,7 +84,7 @@ export default function RegistrationForm() {
               className="mb-3 mt-5 block text-xs font-medium text-gray-900"
               htmlFor="passwordRepeat"
             >
-              Пожалуйста введите пароль ещё раз
+              {t('fields.passwordRepeat')}
             </label>
             <div className="relative">
               <input
@@ -87,7 +92,7 @@ export default function RegistrationForm() {
                 id="passwordRepeat"
                 type="password"
                 name="passwordRepeat"
-                placeholder="Enter password"
+                placeholder={t('alts.passwordRepeat')}
                 required
                 minLength={6}
               />
@@ -100,7 +105,7 @@ export default function RegistrationForm() {
                 className="mb-3 mt-5 block text-xs font-medium text-gray-900"
                 htmlFor="email"
               >
-                Email
+                {t('fields.email')}
               </label>
               <div className="relative">
                 <input
@@ -108,7 +113,7 @@ export default function RegistrationForm() {
                   id="email"
                   type="email"
                   name="email"
-                  placeholder="Пожалуйста введите имя пользователя"
+                  placeholder={t('alts.email')}
                   required
                 />
                 <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
@@ -121,7 +126,7 @@ export default function RegistrationForm() {
                 className="mb-3 mt-5 block text-xs font-medium text-gray-900"
                 htmlFor="phone"
               >
-                Phone
+                {t('fields.phone')}
               </label>
               <div className="relative">
                 <input
@@ -129,7 +134,7 @@ export default function RegistrationForm() {
                   id="phone"
                   type="phone"
                   name="phone"
-                  placeholder="Пожалуйста введите номер телефона"
+                  placeholder={t('alts.phone')}
                 />
                 <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
               </div>
@@ -141,7 +146,7 @@ export default function RegistrationForm() {
                 className="mb-3 mt-5 block text-xs font-medium text-gray-900"
                 htmlFor="firstName"
               >
-                FirstName
+                {t('fields.firstName')}
               </label>
               <div className="relative">
                 <input
@@ -149,7 +154,7 @@ export default function RegistrationForm() {
                   id="firstName"
                   type="text"
                   name="FirstName"
-                  placeholder="Пожалуйста введите имя"
+                  placeholder={t('alts.firstName')}
                 />
                 <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
               </div>
@@ -161,7 +166,7 @@ export default function RegistrationForm() {
                 className="mb-3 mt-5 block text-xs font-medium text-gray-900"
                 htmlFor="LastName"
               >
-                LastName
+                {t('fields.lastName')}
               </label>
               <div className="relative">
                 <input
@@ -169,7 +174,7 @@ export default function RegistrationForm() {
                   id="lastName"
                   type="text"
                   name="lastName"
-                  placeholder="Пожалуйста введите фамилию"
+                  placeholder={t('alts.lastName')}
                 />
                 <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
               </div>
@@ -178,7 +183,8 @@ export default function RegistrationForm() {
         </div>
         <input type="hidden" name="redirectTo" value={callbackUrl} />
         <Button className="mt-4 w-full" aria-disabled={isPending}>
-          Registration <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
+          {t('buttons.registration')}
+          <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
         </Button>
         <div
           className="flex h-8 items-end space-x-1"
