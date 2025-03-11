@@ -1,13 +1,13 @@
 import { Metadata } from 'next';
+import { SessionProvider } from 'next-auth/react';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 
 import '@/components/global.css';
 import { inter } from '@/components/fonts';
 import Providers from '@/providers/Providers';
 import { authConfig } from '@/auth.config';
 import { auth } from '@/auth';
-
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 
 
@@ -24,23 +24,26 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-  params: { locale },
+  params,
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
 
   const session: any = await auth();
   // console.log('Session in RootLayout:', session);
 
+  const { locale } = await params;
   const messages = await getMessages();
 
   return (
     <html lang={locale}>
       <NextIntlClientProvider locale={locale} messages={messages}>
-        <Providers session={session}>
-          <body className={`${inter.className} antialiased`}>{children}</body>
-        </Providers>
+        <SessionProvider session={session}>
+          <body className={`${inter.className} antialiased`}>
+          {children}
+          </body>
+        </SessionProvider>
       </NextIntlClientProvider>
     </html>
   );

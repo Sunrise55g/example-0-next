@@ -40,7 +40,7 @@ export default function CreateForm({ categories }: { categories: any }) {
       description: formData.get('description'),
       active: formData.get('active') === 'on',
     }
-    console.log('rawFormData:', { rawFormData })
+    // console.log('rawFormData:', { rawFormData })
 
     const serviceResponse: any = await ticketsCategoriesService.createOne(rawFormData, token);
 

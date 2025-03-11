@@ -13,7 +13,7 @@ export default async function InvoicesChart() {
   const token = session?.user?.jwt
 
   const dates = await ticketsInvoicesService.statsByDaysCore(token);
-  console.log('dates:', dates)
+  // console.log('dates:', dates)
 
   
   const chartHeight = 350;

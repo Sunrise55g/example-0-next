@@ -21,11 +21,11 @@ class TicketsCategoriesService {
 
 
 	public async createOne(data: any, token: string) {
-		// console.log('TicketsCategoriesServiceCore: createOne: data:', data);
-		// console.log('TicketsCategoriesServiceCore: createOne: token:', token);
+		// console.log('TicketsCategoriesService: createOne: data:', data);
+		// console.log('TicketsCategoriesService: createOne: token:', token);
 
 		const response: any = await apiClient.post(this.BASE_URL, data, token)
-		// console.log('TicketsCategoriesServiceCore: createOne: response:', response);
+		// console.log('TicketsCategoriesService: createOne: response:', response);
 
 		return response;
 	}
@@ -33,11 +33,11 @@ class TicketsCategoriesService {
 
 
 	async findMany(query?: any, token?: string) {
-		// console.log('TicketsCategoriesServiceCore: findMany: query:', query);
-		// console.log('ProfileRolesServiceCore: findMany: token:', token);
+		// console.log('TicketsCategoriesService: findMany: query:', query);
+		// console.log('TicketsCategoriesService: findMany: token:', token);
 
 		const response = await apiClient.get(this.BASE_URL, query, token)
-		// console.log('TicketsCategoriesServiceCore: findMany: response', response);
+		// console.log('TicketsCategoriesService: findMany: response', response);
 
 		return response;
 	}
@@ -47,7 +47,7 @@ class TicketsCategoriesService {
 	async findOne(id: number, token?: string) {
 
 		const response = await apiClient.get(`${this.BASE_URL}/${id}`, undefined, token)
-		console.log('TicketsCategoriesServiceCore: findOne: response', response);
+		// console.log('TicketsCategoriesService: findOne: response', response);
 
 		return response;
 	}
@@ -67,7 +67,7 @@ class TicketsCategoriesService {
 		}
 
 		const response = await apiClient.patch(`${this.BASE_URL}/${id}`, data, token)
-		// console.log('TicketsCategoriesServiceCore: findOne: response', response);
+		// console.log('TicketsCategoriesService: findOne: response', response);
 
 		return response;
 	}
@@ -78,7 +78,7 @@ class TicketsCategoriesService {
 	async deleteOne(id: number, token: string) {
 
 		const response = await apiClient.delete(`${this.BASE_URL}/${id}`, token)
-		// console.log('TicketsCategoriesServiceCore: deleteOne: response', response);
+		// console.log('TicketsCategoriesService: deleteOne: response', response);
 
 		return response;
 	}

@@ -69,13 +69,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (firstName) {reqData.firstName = firstName}
           if (lastName) {reqData.lastName = lastName}
           
-          console.log('test1:', reqData);
-
           const response: any = await apiClient.post(
             `/auth/registration`, reqData
 
           );
-          console.log('response:', response);
+          // console.log('response:', response);
 
           if (!response) {
             console.log('Invalid credentials');
@@ -107,7 +105,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             `/auth/login`,
             { login: username, password: password }
           );
-          console.log('response:', {response});
+          // console.log('response:', {response});
 
           if (!response) {
             console.log('Invalid credentials');

@@ -42,7 +42,7 @@ export default function CreateForm({ roles }: { roles: any }) {
       moderator: formData.get('moderator') === 'on',
       active: formData.get('active') === 'on',
     }
-    console.log('rawFormData:', { rawFormData })
+    // console.log('rawFormData:', { rawFormData })
 
     const serviceResponse: any = await profileRolesService.createOne(rawFormData, token);
 

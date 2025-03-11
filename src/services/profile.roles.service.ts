@@ -21,11 +21,11 @@ class ProfileRolesService {
 
 
 	public async createOne(data: any, token: string) {
-		// console.log('ProfileRolesServiceCore: createOne: data:', data);
-		// console.log('ProfileRolesServiceCore: createOne: token:', token);
+		// console.log('ProfileRolesService: createOne: data:', data);
+		// console.log('ProfileRolesService: createOne: token:', token);
 
 		const response: any = await apiClient.post('/profile/roles/core', data, token)
-		// console.log('ProfileRolesServiceCore: createOne: response:', response);
+		// console.log('ProfileRolesService: createOne: response:', response);
 
 		return response;
 	}
@@ -33,11 +33,11 @@ class ProfileRolesService {
 
 
 	async findMany(query?: any, token?: string) {
-		// console.log('ProfileRolesServiceCore: findMany: query:', query);
-		// console.log('ProfileRolesServiceCore: findMany: token:', token);
+		// console.log('ProfileRolesService: findMany: query:', query);
+		// console.log('ProfileRolesService: findMany: token:', token);
 
 		const response = await apiClient.get(this.BASE_URL, query, token)
-		// console.log('ProfileRolesServiceCore: findMany: response', response);
+		// console.log('ProfileRolesService: findMany: response', response);
 
 		return response;
 	}
@@ -47,7 +47,7 @@ class ProfileRolesService {
 	async findOne(id: number, token?: string) {
 
 		const response = await apiClient.get(`${this.BASE_URL}/${id}`, undefined, token)
-		console.log('ProfileRolesServiceCore: findOne: response', response);
+		// console.log('ProfileRolesService: findOne: response', response);
 
 		return response;
 	}
@@ -67,7 +67,7 @@ class ProfileRolesService {
 		}
 
 		const response = await apiClient.patch(`${this.BASE_URL}/${id}`, data, token)
-		// console.log('ProfileRolesServiceCore: findOne: response', response);
+		// console.log('ProfileRolesService: findOne: response', response);
 
 		return response;
 	}
@@ -78,7 +78,7 @@ class ProfileRolesService {
 	async deleteOne(id: number, token: string) {
 
 		const response = await apiClient.delete(`${this.BASE_URL}/${id}`, token)
-		// console.log('ProfileRolesServiceCore: deleteOne: response', response);
+		// console.log('ProfileRolesService: deleteOne: response', response);
 
 		return response;
 	}

@@ -57,7 +57,6 @@ class ApiClient {
 
 
     public get(url: string, query?: any, token?: string): Promise<Response> {
-        // console.log('get: token:', token);
         return this.request('GET', url, query, undefined, token);
     }
 

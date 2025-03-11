@@ -36,10 +36,9 @@ export default async function Page(
   const searchParams = await props.searchParams;
   const query = searchParams?.query || '';
 
-  console.log('Page: searchParams:', searchParams);
+  // console.log('Page: searchParams:', searchParams);
 
   const categoriesObj:any = await ticketsCategoriesService.findMany(searchParams, token);
-  console.log('categoriesObj:', {categoriesObj})
 
   const totalPages = categoriesObj.pageCount
   const currentPage = categoriesObj.page

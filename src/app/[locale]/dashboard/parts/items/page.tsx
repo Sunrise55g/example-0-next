@@ -36,10 +36,9 @@ export default async function Page(
   const searchParams = await props.searchParams;
   const query = searchParams?.query || '';
 
-  console.log('Page: searchParams:', searchParams);
+  // console.log('Page: searchParams:', searchParams);
 
   const itemsObj:any = await partsItemsService.findMany(searchParams, token);
-  console.log('itemsObj:', {itemsObj})
 
   const totalPages = itemsObj.pageCount
   const currentPage = itemsObj.page

@@ -32,7 +32,7 @@ export default function RolesTable({
     searchParams = `page=${currentPage}&s=${query}`
   }
 
-  console.log('RolesTable: searchParams:', searchParams)
+  // console.log('RolesTable: searchParams:', searchParams)
 
 
   useEffect(() => {

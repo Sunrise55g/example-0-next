@@ -20,7 +20,6 @@ export default async function Page() {
   const token = session?.user?.jwt
 
   const rolesObj:any = await profileRolesService.findMany(token)
-  console.log('rolesObj:', {rolesObj})
   const roles = rolesObj.data
 
   

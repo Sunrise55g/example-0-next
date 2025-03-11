@@ -48,7 +48,7 @@ class PartsItemsService {
 	async findOne(id: number, token?: string) {
 
 		const response = await apiClient.get(`${this.CORE_URL}/${id}`, undefined, token)
-		console.log('PartsItemsServiceCore: findOne: response', response);
+		// console.log('PartsItemsService: findOne: response', response);
 
 		return response;
 	}
@@ -88,7 +88,7 @@ class PartsItemsService {
 	async totalCount() {
 
 		const response: any = await apiClient.get(`${this.CURRENT_URL}/totalCount`)
-		console.log('ProfileUsersServiceCore: findOne: response', response);
+		// console.log('PartsItemsService: totalCount: response', response);
 
 		return response;
 	}

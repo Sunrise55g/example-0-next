@@ -16,8 +16,6 @@ import { useSession } from 'next-auth/react';
 
 
 
-// Map of links to display in the side navigation.
-// Depending on the size of the application, this would be stored in a database.
 const links = [
   { name: 'Home', 
     href: '/dashboard', 
@@ -77,16 +75,16 @@ const links = [
 
 export default function NavLinks() {
 
-  //
+  ////
   const { data: session, status }: any = useSession();
   
   const administrator = session?.user?.profileRole?.administrator || false;
   const moderator = session?.user?.profileRole?.moderator || false;
+  // console.log('administrator:', administrator)
+  // console.log('moderator:', moderator)
 
-  console.log('administrator:', administrator)
-  console.log('moderator:', moderator)
 
-  //
+  ////
   const pathname = usePathname();
 
 

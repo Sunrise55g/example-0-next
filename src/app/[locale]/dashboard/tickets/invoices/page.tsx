@@ -36,10 +36,10 @@ export default async function Page(
   const searchParams = await props.searchParams;
   const query = searchParams?.query || '';
 
-  console.log('Page: searchParams:', searchParams);
+  // console.log('Page: searchParams:', searchParams);
 
   const invoicesObj:any = await ticketsInvoicesService.findMany(searchParams, token);
-  console.log('invoicesObj:', {invoicesObj})
+  // console.log('invoicesObj:', {invoicesObj})
 
   const totalPages = invoicesObj.pageCount
   const currentPage = invoicesObj.page

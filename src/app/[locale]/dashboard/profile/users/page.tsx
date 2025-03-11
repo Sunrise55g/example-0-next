@@ -36,10 +36,9 @@ export default async function Page(
   const searchParams = await props.searchParams;
   const query = searchParams?.query || '';
 
-  console.log('Page: searchParams:', searchParams);
+  // console.log('Page: searchParams:', searchParams);
 
   const usersObj:any = await profileUsersService.findMany(searchParams, token);
-  console.log('usersObj:', {usersObj})
 
   const totalPages = usersObj.pageCount
   const currentPage = usersObj.page

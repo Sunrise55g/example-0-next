@@ -32,7 +32,7 @@ export default function CategoriesTable({
     searchParams = `page=${currentPage}&s=${query}`
   }
 
-  console.log('CategoriesTable: searchParams:', searchParams)
+  // console.log('CategoriesTable: searchParams:', searchParams)
 
 
   useEffect(() => {

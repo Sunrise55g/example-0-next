@@ -34,7 +34,7 @@ export async function registration(
   try {
     if(formData.get('password') !== formData.get('passwordRepeat')) return 'Пароли не совпадают'
     await signIn('credentials', formData);
-    console.log('Registration: formData:', formData);
+    // console.log('AuthService: registration: formData:', formData);
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

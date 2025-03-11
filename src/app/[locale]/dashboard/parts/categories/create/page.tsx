@@ -20,7 +20,6 @@ export default async function Page() {
   const token = session?.user?.jwt
 
   const categoriesObj:any = await partsCategoriesService.findMany(token)
-  console.log('categoriesObj:', {categoriesObj})
   const categories = categoriesObj.data
 
   

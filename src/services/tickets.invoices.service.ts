@@ -22,11 +22,11 @@ class TicketsInvoicesService {
 
 
 	public async createOne(data: any, token: string) {
-		// console.log('TicketsInvoicesServiceCore: createOne: data:', data);
-		// console.log('TicketsInvoicesServiceCore: createOne: token:', token);
+		// console.log('TicketsInvoicesService: createOne: data:', data);
+		// console.log('TicketsInvoicesService: createOne: token:', token);
 
 		const response: any = await apiClient.post(this.CORE_URL, data, token)
-		// console.log('TicketsInvoicesServiceCore: createOne: response:', response);
+		// console.log('TicketsInvoicesService: createOne: response:', response);
 
 		return response;
 	}
@@ -34,11 +34,11 @@ class TicketsInvoicesService {
 
 
 	async findMany(query?: any, token?: string) {
-		// console.log('TicketsInvoicesServiceCore: findMany: query:', query);
-		// console.log('ProfileRolesServiceCore: findMany: token:', token);
+		// console.log('TicketsInvoicesService: findMany: query:', query);
+		// console.log('TicketsInvoicesService: findMany: token:', token);
 
 		const response: any = await apiClient.get(this.CORE_URL, query, token)
-		// console.log('TicketsInvoicesServiceCore: findMany: response', response);
+		// console.log('TicketsInvoicesService: findMany: response', response);
 
 		return response;
 	}
@@ -48,7 +48,7 @@ class TicketsInvoicesService {
 	async findOne(id: number, token?: string) {
 
 		const response = await apiClient.get(`${this.CORE_URL}/${id}`, undefined, token)
-		console.log('TicketsInvoicesServiceCore: findOne: response', response);
+		// console.log('TicketsInvoicesService: findOne: response', response);
 
 		return response;
 	}
@@ -68,7 +68,7 @@ class TicketsInvoicesService {
 		}
 
 		const response = await apiClient.patch(`${this.CORE_URL}/${id}`, data, token)
-		// console.log('TicketsInvoicesServiceCore: findOne: response', response);
+		// console.log('TicketsInvoicesService: findOne: response', response);
 
 		return response;
 	}
@@ -79,7 +79,7 @@ class TicketsInvoicesService {
 	async deleteOne(id: number, token: string) {
 
 		const response = await apiClient.delete(`${this.CORE_URL}/${id}`, token)
-		// console.log('TicketsInvoicesServiceCore: deleteOne: response', response);
+		// console.log('TicketsInvoicesService: deleteOne: response', response);
 
 		return response;
 	}
@@ -89,7 +89,7 @@ class TicketsInvoicesService {
 	async totalCountCore(token: string) {
 
 		const response: any = await apiClient.get(`${this.CORE_URL}/totalCount`, undefined, token)
-		console.log('ProfileUsersServiceCore: findOne: response', response);
+		// console.log('TicketsInvoicesService: totalCountCore: response', response);
 
 		return response;
 	}
@@ -98,7 +98,7 @@ class TicketsInvoicesService {
 	async totalCountCurrent(token: string) {
 
 		const response: any = await apiClient.get(`${this.CURRENT_URL}/totalCount`, undefined, token)
-		console.log('ProfileUsersServiceCore: findOne: response', response);
+		// console.log('TicketsInvoicesService: totalCountCurrent: response', response);
 
 		return response;
 	}
@@ -107,7 +107,7 @@ class TicketsInvoicesService {
 	async statsByDaysCore(token: string) {
 
 		const response: any = await apiClient.get(`${this.CORE_URL}/statsByDays`, undefined, token)
-		console.log('ProfileUsersServiceCore: findOne: response', response);
+		// console.log('TicketsInvoicesService: statsByDaysCore: response', response);
 
 		return response;
 	}
@@ -116,7 +116,7 @@ class TicketsInvoicesService {
 	async statsByDaysCurrent(token: string) {
 
 		const response: any = await apiClient.get(`${this.CURRENT_URL}/statsByDays`, undefined, token)
-		console.log('ProfileUsersServiceCore: findOne: response', response);
+		// console.log('TicketsInvoicesService: statsByDaysCurrent: response', response);
 
 		return response;
 	}
