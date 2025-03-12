@@ -1,15 +1,16 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
-import Image from 'next/image';
 import { lusitana } from '@/components/fonts';
 import Search from '@/components/search';
-
 import { partsCategoriesService } from '@/services/parts.categories.service';
 import { UpdateButton, DeleteButton } from '@/components/buttons';
+
 
 
 export default function CategoriesTable({
@@ -20,19 +21,24 @@ export default function CategoriesTable({
   currentPage: number;
 }) {
 
+  //
   const { data: session, status }: any = useSession();
   const token = session?.user?.jwt
 
+  //
+  const locale = useLocale();
+  const t = useTranslations('PartsCategories');
+
+  //
   const [data, setData]: any = useState(null)
   const [isLoading, setLoading] = useState(true)
 
-
+  //
   let searchParams = `page=${currentPage}`
   if (query) {
     searchParams = `page=${currentPage}&s=${query}`
   }
-
-  console.log('CategoriesTable: searchParams:', searchParams)
+  // console.log('CategoriesTable: searchParams:', searchParams)
 
 
   useEffect(() => {
@@ -42,15 +48,16 @@ export default function CategoriesTable({
         setLoading(false)
       })
   }, [])
-
-
   // console.log('data', data)
 
-  if (isLoading) return <p>Loading...</p>
-  if (!data) return <p>No categories data</p>
+
+  if (isLoading) return <p>{t('loading')}</p>
+  if (!data) return <p>{t('noData')}</p>
+
 
   const categories: any = data
   // console.log('categories', categories)
+
 
 
   return (
@@ -82,9 +89,9 @@ export default function CategoriesTable({
                     <div className="pt-4 text-sm">
                       <p>
                         {category.active ? (
-                          <span className="text-green-500">Active</span>
+                          <span className="text-green-500">{t('fields.active')}</span>
                         ) : (
-                          <span className="text-red-500">Inactive</span>
+                          <span className="text-red-500">{t('fields.inactive')}</span>
                         )}
                       </p>
                     </div>
@@ -105,22 +112,22 @@ export default function CategoriesTable({
                 <thead className="rounded-md bg-gray-50 text-left text-sm font-normal">
                   <tr>
                     <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                      Name
+                      {t('fields.name')}
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      Description
+                      {t('fields.description')}
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
-                      Active
+                      {t('fields.active')}
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
-                      Created At
+                      {t('fields.createdAt')}
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
-                      Updated At
+                      {t('fields.updatedAt')}
                     </th>
                     {/* <th scope="col" className="px-4 py-5 font-medium">
-                      Actions
+                      {t('fields.actions')}
                     </th> */}
                   </tr>
                 </thead>
@@ -138,9 +145,9 @@ export default function CategoriesTable({
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
                         {category.active ? (
-                          <span className="text-green-500">Active</span>
+                          <span className="text-green-500">{t('fields.active')}</span>
                         ) : (
-                          <span className="text-red-500">Inactive</span>
+                          <span className="text-red-500">{t('fields.inactive')}</span>
                         )}
                       </td>
                       <td className="whitespace-nowrap bg-white px-3 py-3">

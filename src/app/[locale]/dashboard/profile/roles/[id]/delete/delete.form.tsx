@@ -1,6 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import { useState, useEffect, useActionState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { redirect } from 'next/navigation';
+
 import {
   CheckIcon,
   ClockIcon,
@@ -8,14 +13,9 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 
-import { useActionState } from 'react';
-
 import { Button } from '@/components/buttons';
 import { profileRolesService } from '@/services/profile.roles.service';
 
-import { useSession } from 'next-auth/react';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 
 
 
@@ -29,6 +29,11 @@ export default function DeleteForm({
   //
   const { data: session, status }: any = useSession();
   const token = session?.user?.jwt
+
+  //
+  const locale = useLocale();
+  const t = useTranslations('ProfileRoles');
+
 
   //
   type IState = {
@@ -65,7 +70,7 @@ export default function DeleteForm({
         {/* Name */}
         <div className="mb-4">
           <label htmlFor="name" className="mb-2 block text-sm font-medium">
-            Name
+            {t('fields.name')}
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -95,7 +100,7 @@ export default function DeleteForm({
         {/* Description */}
         <div className="mb-4">
           <label htmlFor="description" className="mb-2 block text-sm font-medium">
-            Description
+            {t('fields.description')}
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -135,7 +140,7 @@ export default function DeleteForm({
                 disabled
               />
               <label htmlFor="administrator" className="ml-2 text-sm text-gray-900">
-                This is Administrator
+                {t('fields.administrator')}
               </label>
             </div>
             <div id="role-error" aria-live="polite" aria-atomic="true">
@@ -163,7 +168,7 @@ export default function DeleteForm({
                 disabled
               />
               <label htmlFor="moderator" className="ml-2 text-sm text-gray-900">
-                This is Moderator
+                {t('fields.moderator')}
               </label>
             </div>
             <div id="role-error" aria-live="polite" aria-atomic="true">
@@ -191,7 +196,7 @@ export default function DeleteForm({
                 disabled
               />
               <label htmlFor="active" className="ml-2 text-sm text-gray-900">
-                Role is Active
+                {t('fields.active')}
               </label>
             </div>
             <div id="role-error" aria-live="polite" aria-atomic="true">
@@ -221,9 +226,9 @@ export default function DeleteForm({
           href="/dashboard/profile/roles"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
-          Cancel
+          {t('actions.cancel')}
         </Link>
-        <Button type="submit">Delete Role</Button>
+        <Button type="submit">{t('actions.delete')}</Button>
       </div>
 
     </form>

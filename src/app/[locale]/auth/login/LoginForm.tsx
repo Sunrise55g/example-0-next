@@ -12,7 +12,6 @@ import { ArrowRightIcon } from '@heroicons/react/20/solid';
 
 import { Button } from '@/components/buttons';
 import { lusitana } from '@/components/fonts';
-
 import { login } from '@/services/auth.service';
 
 
@@ -81,7 +80,7 @@ export default function LoginForm() {
         </div>
         <input type="hidden" name="redirectTo" value={callbackUrl} />
         <Button className="mt-4 w-full" aria-disabled={isPending}>
-          {t('buttons.login')}
+          {t('actions.login')}
           <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
         </Button>
         <div

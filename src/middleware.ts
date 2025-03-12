@@ -10,17 +10,7 @@ import { routing } from './i18n/routing';
 const publicRoutes = ['/_next', '/api/auth'];
 const noLoginRoutes = ['/', '/auth/login', '/auth/registration'];
 
-
 //
-// const locales = ['en', 'ru'];
-// const defaultLocale = 'en';
-
-// const intlMiddleware = createIntlMiddleware({
-//   locales,
-//   defaultLocale,
-//   localePrefix: 'always',
-// });
-
 const locales = routing.locales;
 const defaultLocale = routing.defaultLocale;
 const intlMiddleware = createMiddleware(routing);

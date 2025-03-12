@@ -183,7 +183,7 @@ export default function RegistrationForm() {
         </div>
         <input type="hidden" name="redirectTo" value={callbackUrl} />
         <Button className="mt-4 w-full" aria-disabled={isPending}>
-          {t('buttons.registration')}
+          {t('actions.registration')}
           <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
         </Button>
         <div

@@ -1,19 +1,20 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
-import Image from 'next/image';
 import { lusitana } from '@/components/fonts';
 import Search from '@/components/search';
 import {
   UsersTableType,
   FormattedUsersTable,
 } from '@/types/definitions';
-
 import { profileUsersService } from '@/services/profile.users.service';
 import { UpdateButton, DeleteButton } from '@/components/buttons';
+
 
 
 export default function UsersTable({
@@ -24,19 +25,23 @@ export default function UsersTable({
   currentPage: number;
 }) {
 
+  //
   const { data: session, status }: any = useSession();
-  console.log('session:', session)
   const token = session?.user?.jwt
 
+  //
+  const locale = useLocale();
+  const t = useTranslations('ProfileUsers');
+
+  //
   const [data, setData]: any = useState(null)
   const [isLoading, setLoading] = useState(true)
 
-
+  //
   let searchParams = `page=${currentPage}`
   if (query) {
     searchParams = `page=${currentPage}&s=${query}`
   }
-
   // console.log('UsersTable: searchParams:', searchParams)
 
 
@@ -47,12 +52,12 @@ export default function UsersTable({
         setLoading(false)
       })
   }, [])
-
-
   // console.log('data', data)
 
-  if (isLoading) return <p>Loading...</p>
-  if (!data) return <p>No profile data</p>
+
+  if (isLoading) return <p>{t('loading')}</p>
+  if (!data) return <p>{t('noData')}</p>
+
 
   const users: any = data
   // console.log('users', users)
@@ -91,6 +96,7 @@ export default function UsersTable({
                         </p>
                       </div>
                     </div>
+
                     {/* <div className="flex w-full items-center justify-between border-b py-5">
                       <div className="flex w-1/2 flex-col">
                         <p className="text-xs">Pending</p>
@@ -105,14 +111,12 @@ export default function UsersTable({
                       <p>{user.total_invoices} invoices</p>
                     </div> */}
 
-
                     <div className="flex w-full items-center justify-between pt-4">
                       <div className="flex justify-end gap-2">
                         <UpdateButton href={`/dashboard/profile/users/${user.id}/edit`} />
                         <DeleteButton href={`/dashboard/profile/users/${user.id}/delete`} />
                       </div>
                     </div>
-
 
                   </div>
                 ))}
@@ -121,25 +125,25 @@ export default function UsersTable({
                 <thead className="rounded-md bg-gray-50 text-left text-sm font-normal">
                   <tr>
                     <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                      Name
+                      {t('fields.username')}
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      Email
+                      {t('fields.email')}
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      First name
+                      {t('fields.firstName')}
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      Last Name
+                      {t('fields.lastName')}
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
-                      Administrator
+                      {t('fields.administrator')}
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
-                      Moderator
+                      {t('fields.moderator')}
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
-                      Active
+                      {t('fields.active')}
                     </th>
                   </tr>
                 </thead>
@@ -186,9 +190,9 @@ export default function UsersTable({
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
                         {user.active ? (
-                          <span className="text-green-500">Active</span>
+                          <span className="text-green-500">{t('fields.active')}</span>
                         ) : (
-                          <span className="text-red-500">Inactive</span>
+                          <span className="text-red-500">{t('fields.inactive')}</span>
                         )}
                       </td>
                       <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">

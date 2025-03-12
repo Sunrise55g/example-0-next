@@ -1,10 +1,9 @@
 import { Metadata } from 'next';
+import { auth } from '@/auth';
+import { getTranslations } from 'next-intl/server';
 
 import Form from './create.form';
 import Breadcrumbs from '@/components/breadcrumbs';
-
-import { profileRolesService } from '@/services/profile.roles.service';
-import { auth } from '@/auth';
 
 
 
@@ -14,28 +13,34 @@ export const metadata: Metadata = {
 
 
 
-export default async function Page() {
+export default async function Page(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
 
-  const session:any = await auth();
+  //
+  const session: any = await auth();
   const token = session?.user?.jwt
 
-  const rolesObj:any = await profileRolesService.findMany(token)
-  const roles = rolesObj.data
+  //
+  const { locale } = await props.params;
+  const t = await getTranslations({ locale, namespace: 'ProfileRoles' });
 
-  
+
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Roles', href: '/dashboard/profile/roles' },
+          { label: t('title'), href: '/dashboard/profile/roles' },
           {
-            label: 'Create Role',
+            label: t('actions.createTitle'),
             href: '/dashboard/profile/roles/create',
-            active: true,
-          },
+            active: true
+          }
         ]}
       />
-      <Form roles={roles} />
+      <Form />
     </main>
   );
 }

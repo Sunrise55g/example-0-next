@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
 
 import Logo from '@/components/logo';
 import RegistrationForm from '@/app/[locale]/auth/registration/RegistrationForm';
@@ -11,7 +12,17 @@ export const metadata: Metadata = {
 };
 
 
-export default function RegistrationPage() {
+export default async function RegistrationPage(
+	props: {
+		params: Promise<{ locale: string }>;
+	}
+) {
+
+	//
+  const { locale } = await props.params;
+  const t = await getTranslations({ locale, namespace: 'Dashboard' });
+
+
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-center p-4">
 			<div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5">

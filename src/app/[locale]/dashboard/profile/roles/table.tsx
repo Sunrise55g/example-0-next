@@ -1,15 +1,16 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
-import Image from 'next/image';
 import { lusitana } from '@/components/fonts';
 import Search from '@/components/search';
-
 import { profileRolesService } from '@/services/profile.roles.service';
 import { UpdateButton, DeleteButton } from '@/components/buttons';
+
 
 
 export default function RolesTable({
@@ -20,18 +21,23 @@ export default function RolesTable({
   currentPage: number;
 }) {
 
+  //
   const { data: session, status }: any = useSession();
   const token = session?.user?.jwt
 
+  //
+  const locale = useLocale();
+  const t = useTranslations('ProfileRoles');
+
+  //
   const [data, setData]: any = useState(null)
   const [isLoading, setLoading] = useState(true)
 
-
+  //
   let searchParams = `page=${currentPage}`
   if (query) {
     searchParams = `page=${currentPage}&s=${query}`
   }
-
   // console.log('RolesTable: searchParams:', searchParams)
 
 
@@ -42,15 +48,16 @@ export default function RolesTable({
         setLoading(false)
       })
   }, [])
-
-
   // console.log('data', data)
 
-  if (isLoading) return <p>Loading...</p>
-  if (!data) return <p>No roles data</p>
+
+  if (isLoading) return <p>{t('loading')}</p>
+  if (!data) return <p>{t('noData')}</p>
+
 
   const roles: any = data
   // console.log('roles', roles)
+
 
 
   return (
@@ -78,10 +85,9 @@ export default function RolesTable({
                       </div>
                     </div>
 
-
                     <div className="flex w-full items-center justify-between border-b py-5">
                       <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">Administrator</p>
+                        <p className="text-xs">{t('fields.administrator')}</p>
                         <p className="font-medium">
                           {role.administrator ? (
                             <CheckIcon className="h-5 w-5 text-green-500" />
@@ -90,8 +96,9 @@ export default function RolesTable({
                           )}
                         </p>
                       </div>
+
                       <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">Moderator</p>
+                        <p className="text-xs">{t('fields.moderator')}</p>
                         <p className="font-medium">
                           {role.moderator ? (
                             <CheckIcon className="h-5 w-5 text-green-500" />
@@ -101,16 +108,16 @@ export default function RolesTable({
                         </p>
                       </div>
                     </div>
+
                     <div className="pt-4 text-sm">
                       <p>
                         {role.active ? (
-                          <span className="text-green-500">Active</span>
+                          <span className="text-green-500">{t('fields.active')}</span>
                         ) : (
-                          <span className="text-red-500">Inactive</span>
+                          <span className="text-red-500">{t('fields.inactive')}</span>
                         )}
                       </p>
                     </div>
-
 
                     <div className="flex w-full items-center justify-between pt-4">
                       <div className="flex justify-end gap-2">
@@ -119,7 +126,6 @@ export default function RolesTable({
                       </div>
                     </div>
 
-
                   </div>
                 ))}
               </div>
@@ -127,28 +133,28 @@ export default function RolesTable({
                 <thead className="rounded-md bg-gray-50 text-left text-sm font-normal">
                   <tr>
                     <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                      Name
+                      {t('fields.name')}
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      Description
+                      {t('fields.description')}
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      Administrator
+                      {t('fields.administrator')}
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      Moderator
+                      {t('fields.moderator')}
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
-                      Active
+                      {t('fields.active')}
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
-                      Created At
+                      {t('fields.createdAt')}
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
-                      Updated At
+                      {t('fields.updatedAt')}
                     </th>
                     {/* <th scope="col" className="px-4 py-5 font-medium">
-                      Actions
+                      {t('fields.actions')}
                     </th> */}
                   </tr>
                 </thead>
@@ -180,9 +186,9 @@ export default function RolesTable({
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
                         {role.active ? (
-                          <span className="text-green-500">Active</span>
+                          <span className="text-green-500">{t('fields.active')}</span>
                         ) : (
-                          <span className="text-red-500">Inactive</span>
+                          <span className="text-red-500">{t('fields.inactive')}</span>
                         )}
                       </td>
                       <td className="whitespace-nowrap bg-white px-3 py-3">

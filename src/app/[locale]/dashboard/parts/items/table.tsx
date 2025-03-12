@@ -1,19 +1,20 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
-import Image from 'next/image';
 import { lusitana } from '@/components/fonts';
 import Search from '@/components/search';
 import {
   UsersTableType,
   FormattedUsersTable,
 } from '@/types/definitions';
-
 import { partsItemsService } from '@/services/parts.items.service';
 import { UpdateButton, DeleteButton } from '@/components/buttons';
+
 
 
 export default function ItemsTable({
@@ -24,19 +25,24 @@ export default function ItemsTable({
   currentPage: number;
 }) {
 
+  //
   const { data: session, status }: any = useSession();
-  // console.log('session:', session)
   const token = session?.user?.jwt
 
+  //
+  const locale = useLocale();
+  const t = useTranslations('PartsItems');
+
+  //
   const [data, setData]: any = useState(null)
   const [isLoading, setLoading] = useState(true)
 
 
+  //
   let searchParams = `page=${currentPage}`
   if (query) {
     searchParams = `page=${currentPage}&s=${query}`
   }
-
   // console.log('UsersTable: searchParams:', searchParams)
 
 
@@ -49,13 +55,13 @@ export default function ItemsTable({
   }, [])
 
 
-  // console.log('data', data)
+  if (isLoading) return <p>{t('loading')}</p>
+  if (!data) return <p>{t('noData')}</p>
 
-  if (isLoading) return <p>Loading...</p>
-  if (!data) return <p>No profile data</p>
 
   const items: any = data
   // console.log('items', items)
+
 
 
   return (
@@ -99,20 +105,23 @@ export default function ItemsTable({
                 <thead className="rounded-md bg-gray-50 text-left text-sm font-normal">
                   <tr>
                     <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                      Name
+                      {t('fields.name')}
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      Description
+                      {t('fields.description')}
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      Category Id
+                      {t('fields.categoryId')}
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      Category Name
+                      {t('fields.category')}
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
-                      Active
+                      {t('fields.active')}
                     </th>
+                    {/* <th scope="col" className="px-4 py-5 font-medium">
+                      {t('fields.actions')}
+                    </th> */}
                   </tr>
                 </thead>
 
@@ -135,9 +144,9 @@ export default function ItemsTable({
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
                         {item.active ? (
-                          <span className="text-green-500">Active</span>
+                          <span className="text-green-500">{t('fields.active')}</span>
                         ) : (
-                          <span className="text-red-500">Inactive</span>
+                          <span className="text-red-500">{t('fields.inactive')}</span>
                         )}
                       </td>
                       <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">

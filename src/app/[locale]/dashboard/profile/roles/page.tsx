@@ -1,13 +1,14 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
+import { getTranslations } from 'next-intl/server';
 
 import { lusitana } from '@/components/fonts';
 import Pagination from '@/components/pagination';
 import { CreateButton } from '@/components/buttons';
 import Search from '@/components/search';
 import Table from '@/app/[locale]/dashboard/profile/roles/table';
-import { RolesTableSkeleton } from './skeletons';
+import { TableSkeleton } from './skeletons';
 
 import { profileRolesService } from '@/services/profile.roles.service';
 
@@ -21,6 +22,7 @@ export const metadata: Metadata = {
 
 export default async function Page(
   props: {
+    params: Promise<{ locale: string }>;
     searchParams?: Promise<{
       query?: string;
       page?: string;
@@ -28,18 +30,21 @@ export default async function Page(
   }
 ) {
 
-  const session:any = await auth();
+  //
+  const session: any = await auth();
   const token = session?.user?.jwt
-  // console.log('token:', token)
 
+  //
+  const { locale } = await props.params;
+  const t = await getTranslations({ locale, namespace: 'ProfileRoles' });
 
+  //
   const searchParams = await props.searchParams;
   const query = searchParams?.query || '';
-
   // console.log('Page: searchParams:', searchParams);
 
-  const rolesObj:any = await profileRolesService.findMany(searchParams, token);
 
+  const rolesObj: any = await profileRolesService.findMany(searchParams, token);
   const totalPages = rolesObj.pageCount
   const currentPage = rolesObj.page
 
@@ -48,13 +53,13 @@ export default async function Page(
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
-        <h1 className={`${lusitana.className} text-2xl`}>Roles</h1>
+        <h1 className={`${lusitana.className} text-2xl`}>{t('title')}</h1>
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Search roles..." />
+        <Search placeholder={t('search')} />
         <CreateButton href="/dashboard/profile/roles/create" />
       </div>
-      <Suspense key={query + currentPage} fallback={<RolesTableSkeleton />}>
+      <Suspense key={query + currentPage} fallback={<TableSkeleton />}>
         <Table query={query} currentPage={currentPage} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">

@@ -1,43 +1,13 @@
 {
-  "Error": {
-    "description": "<p>We've unfortunately encountered an error.</p><p>You can try to <retry>reload the page</retry> you were visiting.</p>",
-    "title": "Something went wrong!"
-  },
-  "IndexPage": {
-    "description": "This is a basic example that demonstrates the usage of <code>next-intl</code> with the Next.js App Router. Try changing the locale in the top right corner and see how the content changes.",
-    "title": "next-intl example"
-  },
-  "LocaleLayout": {
-    "title": "next-intl example"
-  },
-  "Manifest": {
-    "name": "next-intl example"
-  },
-  "Navigation": {
-    "home": "Home",
-    "pathnames": "Pathnames"
-  },
-  "NotFoundPage": {
-    "description": "Please double-check the browser address bar or use the navigation to go to a known page.",
-    "title": "Page not found"
-  },
-  "PageLayout": {
-    "links": {
-      "docs": {
-        "description": "Learn more about next-intl in the official docs.",
-        "href": "https://next-intl.dev",
-        "title": "Docs"
-      },
-      "source": {
-        "description": "Browse the source code of this example on GitHub.",
-        "href": "https://github.com/amannn/next-intl/tree/main/examples/example-app-router",
-        "title": "Source code"
-      }
+  "Errors": {
+    "notFound": {
+      "description": "Please double-check the browser address bar or use the navigation to go to a known page.",
+      "title": "Page not found!"
+    },
+    "error": {
+      "description": "We've unfortunately encountered an error.</p><>You can try to <retry>reload the page</retry> you were visiting.",
+      "title": "Something went wrong!"
     }
-  },
-  "PathnamesPage": {
-    "description": "<p>The pathnames are internationalized too.</p><p>If you're using the default language English, you'll see <code>/en/pathnames</code> in the browser address bar on this page.</p><p>If you change the locale to German, the URL is localized accordingly (<code>/de/pfadnamen</code>).</p>",
-    "title": "Pathnames"
   },
   "LocaleSwitcher": {
     "label": "Change language",
@@ -47,10 +17,12 @@
     "title": "First Page",
     "description": "First Page Description",
     "descriptionAdd": "Additional First Page Description",
-    "buttons": {
+    "actions": {
       "login": "Log In",
       "registration": "Registration"
-    }
+    },
+    "loading": "Loading...",
+    "noData": "No data..."
   },
   "AuthLogin": {
     "title": "Login",
@@ -63,10 +35,12 @@
       "usernameOrEmail": "Enter your username or email",
       "password": "Enter your password"
     },
-    "buttons": {
+    "actions": {
       "login": "Log In"
     },
-    "errors": {}
+    "errors": {},
+    "loading": "Loading...",
+    "noData": "No data..."
   },
   "AuthRegistration": {
     "title": "Registration",
@@ -89,10 +63,12 @@
       "firstName": "Enter your First Name",
       "lastName": "Enter your Last Name"
     },
-    "buttons": {
+    "actions": {
       "registration": "Registration"
     },
-    "errors": {}
+    "errors": {},
+    "loading": "Loading...",
+    "noData": "No data..."
   },
   "SideNav": {
     "items": {
@@ -104,9 +80,11 @@
       "ticketsCategories": "Tickets Categories",
       "ticketsInvoices": "Tickets Invoices"
     },
-    "buttons": {
+    "actions": {
       "logout": "Log Out"
-    }
+    },
+    "loading": "Loading...",
+    "noData": "No data..."
   },
   "Dashboard": {
     "title": "Dashboard",
@@ -119,76 +97,288 @@
       "latestInvoices": "Latest Invoices",
       "lastDays": "Last days",
       "updatedJustNow": "Updated just now"
-    }
+    },
+    "loading": "Loading...",
+    "noData": "No data..."
   },
   "ProfileRoles": {
+    "title": "Profile Roles",
+    "description": "Profile Roles Description",
+    "search": "Search profile roles...",
     "fields": {
       "name": "Name",
       "description": "Description",
       "administrator": "Administrator",
       "moderator": "Moderator",
       "active": "Active",
+      "inactive": "Inactive",
       "createdAt": "Created At",
-      "updatedAt": "Updated At"
-    }
+      "updatedAt": "Updated At",
+      "actions": "Actions"
+    },
+    "alts": {
+      "name": "Enter name...",
+      "description": "Enter description..."
+    },
+    "actions": {
+      "create": "Create Role",
+      "createTitle": "Create Role",
+      "update": "Update Role",
+      "updateTitle": "Edit Role",
+      "delete": "Delete Role",
+      "deleteTitle": "Delete Role",
+      "cancel": "Cancel",
+      "back": "Go back",
+      "tryAgain": "Try again"
+    },
+    "errors": {
+      "notFound": {
+        "title": "404 Role not found!",
+        "description": "Could not find the requested role."
+      },
+      "error": {
+        "title": "500 Something went wrong!",
+        "description": "We've unfortunately encountered an error."
+      }
+    },
+    "loading": "Loading...",
+    "noData": "No data..."
   },
   "ProfileUsers": {
+    "title": "Profile Users",
+    "description": "Profile Users Description",
+    "search": "Search profile users...",
     "fields": {
       "username": "Username",
       "email": "Email",
       "phone": "Phone",
       "password": "Password",
+      "passwordRepeat": "Repeat Password",
       "firstName": "First Name",
       "lastName": "Last Name",
       "administrator": "Administrator",
       "moderator": "Moderator",
       "active": "Active",
+      "inactive": "Inactive",
       "createdAt": "Created At",
-      "updatedAt": "Updated At"
-    }
+      "updatedAt": "Updated At",
+      "actions": "Actions"
+    },
+    "alts": {
+      "chooseRole": "Choose role",
+      "selectRole": "Select a role",
+      "username": "Enter username...",
+      "password": "Enter password...",
+      "passwordRepeat": "Repeat password...",
+      "email": "Enter email...",
+      "phone": "Enter phone...",
+      "firstName": "Enter First Name...",
+      "lastName": "Enter Last Name..."
+    },
+    "actions": {
+      "create": "Create User",
+      "createTitle": "Create User",
+      "update": "Update User",
+      "updateTitle": "Edit User",
+      "delete": "Delete User",
+      "deleteTitle": "Delete User",
+      "cancel": "Cancel",
+      "back": "Go back",
+      "tryAgain": "Try again"
+    },
+    "errors": {
+      "notFound": {
+        "title": "404 User not found!",
+        "description": "Could not find the requested user."
+      },
+      "error": {
+        "title": "500 Something went wrong!",
+        "description": "We've unfortunately encountered an error."
+      }
+    },
+    "loading": "Loading...",
+    "noData": "No data..."
   },
-  "PartsCategoriess": {
+  "PartsCategories": {
+    "title": "Parts Categories",
+    "description": "Parts Categories Description",
+    "search": "Search parts categories...",
     "fields": {
       "name": "Name",
       "description": "Description",
       "active": "Active",
+      "inactive": "Inactive",
       "createdAt": "Created At",
-      "updatedAt": "Updated At"
-    }
+      "updatedAt": "Updated At",
+      "actions": "Actions"
+    },
+    "alts": {
+      "name": "Enter name...",
+      "description": "Enter description..."
+    },
+    "actions": {
+      "create": "Create Category",
+      "createTitle": "Create Category",
+      "update": "Update Category",
+      "updateTitle": "Edit Category",
+      "delete": "Delete Category",
+      "deleteTitle": "Delete Category",
+      "cancel": "Cancel",
+      "back": "Go back",
+      "tryAgain": "Try again"
+    },
+    "errors": {
+      "notFound": {
+        "title": "404 Category not found!",
+        "description": "Could not find the requested category."
+      },
+      "error": {
+        "title": "500 Something went wrong!",
+        "description": "We've unfortunately encountered an error."
+      }
+    },
+    "loading": "Loading...",
+    "noData": "No data..."
   },
   "PartsItems": {
+    "title": "Parts Items",
+    "description": "Parts Items Description",
+    "search": "Search parts items...",
     "fields": {
       "name": "Name",
       "description": "Description",
       "categoryId": "Category Id",
       "categoryName": "Category Name",
-      "active": "Active"
-    }
+      "category": "Category",
+      "active": "Active",
+      "inactive": "Inactive",
+      "actions": "Actions"
+    },
+    "alts": {
+      "name": "Enter name...",
+      "description": "Enter description..."
+    },
+    "actions": {
+      "create": "Create Item",
+      "createTitle": "Create Item",
+      "update": "Update Item",
+      "updateTitle": "Edit Item",
+      "delete": "Delete Item",
+      "deleteTitle": "Delete Item",
+      "cancel": "Cancel",
+      "back": "Go back",
+      "tryAgain": "Try again"
+    },
+    "errors": {
+      "notFound": {
+        "title": "404 Item not found!",
+        "description": "Could not find the requested item."
+      },
+      "error": {
+        "title": "500 Something went wrong!",
+        "description": "We've unfortunately encountered an error."
+      }
+    },
+    "loading": "Loading...",
+    "noData": "No data..."
   },
   "TicketsCategories": {
+    "title": "Tickets Categories",
+    "description": "Tickets Categories Description",
+    "search": "Search tickets categories...",
     "fields": {
       "name": "Name",
       "description": "Description",
       "active": "Active",
+      "inactive": "Inactive",
       "createdAt": "Created At",
-      "updatedAt": "Updated At"
-    }
+      "updatedAt": "Updated At",
+      "actions": "Actions"
+    },
+    "alts": {
+      "name": "Enter name...",
+      "description": "Enter description..."
+    },
+    "actions": {
+      "create": "Create Category",
+      "createTitle": "Create Category",
+      "update": "Update Category",
+      "updateTitle": "Edit Category",
+      "delete": "Delete Category",
+      "deleteTitle": "Delete Category",
+      "cancel": "Cancel",
+      "back": "Go back",
+      "tryAgain": "Try again"
+    },
+    "errors": {
+      "notFound": {
+        "title": "404 Category not found!",
+        "description": "Could not find the requested category."
+      },
+      "error": {
+        "title": "500 Something went wrong!",
+        "description": "We've unfortunately encountered an error."
+      }
+    },
+    "loading": "Loading...",
+    "noData": "No data..."
   },
   "TicketsInvoices": {
+    "title": "Tickets Invoices",
+    "description": "Tickets Invoices Description",
+    "search": "Search tickets invoices...",
     "fields": {
       "name": "Name",
       "description": "Description",
       "status": "Status",
+      "statusChoices": {
+        "open": "Open",
+        "closed": "Closed",
+        "canceled": "Canceled"
+      },
       "createdAt": "Created At",
       "updatedAt": "Updated At",
       "customerId": "Customer Id",
       "customer": "Customer",
       "employerId": "Employer Id",
       "employer": "Employer",
+      "categoryId": "Category Id",
+      "category": "Category",
       "partId": "Part Id",
       "part": "Part",
       "partCategoryId": "Part Category Id",
-      "partCategory": "Part Category"
-    }
+      "partCategory": "Part Category",
+      "actions": "Actions",
+      "items": "Items"
+    },
+    "alts": {
+      "name": "Enter name...",
+      "description": "Enter description..."
+    },
+    "actions": {
+      "create": "Create Invoice",
+      "createTitle": "Create Invoice",
+      "update": "Update Invoice",
+      "updateTitle": "Edit Invoice",
+      "delete": "Delete Invoice",
+      "deleteTitle": "Delete Invoice",
+      "cancel": "Cancel",
+      "back": "Go back",
+      "tryAgain": "Try again"
+    },
+    "errors": {
+      "notFound": {
+        "title": "404 Invoice not found!",
+        "description": "Could not find the requested invoice."
+      },
+      "error": {
+        "title": "500 Something went wrong!",
+        "description": "We've unfortunately encountered an error."
+      }
+    },
+    "loading": "Loading...",
+    "noData": "No data...",
+    "noCustomer": "Customer is not set",
+    "noEmployer": "Employer is not set"
   }
 }

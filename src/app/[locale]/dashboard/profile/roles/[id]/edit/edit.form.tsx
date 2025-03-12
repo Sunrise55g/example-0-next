@@ -1,6 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import { useState, useEffect, useActionState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { redirect } from 'next/navigation';
+
 import {
   CheckIcon,
   ClockIcon,
@@ -8,13 +13,10 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 
-import { useActionState } from 'react';
-
 import { Button } from '@/components/buttons';
 import { profileRolesService } from '@/services/profile.roles.service';
 
-import { useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation';
+
 
 
 
@@ -27,6 +29,11 @@ export default function EditForm({
   //
   const { data: session, status }: any = useSession();
   const token = session?.user?.jwt
+
+  //
+  const locale = useLocale();
+  const t = useTranslations('ProfileRoles');
+
 
   //
   type IState = {
@@ -71,7 +78,7 @@ export default function EditForm({
         {/* Name */}
         <div className="mb-4">
           <label htmlFor="name" className="mb-2 block text-sm font-medium">
-            Name
+            {t('fields.name')}
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -79,7 +86,7 @@ export default function EditForm({
                 id="name"
                 name="name"
                 type="string"
-                placeholder="Enter name"
+                placeholder={t('alts.name')}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 defaultValue={role.name}
               />
@@ -100,7 +107,7 @@ export default function EditForm({
         {/* Description */}
         <div className="mb-4">
           <label htmlFor="description" className="mb-2 block text-sm font-medium">
-            Description
+            {t('fields.description')}
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -108,7 +115,7 @@ export default function EditForm({
                 id="description"
                 name="description"
                 type="string"
-                placeholder="Enter Description"
+                placeholder={t('alts.description')}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 defaultValue={role.description}
               />
@@ -138,7 +145,7 @@ export default function EditForm({
                 defaultChecked={role.administrator}
               />
               <label htmlFor="administrator" className="ml-2 text-sm text-gray-900">
-                This is Administrator
+                {t('fields.administrator')}
               </label>
             </div>
             <div id="role-error" aria-live="polite" aria-atomic="true">
@@ -165,7 +172,7 @@ export default function EditForm({
                 defaultChecked={role.moderator}
               />
               <label htmlFor="moderator" className="ml-2 text-sm text-gray-900">
-                This is Moderator
+                {t('fields.moderator')}
               </label>
             </div>
             <div id="role-error" aria-live="polite" aria-atomic="true">
@@ -187,12 +194,12 @@ export default function EditForm({
               <input
                 id="active"
                 name="active"
-                type="checkbox"  // Изменено на чекбокс
+                type="checkbox"
                 className="peer h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                 defaultChecked={role.active}
               />
               <label htmlFor="active" className="ml-2 text-sm text-gray-900">
-                Role is Active
+                {t('fields.active')}
               </label>
             </div>
             <div id="role-error" aria-live="polite" aria-atomic="true">
@@ -222,9 +229,9 @@ export default function EditForm({
           href="/dashboard/profile/roles"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
-          Cancel
+          {t('actions.cancel')}
         </Link>
-        <Button type="submit">Update Role</Button>
+        <Button type="submit">{t('actions.update')}</Button>
       </div>
 
     </form>

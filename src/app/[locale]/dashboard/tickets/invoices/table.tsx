@@ -1,10 +1,11 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { CheckIcon, XMarkIcon, ClockIcon, TrashIcon } from '@heroicons/react/24/solid';
 
-import Image from 'next/image';
 import { lusitana } from '@/components/fonts';
 import Search from '@/components/search';
 import {
@@ -16,6 +17,7 @@ import { ticketsInvoicesService } from '@/services/tickets.invoices.service';
 import { UpdateButton, DeleteButton } from '@/components/buttons';
 
 
+
 export default function ItemsTable({
   query,
   currentPage,
@@ -24,19 +26,23 @@ export default function ItemsTable({
   currentPage: number;
 }) {
 
+  //
   const { data: session, status }: any = useSession();
-  // console.log('session:', session)
   const token = session?.user?.jwt
 
+  //
+  const locale = useLocale();
+  const t = useTranslations('TicketsInvoices');
+
+  //
   const [data, setData]: any = useState(null)
   const [isLoading, setLoading] = useState(true)
 
-
+  //
   let searchParams = `page=${currentPage}`
   if (query) {
     searchParams = `page=${currentPage}&s=${query}`
   }
-
   // console.log('UsersTable: searchParams:', searchParams)
 
 
@@ -47,15 +53,16 @@ export default function ItemsTable({
         setLoading(false)
       })
   }, [])
-
-
   // console.log('data', data)
 
-  if (isLoading) return <p>Loading...</p>
-  if (!data) return <p>No profile data</p>
+
+  if (isLoading) return <p>{t('loading')}</p>
+  if (!data) return <p>{t('noData')}</p>
+
 
   const invoices: any = data
   // console.log('invoices', invoices)
+
 
 
   return (
@@ -78,7 +85,7 @@ export default function ItemsTable({
                           <div className="col-6 w-full">
                             <div className="flex items-center gap-3">
                               <p>{invoice.name}</p>
-                              <p>- Category: {invoice.ticketsCategory?.name}</p>
+                              <p>- {t('fields.category')}: {invoice.ticketsCategory?.name}</p>
                             </div>
                           </div>
                         </div>
@@ -94,18 +101,18 @@ export default function ItemsTable({
                       {invoice.partsItems.length !== 0 ?
                         (
                           <div>
-                            <p>Items:</p>
+                            <p>{t('fields.items')}:</p>
                             <table className="min-w-full rounded-md text-gray-900 border-collapse mb-4">
                               <thead className="rounded-md text-left text-sm font-normal">
                                 <tr>
                                   <th scope="col" className="px-4 py-5 font-medium sm:pl-6 border-b border-r border-gray-200">
-                                    Name
+                                    {t('fields.name')}
                                   </th>
                                   <th scope="col" className="px-3 py-5 font-medium border-b border-r border-gray-200">
-                                    Category Id
+                                    {t('fields.categoryId')}
                                   </th>
                                   <th scope="col" className="px-3 py-5 font-medium border-b border-l border-gray-200">
-                                    Category Name
+                                    {t('fields.category')}
                                   </th>
                                 </tr>
                               </thead>
@@ -131,7 +138,7 @@ export default function ItemsTable({
                           </div>
                         ) : (
                           <div>
-                            <p className='mb-4'>No items</p>
+                            <p className='mb-4'>{t('noData')}</p>
                           </div>
                         )
                       }
@@ -145,7 +152,7 @@ export default function ItemsTable({
                           <div className="flex items-center gap-3">
                             {invoice.customerUserId ? (
                               <div className="flex items-center gap-3 text-blue-500">
-                                <p>Customer:</p>
+                                <p>{t('fields.customer')}:</p>
                                 <p>{invoice.customerUser?.username}</p>
                                 <p>{invoice.customerUser?.email}</p>
                                 <p>{invoice.customerUser?.phone}</p>
@@ -154,7 +161,7 @@ export default function ItemsTable({
                               </div>
                             ) : (
                               <div className="flex items-center gap-3 text-red-500">
-                                <p>Customer is not set</p>
+                                <p>{t('noCustomer')}</p>
                               </div>
                             )}
                           </div>
@@ -162,7 +169,7 @@ export default function ItemsTable({
                         <div className="w-full flex items-center">
                           {invoice.employerUserId ? (
                             <div className="flex items-center gap-3 text-green-500">
-                              <p>Employer:</p>
+                              <p>{t('fields.employer')}:</p>
                               <p>{invoice.employerUser?.username}</p>
                               <p>{invoice.employerUser?.email}</p>
                               <p>{invoice.employerUser?.phone}</p>
@@ -171,7 +178,7 @@ export default function ItemsTable({
                             </div>
                           ) : (
                             <div className="flex items-center gap-3 text-red-500">
-                              <p>Employer is not set</p>
+                              <p>{t('noEmployer')}</p>
                             </div>
                           )}
                         </div>
@@ -180,29 +187,27 @@ export default function ItemsTable({
 
                     <div className="flex w-full items-center justify-between">
                       <div className="flex justify-end gap-2">
-
                         {invoice.status === 'OPEN' &&
                           <span className="inline-flex items-center rounded-full bg-gray-100 text-gray-500">
-                            Open
+                            {t('fields.statusChoices.open')}
                             <ClockIcon className="ml-1 w-4 text-gray-500" />
                           </span>
                         }
                         {invoice.status === 'CLOSED' &&
                           <span className="inline-flex items-center rounded-full px-2 py-1 text-xs bg-green-500 text-white">
-                            CLOSED
+                            {t('fields.statusChoices.closed')}
                             <CheckIcon className="ml-1 w-4 text-white" />
                           </span>
                         }
                         {invoice.status === 'CANCELED' &&
                           <span className="inline-flex items-center rounded-full px-2 py-1 text-xs bg-red-500 text-white">
-                            CANCELED
+                            {t('fields.statusChoices.canceled')}
                             <TrashIcon className="ml-1 w-4 text-gray-500" />
                           </span>
                         }
-
                         <div className='inline-flex gap-2 text-gray-500'>
-                          <p>Created at:  {new Date(invoice.createdAt).toLocaleString()}</p>
-                          <p>Updated at:  {new Date(invoice.updatedAt).toLocaleString()}</p>
+                          <p>{t('fields.createdAt')}:  {new Date(invoice.createdAt).toLocaleString()}</p>
+                          <p>{t('fields.updatedAt')}:  {new Date(invoice.updatedAt).toLocaleString()}</p>
                         </div>
                       </div>
 

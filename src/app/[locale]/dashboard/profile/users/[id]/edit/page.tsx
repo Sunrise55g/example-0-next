@@ -1,6 +1,7 @@
-import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
+import { getTranslations } from 'next-intl/server';
+import { notFound } from 'next/navigation';
 
 import EditForm from './edit.form';
 import Breadcrumbs from '@/components/breadcrumbs';
@@ -16,22 +17,25 @@ export const metadata: Metadata = {
 
 
 
-export default async function Page(props: { params: Promise<{ id: string }> }) {
+export default async function Page(
+	props: {
+		params: Promise<{ id: string, locale: string }>
+	}
+) {
 
 	//
 	const session: any = await auth();
 	const token = session?.user?.jwt
-	// console.log('token:', token)
+
+	//
+	const { locale, id } = await props.params;
+	const t = await getTranslations({ locale, namespace: 'ProfileUsers' });
 
 
 	const rolesObj: any = await profileRolesService.findMany(undefined, token)
 	// console.log('rolesObj:', {rolesObj})
 	const roles = rolesObj.data
 
-
-	//
-	const params = await props.params;
-	const id = params.id;
 
 	const user: any = await profileUsersService.findOne(+id, token)
 	// console.log('Page: user:', {user})
@@ -45,9 +49,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 		<main>
 			<Breadcrumbs
 				breadcrumbs={[
-					{ label: 'Users', href: '/dashboard/users' },
+					{ label: t('title'), href: '/dashboard/users' },
 					{
-						label: 'Edit User',
+						label: t('actions.updateTitle'),
 						href: `/dashboard/users/${id}/edit`,
 						active: true,
 					},

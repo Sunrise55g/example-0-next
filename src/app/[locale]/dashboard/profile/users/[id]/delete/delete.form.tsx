@@ -1,6 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import { useState, useEffect, useActionState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { redirect } from 'next/navigation';
+
 import {
   CheckIcon,
   ClockIcon,
@@ -8,15 +13,8 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 
-import { useActionState } from 'react';
-
 import { Button } from '@/components/buttons';
 import { profileUsersService } from '@/services/profile.users.service';
-
-import { useSession } from 'next-auth/react';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-import { UserField, UserForm } from '@/types/definitions';
 
 
 
@@ -32,6 +30,11 @@ export default function DeleteForm({
   //
   const { data: session, status }: any = useSession();
   const token = session?.user?.jwt
+
+  //
+  const locale = useLocale();
+  const t = useTranslations('ProfileUsers');
+
 
   //
   type IState = {
@@ -56,7 +59,6 @@ export default function DeleteForm({
       };
     }
 
-    // revalidatePath('/dashboard/profile/users');
     redirect('/dashboard/profile/users');
   }
 
@@ -69,7 +71,7 @@ export default function DeleteForm({
         {/* Roles */}
         <div className="mb-4">
           <label htmlFor="role" className="mb-2 block text-sm font-medium">
-            Choose role
+            {t('alts.chooseRole')}
           </label>
           <div className="relative">
             <select
@@ -81,7 +83,7 @@ export default function DeleteForm({
               disabled
             >
               <option value="" disabled>
-                Select a role
+                {t('alts.selectRole')}
               </option>
               {roles.map((role: any) => (
                 <option key={role.id} value={role.id}>
@@ -105,7 +107,7 @@ export default function DeleteForm({
         {/* User name */}
         <div className="mb-4">
           <label htmlFor="username" className="mb-2 block text-sm font-medium">
-            Choose an username
+            {t('fields.username')}
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -113,7 +115,7 @@ export default function DeleteForm({
                 id="username"
                 name="username"
                 type="string"
-                placeholder="Enter username"
+                placeholder={t('alts.username')}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 defaultValue={user?.username}
                 disabled
@@ -135,7 +137,7 @@ export default function DeleteForm({
         {/* User email */}
         <div className="mb-4">
           <label htmlFor="email" className="mb-2 block text-sm font-medium">
-            Choose an email
+            {t('fields.email')}
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -143,7 +145,7 @@ export default function DeleteForm({
                 id="email"
                 name="email"
                 type="string"
-                placeholder="Enter User email"
+                placeholder={t('alts.email')}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 defaultValue={user?.email}
                 disabled
@@ -164,8 +166,8 @@ export default function DeleteForm({
 
         {/* User phone */}
         <div className="mb-4">
-          <label htmlFor="email" className="mb-2 block text-sm font-medium">
-            Choose an phone
+          <label htmlFor="phone" className="mb-2 block text-sm font-medium">
+            {t('fields.phone')}
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -173,7 +175,7 @@ export default function DeleteForm({
                 id="phone"
                 name="phone"
                 type="string"
-                placeholder="Enter User email"
+                placeholder={t('alts.phone')}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 defaultValue={user?.phone}
                 disabled
@@ -194,8 +196,8 @@ export default function DeleteForm({
 
         {/* User firstName */}
         <div className="mb-4">
-          <label htmlFor="email" className="mb-2 block text-sm font-medium">
-            Choose an firstName
+          <label htmlFor="firstName" className="mb-2 block text-sm font-medium">
+            {t('fields.firstName')}
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -203,7 +205,7 @@ export default function DeleteForm({
                 id="firstName"
                 name="firstName"
                 type="string"
-                placeholder="Enter User email"
+                placeholder={t('alts.firstName')}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 defaultValue={user?.firstName}
                 disabled
@@ -225,7 +227,7 @@ export default function DeleteForm({
         {/* User lastName */}
         <div className="mb-4">
           <label htmlFor="email" className="mb-2 block text-sm font-medium">
-            Choose an lastName
+            {t('fields.lastName')}
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -233,7 +235,7 @@ export default function DeleteForm({
                 id="lastName"
                 name="lastName"
                 type="string"
-                placeholder="Enter User email"
+                placeholder={t('alts.lastName')}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 defaultValue={user?.lastName}
                 disabled
@@ -259,12 +261,12 @@ export default function DeleteForm({
               <input
                 id="active"
                 name="active"
-                type="checkbox"  // Изменено на чекбокс
+                type="checkbox"
                 className="peer h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                 defaultChecked={user.active}
               />
               <label htmlFor="active" className="ml-2 text-sm text-gray-900">
-                User is Active
+                {t('fields.active')}
               </label>
             </div>
             <div id="role-error" aria-live="polite" aria-atomic="true">
@@ -277,34 +279,6 @@ export default function DeleteForm({
             </div>
           </div>
         </div>
-
-
-        {/* User imageUrl
-        <div className="mb-4">
-          <label htmlFor="imageUrl" className="mb-2 block text-sm font-medium">
-            Choose an imageUrl
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="imageUrl"
-                name="imageUrl"
-                type="string"
-                placeholder="Enter User imageUrl"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              />
-              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
-            <div id="user-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.imageUrl &&
-                state.errors.imageUrl.map((error: string) => (
-                  <p className="mt-2 text-sm text-red-500" key={error}>
-                    {error}
-                  </p>
-                ))}
-            </div>
-          </div>
-        </div> */}
 
         <div id="user-error" aria-live="polite" aria-atomic="true">
           {state.errors && state.message &&
@@ -321,9 +295,9 @@ export default function DeleteForm({
           href="/dashboard/profile/users"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
-          Cancel
+          {t('actions.cancel')}
         </Link>
-        <Button type="submit">Delete User</Button>
+        <Button type="submit">{t('actions.delete')}</Button>
       </div>
 
     </form>

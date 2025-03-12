@@ -23,13 +23,17 @@ export const metadata: Metadata = {
 
 
 
-export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
+export default async function Page(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
 
   //
-  const { locale } = await params;
+  const { locale } = await props.params;
   const t = await getTranslations({ locale, namespace: 'Dashboard' });
   
-
+ 
   return (
     <main>
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
@@ -38,7 +42,6 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Suspense fallback={<CardsSkeleton />}>
           <CardWrapper />
-          {/* {data} */}
         </Suspense>
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">

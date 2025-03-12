@@ -33,13 +33,13 @@ export default function Page() {
               href="/auth/login"
               className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
             >
-              <span>{t('buttons.login')}</span> <ArrowRightIcon className="w-5 md:w-6" />
+              <span>{t('actions.login')}</span> <ArrowRightIcon className="w-5 md:w-6" />
             </Link>
             <Link
               href="/auth/registration"
               className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
             >
-              <span>{t('buttons.registration')}</span> <ArrowRightIcon className="w-5 md:w-6" />
+              <span>{t('actions.registration')}</span> <ArrowRightIcon className="w-5 md:w-6" />
             </Link>
           </div>
         </div>

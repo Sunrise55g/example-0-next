@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
+import { getTranslations } from 'next-intl/server';
 
 import DeleteForm from './delete.form';
 import Breadcrumbs from '@/components/breadcrumbs';
-
 import { profileRolesService } from '@/services/profile.roles.service';
 
 
@@ -15,16 +15,20 @@ export const metadata: Metadata = {
 
 
 
-export default async function Page(props: { params: Promise<{ id: string }> }) {
+export default async function Page(
+	props: {
+		params: Promise<{ id: string, locale: string }>
+	}
+) {
 
 	//
 	const session: any = await auth();
 	const token = session?.user?.jwt
-	// console.log('token:', token)
 
 	//
-	const params = await props.params;
-	const id = params.id;
+	const { locale, id } = await props.params;
+	const t = await getTranslations({ locale, namespace: 'ProfileRoles' });
+
 
 	const role: any = await profileRolesService.findOne(+id, token)
 	// console.log('Page: role:', {role})
@@ -38,9 +42,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 		<main>
 			<Breadcrumbs
 				breadcrumbs={[
-					{ label: 'Roles', href: '/dashboard/profile/roles' },
+					{ label: t('title'), href: '/dashboard/profile/roles' },
 					{
-						label: 'Delete Role',
+						label: t('actions.deleteTitle'),
 						href: `/dashboard/profile/roles/${id}/delete`,
 						active: true,
 					},
