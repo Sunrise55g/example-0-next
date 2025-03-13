@@ -8,8 +8,9 @@ import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
 import { lusitana } from '@/components/fonts';
 import Search from '@/components/search';
-import { ticketsCategoriesService } from '@/services/tickets.categories.service';
 import { UpdateButton, DeleteButton } from '@/components/buttons';
+
+import { ticketsCategoriesService } from '@/services/tickets-categories.service';
 
 
 
@@ -29,9 +30,6 @@ export default function CategoriesTable({
   const locale = useLocale();
   const t = useTranslations('TicketsCategories');
 
-  //
-  const [data, setData]: any = useState(null)
-  const [isLoading, setLoading] = useState(true)
 
   //
   let searchParams = `page=${currentPage}`
@@ -39,6 +37,11 @@ export default function CategoriesTable({
     searchParams = `page=${currentPage}&s=${query}`
   }
   // console.log('CategoriesTable: searchParams:', searchParams)
+
+
+  //
+  const [data, setData]: any = useState(null)
+  const [isLoading, setLoading] = useState(true)
 
 
   useEffect(() => {

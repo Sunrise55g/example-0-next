@@ -3,11 +3,11 @@ import { PowerIcon } from '@heroicons/react/24/outline';
 import { useLocale, useTranslations } from 'next-intl';
 import { routing } from '@/i18n/routing';
 
-import NavLinks from '@/app/[locale]/dashboard/NavLinks';
+import NavLinks from '@/app/[locale]/dashboard/nav-links';
 import Logo from '@/components/logo';
 import { signOut } from '@/auth';
 
-import LocaleSwitcherSelect from './LocaleSwitcherSelect';
+import LocaleSwitcherSelect from './locale-switcher-select';
 
 
 

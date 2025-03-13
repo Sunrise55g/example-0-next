@@ -8,13 +8,9 @@ import { CheckIcon, XMarkIcon, ClockIcon, TrashIcon } from '@heroicons/react/24/
 
 import { lusitana } from '@/components/fonts';
 import Search from '@/components/search';
-import {
-  UsersTableType,
-  FormattedUsersTable,
-} from '@/types/definitions';
-
-import { ticketsInvoicesService } from '@/services/tickets.invoices.service';
 import { UpdateButton, DeleteButton } from '@/components/buttons';
+
+import { ticketsInvoicesService } from '@/services/tickets-invoices.service';
 
 
 
@@ -35,15 +31,16 @@ export default function ItemsTable({
   const t = useTranslations('TicketsInvoices');
 
   //
-  const [data, setData]: any = useState(null)
-  const [isLoading, setLoading] = useState(true)
-
-  //
   let searchParams = `page=${currentPage}`
   if (query) {
     searchParams = `page=${currentPage}&s=${query}`
   }
   // console.log('UsersTable: searchParams:', searchParams)
+
+
+  //
+  const [data, setData]: any = useState(null)
+  const [isLoading, setLoading] = useState(true)
 
 
   useEffect(() => {
@@ -75,7 +72,7 @@ export default function ItemsTable({
                 {invoices?.data.map((invoice: any) => (
                   <div
                     key={invoice.id}
-                    className="mb-4 w-full rounded-md bg-gray-50 p-4"
+                    className="mb-4 w-full rounded-md bg-gray-200 p-4"
                   >
 
                     {/* Top */}
@@ -98,7 +95,7 @@ export default function ItemsTable({
 
                     {/* middle */}
                     <div className="mt-3 mb-4 border-b">
-                      {invoice.partsItems.length !== 0 ?
+                      {invoice.ticketsItems.length !== 0 ?
                         (
                           <div>
                             <p>{t('fields.items')}:</p>
@@ -118,18 +115,18 @@ export default function ItemsTable({
                               </thead>
 
                               <tbody className="divide-y text-gray-900">
-                                {invoice.partsItems.map((item: any) => (
-                                  <tr key={item.id} className="group">
+                                {invoice.ticketsItems.map((ticketsItem: any) => (
+                                  <tr key={ticketsItem.id} className="group">
                                     <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6 border-t border-r border-gray-200">
                                       <div className="flex items-center gap-3">
-                                        <p>{item.name}</p>
+                                        <p>{ticketsItem.partsItem.name}</p>
                                       </div>
                                     </td>
                                     <td className="whitespace-nowrap px-4 py-5 text-sm border-t border-r border-gray-200">
-                                      {item.partsCategoryId}
+                                      {ticketsItem.partsItem.partsCategoryId}
                                     </td>
                                     <td className="whitespace-nowrap px-4 py-5 text-sm border-t border-l border-gray-200">
-                                      {item.partsCategory?.name}
+                                      {ticketsItem.partsItem.partsCategory?.name}
                                     </td>
                                   </tr>
                                 ))}

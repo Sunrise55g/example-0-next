@@ -9,6 +9,13 @@
       "title": "Something went wrong!"
     }
   },
+  "Buttons": {
+    "create": "Create",
+    "update": "Update",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "back": "Go back"
+  },
   "LocaleSwitcher": {
     "label": "Change language",
     "locale": "{locale, select, ru {Russian} en {English} other {Unknown}}"
@@ -27,13 +34,17 @@
   "AuthLogin": {
     "title": "Login",
     "description": "Please log in to continue.",
+    "labels": {
+      "usernameOrEmail": "Username or Email",
+      "password": "Password"
+    },
     "fields": {
       "usernameOrEmail": "Username or Email",
       "password": "Password"
     },
-    "alts": {
-      "usernameOrEmail": "Enter your username or email",
-      "password": "Enter your password"
+    "placeholders": {
+      "usernameOrEmail": "Enter your username or email...",
+      "password": "Enter your password..."
     },
     "actions": {
       "login": "Log In"
@@ -45,6 +56,15 @@
   "AuthRegistration": {
     "title": "Registration",
     "description": "Please sign on to continue.",
+    "labels": {
+      "username": "Username",
+      "password": "Password",
+      "passwordRepeat": "Password Repeat",
+      "email": "Email",
+      "phone": "Phone",
+      "firstName": "First Name",
+      "lastName": "Last Name"
+    },
     "fields": {
       "username": "Username",
       "password": "Password",
@@ -54,14 +74,14 @@
       "firstName": "First Name",
       "lastName": "Last Name"
     },
-    "alts": {
-      "username": "Please enter your username",
-      "password": "Please enter your password",
-      "passwordRepeat": "Please repeat your password",
-      "email": "Please enter your email",
-      "phone": "Please enter your phone",
-      "firstName": "Enter your First Name",
-      "lastName": "Enter your Last Name"
+    "placeholders": {
+      "username": "Enter your username...",
+      "password": "Enter your password...",
+      "passwordRepeat": "Repeat your password...",
+      "email": "Enter your email...",
+      "phone": "Enter your phone...",
+      "firstName": "Enter your First Name...",
+      "lastName": "Enter your Last Name..."
     },
     "actions": {
       "registration": "Registration"
@@ -105,6 +125,17 @@
     "title": "Profile Roles",
     "description": "Profile Roles Description",
     "search": "Search profile roles...",
+    "labels": {
+      "name": "Name",
+      "description": "Description",
+      "administrator": "Administrator",
+      "moderator": "Moderator",
+      "active": "Active",
+      "inactive": "Inactive",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "actions": "Actions"
+    },
     "fields": {
       "name": "Name",
       "description": "Description",
@@ -116,9 +147,10 @@
       "updatedAt": "Updated At",
       "actions": "Actions"
     },
-    "alts": {
+    "placeholders": {
       "name": "Enter name...",
-      "description": "Enter description..."
+      "description": "Enter description...",
+      "active": "Active or not active"
     },
     "actions": {
       "create": "Create Role",
@@ -148,7 +180,9 @@
     "title": "Profile Users",
     "description": "Profile Users Description",
     "search": "Search profile users...",
-    "fields": {
+    "labels": {
+      "roleId": "Role Id",
+      "role": "Role",
       "username": "Username",
       "email": "Email",
       "phone": "Phone",
@@ -164,16 +198,34 @@
       "updatedAt": "Updated At",
       "actions": "Actions"
     },
-    "alts": {
-      "chooseRole": "Choose role",
-      "selectRole": "Select a role",
+    "fields": {
+      "roleId": "Role Id",
+      "role": "Role",
+      "username": "Username",
+      "email": "Email",
+      "phone": "Phone",
+      "password": "Password",
+      "passwordRepeat": "Repeat Password",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "administrator": "Administrator",
+      "moderator": "Moderator",
+      "active": "Active",
+      "inactive": "Inactive",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "actions": "Actions"
+    },
+    "placeholders": {
+      "role": "Select role...",
       "username": "Enter username...",
       "password": "Enter password...",
       "passwordRepeat": "Repeat password...",
       "email": "Enter email...",
       "phone": "Enter phone...",
       "firstName": "Enter First Name...",
-      "lastName": "Enter Last Name..."
+      "lastName": "Enter Last Name...",
+      "active": "Active or not active"
     },
     "actions": {
       "create": "Create User",
@@ -203,6 +255,15 @@
     "title": "Parts Categories",
     "description": "Parts Categories Description",
     "search": "Search parts categories...",
+    "labels": {
+      "name": "Name",
+      "description": "Description",
+      "active": "Active",
+      "inactive": "Inactive",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "actions": "Actions"
+    },
     "fields": {
       "name": "Name",
       "description": "Description",
@@ -212,9 +273,10 @@
       "updatedAt": "Updated At",
       "actions": "Actions"
     },
-    "alts": {
+    "placeholders": {
       "name": "Enter name...",
-      "description": "Enter description..."
+      "description": "Enter description...",
+      "active": "Active or not active"
     },
     "actions": {
       "create": "Create Category",
@@ -244,19 +306,29 @@
     "title": "Parts Items",
     "description": "Parts Items Description",
     "search": "Search parts items...",
-    "fields": {
+    "labels": {
+      "categoryId": "Category Id",
+      "category": "Category",
       "name": "Name",
       "description": "Description",
-      "categoryId": "Category Id",
-      "categoryName": "Category Name",
-      "category": "Category",
       "active": "Active",
       "inactive": "Inactive",
       "actions": "Actions"
     },
-    "alts": {
+    "fields": {
+      "categoryId": "Category Id",
+      "category": "Category",
+      "name": "Name",
+      "description": "Description",
+      "active": "Active",
+      "inactive": "Inactive",
+      "actions": "Actions"
+    },
+    "placeholders": {
+      "category": "Select a category...",
       "name": "Enter name...",
-      "description": "Enter description..."
+      "description": "Enter description...",
+      "active": "Active or not active"
     },
     "actions": {
       "create": "Create Item",
@@ -286,6 +358,15 @@
     "title": "Tickets Categories",
     "description": "Tickets Categories Description",
     "search": "Search tickets categories...",
+    "labels": {
+      "name": "Name",
+      "description": "Description",
+      "active": "Active",
+      "inactive": "Inactive",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "actions": "Actions"
+    },
     "fields": {
       "name": "Name",
       "description": "Description",
@@ -295,9 +376,10 @@
       "updatedAt": "Updated At",
       "actions": "Actions"
     },
-    "alts": {
+    "placeholders": {
       "name": "Enter name...",
-      "description": "Enter description..."
+      "description": "Enter description...",
+      "active": "Active or not active"
     },
     "actions": {
       "create": "Create Category",
@@ -327,7 +409,13 @@
     "title": "Tickets Invoices",
     "description": "Tickets Invoices Description",
     "search": "Search tickets invoices...",
-    "fields": {
+    "labels": {
+      "categoryId": "Category Id",
+      "category": "Category",
+      "customerId": "Customer Id",
+      "customer": "Customer",
+      "employerId": "Employer Id",
+      "employer": "Employer",
       "name": "Name",
       "description": "Description",
       "status": "Status",
@@ -338,12 +426,6 @@
       },
       "createdAt": "Created At",
       "updatedAt": "Updated At",
-      "customerId": "Customer Id",
-      "customer": "Customer",
-      "employerId": "Employer Id",
-      "employer": "Employer",
-      "categoryId": "Category Id",
-      "category": "Category",
       "partId": "Part Id",
       "part": "Part",
       "partCategoryId": "Part Category Id",
@@ -351,9 +433,42 @@
       "actions": "Actions",
       "items": "Items"
     },
-    "alts": {
+    "fields": {
+      "categoryId": "Category Id",
+      "category": "Category",
+      "customerId": "Customer Id",
+      "customer": "Customer",
+      "employerId": "Employer Id",
+      "employer": "Employer",
+      "name": "Name",
+      "description": "Description",
+      "status": "Status",
+      "statusChoices": {
+        "open": "Open",
+        "closed": "Closed",
+        "canceled": "Canceled"
+      },
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "partId": "Part Id",
+      "part": "Part",
+      "partCategoryId": "Part Category Id",
+      "partCategory": "Part Category",
+      "actions": "Actions",
+      "items": "Items"
+    },
+    "placeholders": {
+      "category": "Select category...",
+      "customer": "Select customer...",
+      "employer": "Select employer...",
       "name": "Enter name...",
-      "description": "Enter description..."
+      "description": "Enter description...",
+      "status": "Select status...",
+      "statusChoices": {
+        "open": "Open",
+        "closed": "Closed",
+        "canceled": "Canceled"
+      }
     },
     "actions": {
       "create": "Create Invoice",

@@ -8,16 +8,16 @@ import Pagination from '@/components/pagination';
 import { CreateButton } from '@/components/buttons';
 import Search from '@/components/search';
 import Table from './table';
-import { RolesTableSkeleton } from './skeletons';
+import { TableSkeleton } from './skeletons';
 
-import { partsCategoriesService } from '@/services/parts.categories.service';
-
+import { partsCategoriesService } from '@/services/parts-categories.service';
 
 
 
 export const metadata: Metadata = {
   title: 'Categories',
 };
+
 
 
 export default async function Page(
@@ -44,7 +44,6 @@ export default async function Page(
   // console.log('Page: searchParams:', searchParams);
 
 
-  //
   const categoriesObj: any = await partsCategoriesService.findMany(searchParams, token);
   const totalPages = categoriesObj.pageCount
   const currentPage = categoriesObj.page
@@ -58,9 +57,9 @@ export default async function Page(
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder={t('search')} />
-        <CreateButton href="/dashboard/parts/categories/create" />
+        <CreateButton href="/dashboard/parts/categories/create" text={t('actions.create')} />
       </div>
-      <Suspense key={query + currentPage} fallback={<RolesTableSkeleton />}>
+      <Suspense key={query + currentPage} fallback={<TableSkeleton />}>
         <Table query={query} currentPage={currentPage} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">

@@ -37,7 +37,7 @@ export function TableRowSkeleton() {
 
 
 
-export function RolesMobileSkeleton() {
+export function MobileSkeleton() {
   return (
     <div className="mb-2 w-full rounded-md bg-white p-4">
       <div className="flex items-center justify-between border-b border-gray-100 pb-8">
@@ -61,18 +61,18 @@ export function RolesMobileSkeleton() {
   );
 }
 
-export function RolesTableSkeleton() {
+export function TableSkeleton() {
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
           <div className="md:hidden">
-            <RolesMobileSkeleton />
-            <RolesMobileSkeleton />
-            <RolesMobileSkeleton />
-            <RolesMobileSkeleton />
-            <RolesMobileSkeleton />
-            <RolesMobileSkeleton />
+            <MobileSkeleton />
+            <MobileSkeleton />
+            <MobileSkeleton />
+            <MobileSkeleton />
+            <MobileSkeleton />
+            <MobileSkeleton />
           </div>
           <table className="hidden min-w-full text-gray-900 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">

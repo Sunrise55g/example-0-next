@@ -22,19 +22,23 @@ export function Button({ children, className, ...rest }: ButtonProps) {
 }
 
 
-export function CreateButton({ href }:{ href:string }) {
+export function CreateButton(
+  { href, text }:{ href:string; text?:string }
+) {
   return (
     <Link
       href={href}
       className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
     >
-      <span className="hidden md:block">Create New</span>{' '}
+      <span className="hidden md:block">{text || 'Create New'}</span>{' '}
       <PlusIcon className="h-5 md:ml-4" />
     </Link>
   );
 }
 
-export function UpdateButton({ href }:{ href:string }) {
+export function UpdateButton(
+  { href, text }:{ href:string; text?:string }
+) {
   return (
     <Link
       href={href}
@@ -45,7 +49,9 @@ export function UpdateButton({ href }:{ href:string }) {
   );
 }
 
-export function DeleteButton({ href }:{ href:string }) {
+export function DeleteButton(
+  { href, text }:{ href:string; text?:string }
+) {
   return (
     <Link
       href={href}

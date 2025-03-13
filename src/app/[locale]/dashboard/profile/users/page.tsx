@@ -10,14 +10,14 @@ import Search from '@/components/search';
 import Table from './table';
 import { TableSkeleton } from './skeletons';
 
-import { profileUsersService } from '@/services/profile.users.service';
-
+import { profileUsersService } from '@/services/profile-users.service';
 
 
 
 export const metadata: Metadata = {
   title: 'Users',
 };
+
 
 
 export default async function Page(
@@ -57,7 +57,7 @@ export default async function Page(
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder={t('search')} />
-        <CreateButton href="/dashboard/profile/users/create" />
+        <CreateButton href="/dashboard/profile/users/create" text={t('actions.create')} />
       </div>
       <Suspense key={query + currentPage} fallback={<TableSkeleton />}>
         <Table query={query} currentPage={currentPage} />

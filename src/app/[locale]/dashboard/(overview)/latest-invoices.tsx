@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 
 import { lusitana } from '@/components/fonts';
-import { ticketsInvoicesService } from '@/services/tickets.invoices.service';
+import { ticketsInvoicesService } from '@/services/tickets-invoices.service';
 
 
 

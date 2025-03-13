@@ -1,59 +1,68 @@
-import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
+import { getTranslations } from 'next-intl/server';
+import { notFound } from 'next/navigation';
 
-import EditForm from './edit.form';
 import Breadcrumbs from '@/components/breadcrumbs';
+import EditForm from './edit-form';
 
-import { partsCategoriesService } from '@/services/parts.categories.service';
-import { partsItemsService } from '@/services/parts.items.service';
+import { ticketsCategoriesService } from '@/services/tickets-categories.service';
+import { profileUsersService } from '@/services/profile-users.service';
+import { ticketsInvoicesService } from '@/services/tickets-invoices.service';
 
 
 
 export const metadata: Metadata = {
-	title: 'Edit Item',
+	title: 'Edit Tickets Invoice',
 };
 
 
 
-export default async function Page(props: { params: Promise<{ id: string }> }) {
+export default async function Page(
+	props: {
+		params: Promise<{ id: string, locale: string }>
+	}
+) {
 
 	//
 	const session: any = await auth();
 	const token = session?.user?.jwt
-	// console.log('token:', token)
+
+	//
+	const { locale, id } = await props.params;
+	const t = await getTranslations({ locale, namespace: 'TicketsInvoices' });
 
 
-	const categoriesObj: any = await partsCategoriesService.findMany(undefined, token)
-	// console.log('categoriesObj:', {categoriesObj})
+	const categoriesObj: any = await ticketsCategoriesService.findMany(undefined, token)
 	const categories = categoriesObj.data
 
 
-	//
-	const params = await props.params;
-	const id = params.id;
+	const usersObj: any = await profileUsersService.findMany(undefined, token)
+	const users = usersObj.data
 
-	const item: any = await partsItemsService.findOne(+id, token)
-	// console.log('Page: item:', {item})
 
-	if (item.statusCode) {
+	const invoice: any = await ticketsInvoicesService.findOne(+id, token)
+	// console.log('Page: invoice:', {invoice})
+
+	if (invoice.statusCode) {
 		notFound();
 	}
+
 
 
 	return (
 		<main>
 			<Breadcrumbs
 				breadcrumbs={[
-					{ label: 'Items', href: '/dashboard/items' },
+					{ label: t('title'), href: '/dashboard/tickets/invoices' },
 					{
-						label: 'Edit Item',
-						href: `/dashboard/items/${id}/edit`,
+						label: t('actions.updateTitle'),
+						href: `/dashboard/tickets/invoices/${id}/edit`,
 						active: true,
 					},
 				]}
 			/>
-			<EditForm categories={categories} item={item} />
+			<EditForm categories={categories} users={users} invoice={invoice} />
 		</main>
 	);
 }

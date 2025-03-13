@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
 import Logo from '@/components/logo';
-import LoginForm from '@/app/[locale]/auth/login/LoginForm';
+import LoginForm from '@/app/[locale]/auth/login/login-form';
 
 
 
@@ -26,7 +26,7 @@ export default async function LoginPage(
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4">
       <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5">
-        <div className="flex h-20 w-full items-center justify-center rounded-lg bg-blue-500 p-3">
+        <div className="flex h-20 w-full items-center justify-center rounded-lg bg-blue-500 text-white p-3">
           <Logo />
         </div>
         <Suspense>

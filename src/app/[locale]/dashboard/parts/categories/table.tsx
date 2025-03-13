@@ -8,8 +8,9 @@ import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
 import { lusitana } from '@/components/fonts';
 import Search from '@/components/search';
-import { partsCategoriesService } from '@/services/parts.categories.service';
 import { UpdateButton, DeleteButton } from '@/components/buttons';
+
+import { partsCategoriesService } from '@/services/parts-categories.service';
 
 
 
@@ -29,10 +30,7 @@ export default function CategoriesTable({
   const locale = useLocale();
   const t = useTranslations('PartsCategories');
 
-  //
-  const [data, setData]: any = useState(null)
-  const [isLoading, setLoading] = useState(true)
-
+  
   //
   let searchParams = `page=${currentPage}`
   if (query) {
@@ -41,6 +39,11 @@ export default function CategoriesTable({
   // console.log('CategoriesTable: searchParams:', searchParams)
 
 
+  //
+  const [data, setData]: any = useState(null)
+  const [isLoading, setLoading] = useState(true)
+
+  
   useEffect(() => {
     partsCategoriesService.findMany(searchParams, token)
       .then((res) => {

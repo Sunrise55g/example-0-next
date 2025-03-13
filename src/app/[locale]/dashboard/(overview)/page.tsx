@@ -11,7 +11,7 @@ import {
   LatestInvoicesSkeleton,
   RevenueChartSkeleton,
   CardsSkeleton
-} from '@/components/skeletons';
+} from './skeletons';
 
 
 

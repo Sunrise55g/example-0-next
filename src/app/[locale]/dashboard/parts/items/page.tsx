@@ -8,16 +8,16 @@ import Pagination from '@/components/pagination';
 import { CreateButton } from '@/components/buttons';
 import Search from '@/components/search';
 import Table from './table';
-import { UsersTableSkeleton } from '@/components/skeletons';
+import { TableSkeleton } from './skeletons';
 
-import { partsItemsService } from '@/services/parts.items.service';
-
+import { partsItemsService } from '@/services/parts-items.service';
 
 
 
 export const metadata: Metadata = {
   title: 'Parts Items',
 };
+
 
 
 export default async function Page(
@@ -33,7 +33,7 @@ export default async function Page(
   //
   const session: any = await auth();
   const token = session?.user?.jwt
-  
+
   //
   const { locale } = await props.params;
   const t = await getTranslations({ locale, namespace: 'PartsItems' });
@@ -44,7 +44,6 @@ export default async function Page(
   // console.log('Page: searchParams:', searchParams);
 
 
-  //
   const itemsObj: any = await partsItemsService.findMany(searchParams, token);
   const totalPages = itemsObj.pageCount
   const currentPage = itemsObj.page
@@ -58,9 +57,9 @@ export default async function Page(
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder={t('search')} />
-        <CreateButton href="/dashboard/parts/items/create" />
+        <CreateButton href="/dashboard/parts/items/create" text={t('actions.create')} />
       </div>
-      <Suspense key={query + currentPage} fallback={<UsersTableSkeleton />}>
+      <Suspense key={query + currentPage} fallback={<TableSkeleton />}>
         <Table query={query} currentPage={currentPage} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">

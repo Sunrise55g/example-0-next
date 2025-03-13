@@ -10,7 +10,7 @@ import Search from '@/components/search';
 import Table from '@/app/[locale]/dashboard/profile/roles/table';
 import { TableSkeleton } from './skeletons';
 
-import { profileRolesService } from '@/services/profile.roles.service';
+import { profileRolesService } from '@/services/profile-roles.service';
 
 
 
@@ -57,7 +57,7 @@ export default async function Page(
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder={t('search')} />
-        <CreateButton href="/dashboard/profile/roles/create" />
+        <CreateButton href="/dashboard/profile/roles/create" text={t('actions.create')} />
       </div>
       <Suspense key={query + currentPage} fallback={<TableSkeleton />}>
         <Table query={query} currentPage={currentPage} />

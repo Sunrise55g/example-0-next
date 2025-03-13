@@ -10,14 +10,14 @@ import Search from '@/components/search';
 import Table from './table';
 import { RolesTableSkeleton } from './skeletons';
 
-import { ticketsCategoriesService } from '@/services/tickets.categories.service';
-
+import { ticketsCategoriesService } from '@/services/tickets-categories.service';
 
 
 
 export const metadata: Metadata = {
   title: 'Categories',
 };
+
 
 
 export default async function Page(
@@ -44,7 +44,6 @@ export default async function Page(
   // console.log('Page: searchParams:', searchParams);
 
 
-  //
   const categoriesObj: any = await ticketsCategoriesService.findMany(searchParams, token);
   const totalPages = categoriesObj.pageCount
   const currentPage = categoriesObj.page
@@ -58,7 +57,7 @@ export default async function Page(
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder={t('search')} />
-        <CreateButton href="/dashboard/tickets/categories/create" />
+        <CreateButton href="/dashboard/tickets/categories/create" text={t('actions.create')} />
       </div>
       <Suspense key={query + currentPage} fallback={<RolesTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />

@@ -3,9 +3,9 @@ import { Metadata } from 'next';
 import { auth } from '@/auth';
 import { getTranslations } from 'next-intl/server';
 
-import DeleteForm from './delete.form';
+import DeleteForm from './delete-form';
 import Breadcrumbs from '@/components/breadcrumbs';
-import { profileRolesService } from '@/services/profile.roles.service';
+import { profileRolesService } from '@/services/profile-roles.service';
 
 
 

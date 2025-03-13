@@ -3,11 +3,11 @@ import { auth } from '@/auth';
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 
-import EditForm from './edit.form';
 import Breadcrumbs from '@/components/breadcrumbs';
+import EditForm from './edit-form';
 
-import { profileUsersService } from '@/services/profile.users.service';
-import { profileRolesService } from '@/services/profile.roles.service';
+import { profileUsersService } from '@/services/profile-users.service';
+import { profileRolesService } from '@/services/profile-roles.service';
 
 
 
@@ -45,14 +45,15 @@ export default async function Page(
 	}
 
 
+
 	return (
 		<main>
 			<Breadcrumbs
 				breadcrumbs={[
-					{ label: t('title'), href: '/dashboard/users' },
+					{ label: t('title'), href: '/dashboard/profile/users' },
 					{
 						label: t('actions.updateTitle'),
-						href: `/dashboard/users/${id}/edit`,
+						href: `/dashboard/profile/users/${id}/edit`,
 						active: true,
 					},
 				]}

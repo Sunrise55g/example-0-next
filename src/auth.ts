@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 import { authConfig } from './auth.config';
 // import type { User } from '@/types/definitions';
-import { apiClient } from '@/interceptors/api.fetch.interceptor';
+import { apiClient } from '@/interceptors/api-client-fetch';
 import { IAuthLoginRes, IAuthRegistrationRes } from '@/types/auth';
 
 

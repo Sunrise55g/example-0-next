@@ -3,11 +3,11 @@ import { auth } from '@/auth';
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 
-import DeleteForm from './delete.form';
+import DeleteForm from './delete-form';
 import Breadcrumbs from '@/components/breadcrumbs';
 
-import { profileUsersService } from '@/services/profile.users.service';
-import { profileRolesService } from '@/services/profile.roles.service';
+import { profileUsersService } from '@/services/profile-users.service';
+import { profileRolesService } from '@/services/profile-roles.service';
 
 
 
@@ -44,6 +44,7 @@ export default async function Page(
 		notFound();
 	}
 
+	
 
 	return (
 		<main>

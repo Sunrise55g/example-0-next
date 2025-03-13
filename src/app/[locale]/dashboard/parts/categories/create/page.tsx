@@ -1,10 +1,9 @@
 import { Metadata } from 'next';
-
-import Form from './create.form';
-import Breadcrumbs from '@/components/breadcrumbs';
-
-import { partsCategoriesService } from '@/services/parts.categories.service';
 import { auth } from '@/auth';
+import { getTranslations } from 'next-intl/server';
+
+import Form from './create-form';
+import Breadcrumbs from '@/components/breadcrumbs';
 
 
 
@@ -14,28 +13,35 @@ export const metadata: Metadata = {
 
 
 
-export default async function Page() {
+export default async function Page(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
 
-  const session:any = await auth();
+  //
+  const session: any = await auth();
   const token = session?.user?.jwt
 
-  const categoriesObj:any = await partsCategoriesService.findMany(token)
-  const categories = categoriesObj.data
+  //
+  const { locale } = await props.params;
+  const t = await getTranslations({ locale, namespace: 'PartsCategories' });
+
 
   
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Categories', href: '/dashboard/parts/categories' },
+          { label: t('title'), href: '/dashboard/parts/categories' },
           {
-            label: 'Create Category',
+            label: t('actions.createTitle'),
             href: '/dashboard/parts/categories/create',
             active: true,
           },
         ]}
       />
-      <Form categories={categories} />
+      <Form />
     </main>
   );
 }

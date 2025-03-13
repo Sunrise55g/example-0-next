@@ -8,8 +8,9 @@ import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
 import { lusitana } from '@/components/fonts';
 import Search from '@/components/search';
-import { profileRolesService } from '@/services/profile.roles.service';
 import { UpdateButton, DeleteButton } from '@/components/buttons';
+
+import { profileRolesService } from '@/services/profile-roles.service';
 
 
 

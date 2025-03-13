@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { auth } from '@/auth';
 import { getTranslations } from 'next-intl/server';
 
-import Form from './create.form';
+import Form from './create-form';
 import Breadcrumbs from '@/components/breadcrumbs';
 
 

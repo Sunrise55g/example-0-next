@@ -21,6 +21,7 @@ export default async function NotFound() {
   const t = await getTranslations({ locale, namespace: 'ProfileUsers' });
 
 
+  
   return (
     <main className="flex h-full flex-col items-center justify-center gap-2">
       <FaceFrownIcon className="w-10 text-gray-400" />

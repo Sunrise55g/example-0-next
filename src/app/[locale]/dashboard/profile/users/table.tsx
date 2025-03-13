@@ -8,12 +8,9 @@ import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
 import { lusitana } from '@/components/fonts';
 import Search from '@/components/search';
-import {
-  UsersTableType,
-  FormattedUsersTable,
-} from '@/types/definitions';
-import { profileUsersService } from '@/services/profile.users.service';
 import { UpdateButton, DeleteButton } from '@/components/buttons';
+
+import { profileUsersService } from '@/services/profile-users.service';
 
 
 
@@ -34,15 +31,16 @@ export default function UsersTable({
   const t = useTranslations('ProfileUsers');
 
   //
-  const [data, setData]: any = useState(null)
-  const [isLoading, setLoading] = useState(true)
-
-  //
   let searchParams = `page=${currentPage}`
   if (query) {
     searchParams = `page=${currentPage}&s=${query}`
   }
   // console.log('UsersTable: searchParams:', searchParams)
+
+
+  //
+  const [data, setData]: any = useState(null)
+  const [isLoading, setLoading] = useState(true)
 
 
   useEffect(() => {
@@ -61,6 +59,7 @@ export default function UsersTable({
 
   const users: any = data
   // console.log('users', users)
+
 
 
   return (
@@ -96,20 +95,6 @@ export default function UsersTable({
                         </p>
                       </div>
                     </div>
-
-                    {/* <div className="flex w-full items-center justify-between border-b py-5">
-                      <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">Pending</p>
-                        <p className="font-medium">{user.total_pending}</p>
-                      </div>
-                      <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">Paid</p>
-                        <p className="font-medium">{user.total_paid}</p>
-                      </div>
-                    </div>
-                    <div className="pt-4 text-sm">
-                      <p>{user.total_invoices} invoices</p>
-                    </div> */}
 
                     <div className="flex w-full items-center justify-between pt-4">
                       <div className="flex justify-end gap-2">

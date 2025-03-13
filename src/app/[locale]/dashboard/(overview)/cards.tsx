@@ -10,9 +10,9 @@ import {
 } from '@heroicons/react/24/outline';
 
 import { lusitana } from '@/components/fonts';
-import { profileUsersService } from '@/services/profile.users.service';
-import { partsItemsService } from '@/services/parts.items.service';
-import { ticketsInvoicesService } from '@/services/tickets.invoices.service';
+import { profileUsersService } from '@/services/profile-users.service';
+import { partsItemsService } from '@/services/parts-items.service';
+import { ticketsInvoicesService } from '@/services/tickets-invoices.service';
 import { auth } from '@/auth';
 import { useEffect, useState } from 'react';
 
