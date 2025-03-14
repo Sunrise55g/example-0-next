@@ -29,6 +29,8 @@ export default function Table({
   query: string;
   currentPage: number;
 }) {
+
+  // param
   const { data: session, status }: any = useSession();
   const token = session?.user?.jwt;
 
@@ -40,11 +42,14 @@ export default function Table({
     searchParams = `page=${currentPage}&s=${query}`;
   }
 
+
+  ////
   const [profileUsers, setProfileUsers]: any = useState(null);
   const [ticketsCategories, setTicketsCategories]: any = useState(null);
   const [partsItems, setPartsItems]: any = useState(null);
   const [ticketsInvoices, setTicketsInvoices]: any = useState(null);
   const [isInitialLoading, setInitialLoading] = useState(true);
+
 
   const fetchAllData = async () => {
     try {
@@ -66,6 +71,7 @@ export default function Table({
     }
   };
 
+
   useEffect(() => {
     fetchAllData();
     const intervalId = setInterval(() => {
@@ -74,8 +80,12 @@ export default function Table({
     return () => clearInterval(intervalId);
   }, [searchParams, token]);
 
-  if (isInitialLoading && !ticketsInvoices) return <p>{t('loading')}</p>;
-  if (!ticketsInvoices) return <p>{t('noData')}</p>;
+
+
+  ////
+  if (isInitialLoading && !ticketsInvoices) return <p>{t('messages.loading')}</p>;
+  if (!ticketsInvoices) return <p>{t('messages.noData')}</p>;
+
 
   return (
     <div className="w-full mt-6 flow-root">
