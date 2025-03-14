@@ -473,8 +473,12 @@
     "actions": {
       "create": "Create Invoice",
       "createTitle": "Create Invoice",
+      "edit": "Edit Invoice",
+      "editTitle": "Edit Invoice",
       "update": "Update Invoice",
       "updateTitle": "Edit Invoice",
+      "save": "Save Invoice",
+      "saveTitle": "Save Invoice",
       "delete": "Delete Invoice",
       "deleteTitle": "Delete Invoice",
       "cancel": "Cancel",
