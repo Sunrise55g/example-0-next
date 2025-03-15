@@ -1,129 +1,580 @@
 {
-  "Error": {
-    "description": "<p>We've unfortunately encountered an error.</p><p>You can try to <retry>reload the page</retry> you were visiting.</p>",
-    "title": "Something went wrong!"
+  "Errors": {
+    "notFound": {
+      "description": "Please double-check the browser address bar or use the navigation to go to a known page.",
+      "title": "Page not found!"
+    },
+    "error": {
+      "description": "We've unfortunately encountered an error.</p><>You can try to <retry>reload the page</retry> you were visiting.",
+      "title": "Something went wrong!"
+    }
   },
-  "IndexPage": {
-    "description": "This is a basic example that demonstrates the usage of <code>next-intl</code> with the Next.js App Router. Try changing the locale in the top right corner and see how the content changes.",
-    "title": "next-intl example"
-  },
-  "LocaleLayout": {
-    "title": "next-intl example"
+  "Buttons": {
+    "create": "Create",
+    "update": "Update",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "back": "Go back"
   },
   "LocaleSwitcher": {
     "label": "Change language",
     "locale": "{locale, select, ru {Russian} en {English} other {Unknown}}"
   },
-  "Manifest": {
-    "name": "next-intl example"
-  },
-  "Navigation": {
-    "home": "Home",
-    "pathnames": "Pathnames"
-  },
-  "NotFoundPage": {
-    "description": "Please double-check the browser address bar or use the navigation to go to a known page.",
-    "title": "Page not found"
-  },
-  "PageLayout": {
-    "links": {
-      "docs": {
-        "description": "Learn more about next-intl in the official docs.",
-        "href": "https://next-intl.dev",
-        "title": "Docs"
-      },
-      "source": {
-        "description": "Browse the source code of this example on GitHub.",
-        "href": "https://github.com/amannn/next-intl/tree/main/examples/example-app-router",
-        "title": "Source code"
-      }
-    }
-  },
-  "PathnamesPage": {
-    "description": "<p>The pathnames are internationalized too.</p><p>If you're using the default language English, you'll see <code>/en/pathnames</code> in the browser address bar on this page.</p><p>If you change the locale to German, the URL is localized accordingly (<code>/de/pfadnamen</code>).</p>",
-    "title": "Pathnames"
-  },
-
-
-
   "FirstPage": {
-    "title": "Первая страница",
-    "description": "Описание первой страницы",
-    "descriptionAdd": "Дополнительное описание первой страницы",
-    "buttons": {
-      "login": "Войти",
-      "registration": "Регистрация" 
-    }
+    "title": "First Page",
+    "description": "First Page Description",
+    "descriptionAdd": "Additional First Page Description",
+    "actions": {
+      "login": "Log In",
+      "registration": "Registration"
+    },
+    "loading": "Loading...",
+    "noData": "No data..."
   },
-
+  "AuthLogin": {
+    "title": "Login",
+    "description": "Please log in to continue.",
+    "labels": {
+      "usernameOrEmail": "Username or Email",
+      "password": "Password"
+    },
+    "fields": {
+      "usernameOrEmail": "Username or Email",
+      "password": "Password"
+    },
+    "placeholders": {
+      "usernameOrEmail": "Enter your username or email...",
+      "password": "Enter your password..."
+    },
+    "actions": {
+      "login": "Log In"
+    },
+    "errors": {},
+    "loading": "Loading...",
+    "noData": "No data..."
+  },
+  "AuthRegistration": {
+    "title": "Registration",
+    "description": "Please sign on to continue.",
+    "labels": {
+      "username": "Username",
+      "password": "Password",
+      "passwordRepeat": "Password Repeat",
+      "email": "Email",
+      "phone": "Phone",
+      "firstName": "First Name",
+      "lastName": "Last Name"
+    },
+    "fields": {
+      "username": "Username",
+      "password": "Password",
+      "passwordRepeat": "Password Repeat",
+      "email": "Email",
+      "phone": "Phone",
+      "firstName": "First Name",
+      "lastName": "Last Name"
+    },
+    "placeholders": {
+      "username": "Enter your username...",
+      "password": "Enter your password...",
+      "passwordRepeat": "Repeat your password...",
+      "email": "Enter your email...",
+      "phone": "Enter your phone...",
+      "firstName": "Enter your First Name...",
+      "lastName": "Enter your Last Name..."
+    },
+    "actions": {
+      "registration": "Registration"
+    },
+    "errors": {},
+    "loading": "Loading...",
+    "noData": "No data..."
+  },
+  "SideNav": {
+    "items": {
+      "dashboard": "Dashboard",
+      "profileRoles": "Profile Roles",
+      "profileUsers": "Profile Users",
+      "partsCategories": "Parts Categories",
+      "partsItems": "Parts Items",
+      "ticketsCategories": "Tickets Categories",
+      "ticketsInvoices": "Tickets Invoices"
+    },
+    "actions": {
+      "logout": "Log Out"
+    },
+    "loading": "Loading...",
+    "noData": "No data..."
+  },
+  "Dashboard": {
+    "title": "Dashboard",
+    "description": "Dashboard Description",
+    "texts": {
+      "totalItems": "Total Items",
+      "totalInvoices": "Total Invoices",
+      "totalUsers": "Total Users",
+      "recentInvoices": "Recent Invoices",
+      "latestInvoices": "Latest Invoices",
+      "lastDays": "Last days",
+      "updatedJustNow": "Updated just now"
+    },
+    "loading": "Loading...",
+    "noData": "No data..."
+  },
   "ProfileRoles": {
+    "title": "Profile Roles",
+    "description": "Profile Roles Description",
+    "search": "Search profile roles...",
+    "labels": {
+      "name": "Name",
+      "description": "Description",
+      "administrator": "Administrator",
+      "moderator": "Moderator",
+      "active": "Active",
+      "inactive": "Inactive",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "actions": "Actions"
+    },
     "fields": {
       "name": "Name",
       "description": "Description",
       "administrator": "Administrator",
       "moderator": "Moderator",
       "active": "Active",
+      "inactive": "Inactive",
       "createdAt": "Created At",
-      "updatedAt": "Updated At"
-    }
+      "updatedAt": "Updated At",
+      "actions": "Actions"
+    },
+    "placeholders": {
+      "name": "Enter name...",
+      "description": "Enter description...",
+      "active": "Active or not active"
+    },
+    "actions": {
+      "create": "Create Role",
+      "createTitle": "Create Role",
+      "update": "Update Role",
+      "updateTitle": "Edit Role",
+      "delete": "Delete Role",
+      "deleteTitle": "Delete Role",
+      "cancel": "Cancel",
+      "back": "Go back",
+      "tryAgain": "Try again"
+    },
+    "errors": {
+      "notFound": {
+        "title": "404 Role not found!",
+        "description": "Could not find the requested role."
+      },
+      "error": {
+        "title": "500 Something went wrong!",
+        "description": "We've unfortunately encountered an error."
+      }
+    },
+    "loading": "Loading...",
+    "noData": "No data..."
   },
   "ProfileUsers": {
-    "fields": {
+    "title": "Profile Users",
+    "description": "Profile Users Description",
+    "search": "Search profile users...",
+    "labels": {
+      "roleId": "Role Id",
+      "role": "Role",
       "username": "Username",
       "email": "Email",
       "phone": "Phone",
       "password": "Password",
+      "passwordRepeat": "Repeat Password",
       "firstName": "First Name",
       "lastName": "Last Name",
       "administrator": "Administrator",
       "moderator": "Moderator",
       "active": "Active",
-      "createdAt": "Created At",
-      "updatedAt": "Updated At"
-    }
-  },
-  "PartsCategoriess": {
-    "fields": {
-      "name": "Name",
-      "description": "Description",
-      "active": "Active",
-      "createdAt": "Created At",
-      "updatedAt": "Updated At"
-    }
-  },
-  "PartsItems": {
-    "fields": {
-      "name": "Name",
-      "description": "Description",
-      "categoryId": "Category Id",
-      "categoryName": "Category Name",
-      "active": "Active"
-    }
-  },
-  "TicketsCategories": {
-    "fields": {
-      "name": "Name",
-      "description": "Description",
-      "active": "Active",
-      "createdAt": "Created At",
-      "updatedAt": "Updated At"
-    }
-  },
-  "TicketsInvoices": {
-    "fields": {
-      "name": "Name",
-      "description": "Description",
-      "status": "Status",
+      "inactive": "Inactive",
       "createdAt": "Created At",
       "updatedAt": "Updated At",
-      "customerId": "Customer Id",
-      "customer": "Customer",
-      "employerId": "Employer Id",
-      "employer": "Employer",
-      "partId": "Part Id",
-      "part": "Part",
-      "partCategoryId": "Part Category Id",
-      "partCategory": "Part Category"
+      "actions": "Actions"
+    },
+    "fields": {
+      "roleId": "Role Id",
+      "role": "Role",
+      "username": "Username",
+      "email": "Email",
+      "phone": "Phone",
+      "password": "Password",
+      "passwordRepeat": "Repeat Password",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "administrator": "Administrator",
+      "moderator": "Moderator",
+      "active": "Active",
+      "inactive": "Inactive",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "actions": "Actions"
+    },
+    "placeholders": {
+      "role": "Select role...",
+      "username": "Enter username...",
+      "password": "Enter password...",
+      "passwordRepeat": "Repeat password...",
+      "email": "Enter email...",
+      "phone": "Enter phone...",
+      "firstName": "Enter First Name...",
+      "lastName": "Enter Last Name...",
+      "active": "Active or not active"
+    },
+    "actions": {
+      "create": "Create User",
+      "createTitle": "Create User",
+      "update": "Update User",
+      "updateTitle": "Edit User",
+      "delete": "Delete User",
+      "deleteTitle": "Delete User",
+      "cancel": "Cancel",
+      "back": "Go back",
+      "tryAgain": "Try again"
+    },
+    "errors": {
+      "notFound": {
+        "title": "404 User not found!",
+        "description": "Could not find the requested user."
+      },
+      "error": {
+        "title": "500 Something went wrong!",
+        "description": "We've unfortunately encountered an error."
+      }
+    },
+    "loading": "Loading...",
+    "noData": "No data..."
+  },
+  "PartsCategories": {
+    "title": "Parts Categories",
+    "description": "Parts Categories Description",
+    "search": "Search parts categories...",
+    "labels": {
+      "name": "Name",
+      "description": "Description",
+      "active": "Active",
+      "inactive": "Inactive",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "actions": "Actions"
+    },
+    "fields": {
+      "name": "Name",
+      "description": "Description",
+      "active": "Active",
+      "inactive": "Inactive",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "actions": "Actions"
+    },
+    "placeholders": {
+      "name": "Enter name...",
+      "description": "Enter description...",
+      "active": "Active or not active"
+    },
+    "actions": {
+      "create": "Create Category",
+      "createTitle": "Create Category",
+      "update": "Update Category",
+      "updateTitle": "Edit Category",
+      "delete": "Delete Category",
+      "deleteTitle": "Delete Category",
+      "cancel": "Cancel",
+      "back": "Go back",
+      "tryAgain": "Try again"
+    },
+    "errors": {
+      "notFound": {
+        "title": "404 Category not found!",
+        "description": "Could not find the requested category."
+      },
+      "error": {
+        "title": "500 Something went wrong!",
+        "description": "We've unfortunately encountered an error."
+      }
+    },
+    "loading": "Loading...",
+    "noData": "No data..."
+  },
+  "PartsItems": {
+    "title": "Parts Items",
+    "description": "Parts Items Description",
+    "search": "Search parts items...",
+    "labels": {
+      "categoryId": "Category Id",
+      "category": "Category",
+      "name": "Name",
+      "description": "Description",
+      "active": "Active",
+      "inactive": "Inactive",
+      "actions": "Actions"
+    },
+    "fields": {
+      "categoryId": "Category Id",
+      "category": "Category",
+      "name": "Name",
+      "description": "Description",
+      "active": "Active",
+      "inactive": "Inactive",
+      "actions": "Actions"
+    },
+    "placeholders": {
+      "category": "Select a category...",
+      "name": "Enter name...",
+      "description": "Enter description...",
+      "active": "Active or not active"
+    },
+    "actions": {
+      "create": "Create Item",
+      "createTitle": "Create Item",
+      "update": "Update Item",
+      "updateTitle": "Edit Item",
+      "delete": "Delete Item",
+      "deleteTitle": "Delete Item",
+      "cancel": "Cancel",
+      "back": "Go back",
+      "tryAgain": "Try again"
+    },
+    "errors": {
+      "notFound": {
+        "title": "404 Item not found!",
+        "description": "Could not find the requested item."
+      },
+      "error": {
+        "title": "500 Something went wrong!",
+        "description": "We've unfortunately encountered an error."
+      }
+    },
+    "loading": "Loading...",
+    "noData": "No data..."
+  },
+  "TicketsCategories": {
+    "title": "Tickets Categories",
+    "description": "Tickets Categories Description",
+    "search": "Search tickets categories...",
+    "labels": {
+      "name": "Name",
+      "description": "Description",
+      "active": "Active",
+      "inactive": "Inactive",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "actions": "Actions"
+    },
+    "fields": {
+      "name": "Name",
+      "description": "Description",
+      "active": "Active",
+      "inactive": "Inactive",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "actions": "Actions"
+    },
+    "placeholders": {
+      "name": "Enter name...",
+      "description": "Enter description...",
+      "active": "Active or not active"
+    },
+    "actions": {
+      "create": "Create Category",
+      "createTitle": "Create Category",
+      "update": "Update Category",
+      "updateTitle": "Edit Category",
+      "delete": "Delete Category",
+      "deleteTitle": "Delete Category",
+      "cancel": "Cancel",
+      "back": "Go back",
+      "tryAgain": "Try again"
+    },
+    "errors": {
+      "notFound": {
+        "title": "404 Category not found!",
+        "description": "Could not find the requested category."
+      },
+      "error": {
+        "title": "500 Something went wrong!",
+        "description": "We've unfortunately encountered an error."
+      }
+    },
+    "loading": "Loading...",
+    "noData": "No data..."
+  },
+  "TicketsInvoices": {
+    "titles": {
+      "main": "Заявки",
+      "create": "Создать заявку",
+      "update": "Обновить заявку",
+      "delete": "Удалить заявку"
+    },
+    "texts": {
+      "description": "Описание заявки"
+    },
+    "labels": {
+      "actions": "Действия",
+      "name": "Наименование",
+      "ticketsInvoice": "Заявка",
+      "ticketsCategories": "Категории заявки",
+      "ticketsCategoryId": "Категория заявки, id",
+      "ticketsCategory": "Категория заявки",
+      "description": "Описание",
+      "profileUsers": "Пользователи",
+      "customerUserId": "Заявитель, id",
+      "customerUser": "Заявитеть",
+      "employerUserId": "Исполнитель, id",
+      "employerUser": "Исполнитель",
+      "status": "Статус",
+      "statusChoices": {
+        "open": "Открыто",
+        "closed": "Закрыто",
+        "canceled": "Отменено"
+      },
+      "createdAt": "Создано",
+      "updatedAt": "Обновлено",
+      "ticketsItems": "Предметы заявки",
+      "ticketsItemId": "Предмет заявки, id",
+      "ticketsItem": "Предмет заявки",
+      "partsItems": "Предметы заявки",
+      "partsItemId": "Предмет заявки, id",
+      "partsItem": "Предмет",
+      "partsCategories": "Категории предметов",
+      "partsCategoryId": "Категория предметов, id",
+      "partsCategory": "Категория предметов"
+    },
+    "fields": {
+      "actions": "Действия",
+      "name": "Наименование",
+      "ticketsInvoice": "Заявка",
+      "ticketsCategories": "Категории заявки",
+      "ticketsCategoryId": "Категория заявки, id",
+      "ticketsCategory": "Категория заявки",
+      "description": "Описание",
+      "profileUsers": "Пользователи",
+      "customerUserId": "Заявитель, id",
+      "customerUser": "Заявитеть",
+      "employerUserId": "Исполнитель, id",
+      "employerUser": "Исполнитель",
+      "status": "Статус",
+      "statusChoices": {
+        "open": "Открыто",
+        "closed": "Закрыто",
+        "canceled": "Отменено"
+      },
+      "createdAt": "Создано",
+      "updatedAt": "Обновлено",
+      "ticketsItems": "Предметы заявки",
+      "ticketsItemId": "Предмет заявки, id",
+      "ticketsItem": "Предмет заявки",
+      "partsItems": "Предметы заявки",
+      "partsItemId": "Предмет заявки, id",
+      "partsItem": "Предмет",
+      "partsCategories": "Категории предметов",
+      "partsCategoryId": "Категория предметов, id",
+      "partsCategory": "Категория предметов"
+    },
+    "placeholders": {
+      "actions": "Действия...",
+      "search": "Поиск",
+      "name": "Наименование",
+      "ticketsCategory": "Категория заявки",
+      "ticketsCategoryNone": "Категория заявки отсутствует",
+      "description": "Описание",
+      "descriptionNone": "Описание отсутствует",
+      "customerUser": "Заявитель",
+      "customerUserNone": "Заявитель отсутствует",
+      "employerUser": "Испольнитель",
+      "employerUserNone": "Исполнитель отсутствует",
+      "status": "Статус",
+      "statusNone": "Статус отсутствует",
+      "createdAt": "Создано",
+      "createdAtNone": "Отсутствует",
+      "updatedAt": "Обновлено",
+      "updatedAtNone": "Отсутствует",
+      "ticketsItem": "Предметы заявки",
+      "ticketsItemNone": "Предметы заявки отсутствуют",
+      "partsItem": "Предметы",
+      "partsItemNone": "Предметы отсутствуют",
+      "partsCategory": "Категория предметов",
+      "partsCategoryNone": "Категория предметов отсутствует"
+    },
+    "actions": {
+      "back": "Назад",
+      "tryAgain": "Повторить",
+      "cancel": "Отменить",
+      "create": "Создать",
+      "edit": "Редактировать",
+      "update": "Обновить",
+      "save": "Сохранить",
+      "delete": "Удалить",
+      "deleteConfirm": "Подтвердить удаление",
+      "add": "Добавить",
+      "createTicketsInvoice": "Создать заявку",
+      "editTicketsInvoice": "Редактировать заявку",
+      "updateTicketsInvoice": "Обновить заявку",
+      "saveTicketsInvoice": "Сохранить заявку",
+      "deleteTicketsInvoice": "Удалить заявку",
+      "deleteConfirmTicketsInvoice": "Подтвердить удаление заявки",
+      "addTicketsInvoice": "Добавить заявку",
+      "createTicketsItem": "Создать предмет заявки",
+      "editTicketsItem": "Редактировать предмет заявки",
+      "updateTicketsItem": "Обновить предмет заявки",
+      "saveTicketsItem": "Сохранить предмет заявки",
+      "deleteTicketsItem": "Удалить предмет заявки",
+      "deleteConfirmTicketsItem": "Подтвердить удаление предмета заявки",
+      "addTicketsItem": "Добавить предмет заявки",
+      "createPartsItem": "Создать предмет",
+      "editPartsItem": "Редактировать предмет",
+      "updatePartsItem": "Обновить предмет",
+      "savePartsItem": "Сохранить предмет",
+      "deletePartsItem": "Удалить предмет",
+      "deleteConfirmPartsItem": "Подтвердить удаление предмета",
+      "addPartsItem": "Добавить предмет"
+    },
+    "sorting": {
+      "idDesc": "Id по убыванию",
+      "idAsc": "Id по возрастанию",
+      "createdAtDesc": "Создано по убыванию",
+      "createdAtAsc": "Создано по возрастанию",
+      "updatedAtDesc": "Обновлено по убыванию",
+      "updatedAtAsc": "Обновлено по возрастанию",
+      "statusDesc": "Статус по убыванию",
+      "statusAsc": "Статус по возрастанию"
+    },
+    "errors": {
+      "notFound": {
+        "title": "404! Заявка не найдена!",
+        "description": "Заявка не найдена."
+      },
+      "error": {
+        "title": "500! Что-то пошло не так!",
+        "description": "Что-то пошло не так."
+      }
+    },
+    "messages": {
+      "loading": "Загрузка...",
+      "noData": "Нет данных...",
+      "success": "Успешно обновлено!",
+      "delete": "Удалить",
+      "noTicketsCategories": "Нет категорий заявок",
+      "noTicketsCategory": "Нет категории заявки",
+      "noTicketsInvoices": "Нет заявок",
+      "noTicketsInvoice": "Нет заявки",
+      "noTicketsItems": "Нет предметов заявки",
+      "noTicketsItem": "Нет предмета заявки",
+      "noProfileUsers": "Нет пользователей",
+      "noCustomerUser": "Нет заявителя",
+      "noEmployerUser": "Нет исполнителя",
+      "noPartsCategories": "Нет категорий предметов",
+      "noPartsCategory": "Нет категории предмета",
+      "noPartsItems": "Нет предметов",
+      "noPartsItem": "Нет предмета",
+      "deleteTicketsInvoice": "Удалить заявку",
+      "deleteTicketsItem": "Удалить предмет заявки"
     }
   }
 }

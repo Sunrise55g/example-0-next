@@ -16,7 +16,7 @@ import { apiClient } from '@/interceptors/api-client-fetch'
 
 class TicketsCategoriesService {
 
-	private BASE_URL = '/tickets/categories/core'
+	private CORE_URL = '/tickets/categories/core'
 
 
 
@@ -24,7 +24,7 @@ class TicketsCategoriesService {
 		// console.log('TicketsCategoriesService: createOne: data:', data);
 		// console.log('TicketsCategoriesService: createOne: token:', token);
 
-		const response: any = await apiClient.post(this.BASE_URL, data, token)
+		const response: any = await apiClient.post(this.CORE_URL, data, token)
 		// console.log('TicketsCategoriesService: createOne: response:', response);
 
 		return response;
@@ -32,21 +32,40 @@ class TicketsCategoriesService {
 
 
 
-	async findMany(query?: any, token?: string) {
-		// console.log('TicketsCategoriesService: findMany: query:', query);
-		// console.log('TicketsCategoriesService: findMany: token:', token);
-
-		const response = await apiClient.get(this.BASE_URL, query, token)
-		// console.log('TicketsCategoriesService: findMany: response', response);
-
-		return response;
+	async findMany(queryParams?: any, token?: string) {
+		// console.log('TicketsInvoicesService: findMany: queryParams:', queryParams);
+				// console.log('TicketsInvoicesService: findMany: token:', token);
+		
+				////
+				let queryStr = '';
+		
+				if (queryParams?.page) {
+					queryStr += `?page=${queryParams.page}`;
+				}
+		
+				if (queryParams?.sort) {
+					queryStr += `&sort=${queryParams.sort}`;
+				}
+		
+				if (queryParams?.query) {
+					queryStr += `&filter=name||$cont||${queryParams.query}`;
+					queryStr += `&filter=description||$cont||${queryParams.query}`;
+				}
+		
+				console.log('TicketsInvoicesService: findMany: queryStr:', queryStr);
+		
+		
+				const response: any = await apiClient.get(this.CORE_URL, queryStr, token)
+				// console.log('TicketsInvoicesService: findMany: response', response);
+		
+				return response;
 	}
 
 
 
 	async findOne(id: number, token?: string) {
 
-		const response = await apiClient.get(`${this.BASE_URL}/${id}`, undefined, token)
+		const response = await apiClient.get(`${this.CORE_URL}/${id}`, undefined, token)
 		// console.log('TicketsCategoriesService: findOne: response', response);
 
 		return response;
@@ -66,7 +85,7 @@ class TicketsCategoriesService {
 			delete dataObj.password
 		}
 
-		const response = await apiClient.patch(`${this.BASE_URL}/${id}`, data, token)
+		const response = await apiClient.patch(`${this.CORE_URL}/${id}`, data, token)
 		// console.log('TicketsCategoriesService: findOne: response', response);
 
 		return response;
@@ -77,7 +96,7 @@ class TicketsCategoriesService {
 
 	async deleteOne(id: number, token: string) {
 
-		const response = await apiClient.delete(`${this.BASE_URL}/${id}`, token)
+		const response = await apiClient.delete(`${this.CORE_URL}/${id}`, token)
 		// console.log('TicketsCategoriesService: deleteOne: response', response);
 
 		return response;

@@ -9,18 +9,16 @@ import { CheckIcon, XMarkIcon, ClockIcon, TrashIcon, CurrencyDollarIcon } from '
 import { lusitana } from '@/components/fonts';
 import { UpdateButton, DeleteButton, Button } from '@/components/buttons';
 
-import { ticketsInvoicesService } from '@/services/tickets-invoices.service';
+import { ticketsCategoriesService } from '@/services/tickets-categories.service';
 import Link from 'next/link';
 
 
 
 
 export default function TableCreateForm({
-	profileUsers,
 	ticketsCategories,
 	onCreateSuccess,
 }: {
-	profileUsers: any;
 	ticketsCategories: any;
 	onCreateSuccess: () => void;
 }) {
@@ -48,18 +46,12 @@ export default function TableCreateForm({
 
 		let rawFormData = {
 			name: formData.get('name'),
-			ticketsCategoryId: formData.get('ticketsCategoryId'),
-			description: formData.get('description'),
-			customerUserId: formData.get('customerUserId'),
-			employerUserId: formData.get('employerUserId'),
+			description: formData.get('description')
 		};
 		//console.log('rawFormData:', { rawFormData });
 
-		if (rawFormData.employerUserId === 'null') {
-			rawFormData.employerUserId = null;
-		}
 
-		const serviceResponse: any = await ticketsInvoicesService.createOne(rawFormData, token);
+		const serviceResponse: any = await ticketsCategoriesService.createOne(rawFormData, token);
 
 		if (serviceResponse.error || serviceResponse.message) {
 			const message = serviceResponse.message;
@@ -74,7 +66,7 @@ export default function TableCreateForm({
 		setCreateFormVisible(false);
 
 		return {
-			message: '', 
+			message: '',
 			errors: {},
 			success: true,
 		};
@@ -100,7 +92,7 @@ export default function TableCreateForm({
 					}}
 					className="flex w-full h-10 items-center justify-center rounded-lg bg-blue-500 text-sm font-medium text-white transition-colors hover:bg-blue-400"
 				>
-					{t('actions.cancel')}
+					{"t('actions.cancel')"}
 				</button>
 			) : (
 				<button
@@ -110,7 +102,7 @@ export default function TableCreateForm({
 					}}
 					className="flex w-full h-10 items-center justify-center rounded-lg bg-blue-500 text-sm font-medium text-white transition-colors hover:bg-blue-400"
 				>
-					{t('actions.createTicketsInvoice')} +
+					{"t('actions.createTicketsInvoice')"} +
 				</button>
 			)}
 
@@ -122,14 +114,14 @@ export default function TableCreateForm({
 					<div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-0 mb-2">
 						<div className="w-full md:flex-1">
 							<label htmlFor="name" className="text-xs text-gray-500 block mb-1">
-								{t('labels.name')}:
+								{"t('labels.name')"}:
 							</label>
 							<input
 								id="name"
 								name="name"
 								type="string"
 								defaultValue=""
-								placeholder={t('placeholders.name')}
+								placeholder={"t('placeholders.name')"}
 								className="w-full h-9 text-sm rounded-md border border-gray-200 py-0 pl-5 outline-2"
 								aria-describedby="create-invoice-error"
 								required
@@ -137,7 +129,7 @@ export default function TableCreateForm({
 						</div>
 
 						<div className="w-full md:flex-1">
-							<label htmlFor="ticketsCategoryId" className="text-xs text-gray-500 block mb-1">
+							{/* <label htmlFor="ticketsCategoryId" className="text-xs text-gray-500 block mb-1">
 								{t('labels.ticketsCategory')}:
 							</label>
 							<select
@@ -156,11 +148,11 @@ export default function TableCreateForm({
 										{`#${ticketsCategory.id}:  ${ticketsCategory.name}`}
 									</option>
 								))}
-							</select>
+							</select> */}
 						</div>
 
 						<div className="w-full md:flex-1">
-							<label htmlFor="status" className="text-xs text-gray-500 block mb-1">
+							{/* <label htmlFor="status" className="text-xs text-gray-500 block mb-1">
 								{t('labels.status')}:
 							</label>
 							<select
@@ -179,93 +171,23 @@ export default function TableCreateForm({
 								<option value="CANCELED" className="text-red-500">
 									{t('fields.statusChoices.canceled')}
 								</option>
-							</select>
+							</select> */}
 						</div>
 					</div>
 
 					<div className="w-full mt-2 mb-2">
 						<label htmlFor="description" className="text-xs text-gray-500 block mb-1">
-							{t('labels.description')}:
+							{"t('labels.description')"}:
 						</label>
 						<input
 							id="description"
 							name="description"
 							type="string"
 							defaultValue=""
-							placeholder={t('placeholders.description')}
+							placeholder={"t('placeholders.description')"}
 							className="w-full h-9 text-sm rounded-md border border-gray-200 py-0 pl-5 outline-2"
 							aria-describedby="create-invoice-error"
 						/>
-					</div>
-
-					<div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-2 mb-2">
-						<div className="w-full md:flex-1">
-							<label htmlFor="customerUserId" className="text-xs text-gray-500 block mb-1">
-								{t('labels.customerUser')}:
-							</label>
-							<select
-								id="customerUserId"
-								name="customerUserId"
-								className="w-full h-9 text-sm rounded-md border bg-blue-300 border-gray-200 py-0 pl-5 outline-2 cursor-pointer"
-								defaultValue=""
-								aria-describedby="create-invoice-error"
-								required
-							>
-								<option value="" disabled>
-									{t('placeholders.customerUser')}
-								</option>
-								{profileUsers?.data?.map((profileUser: any) => (
-									<option key={profileUser.id} value={profileUser.id}>
-										{(() => {
-											let result = `customerUser #${profileUser.id}: `;
-											result += `${profileUser.username}, ${profileUser.email} `;
-											if (profileUser.phone) result += `, ${profileUser.phone}`;
-											if (profileUser.firstName) result += `, ${profileUser.firstName}`;
-											if (profileUser.lastName) result += `, ${profileUser.lastName}`;
-											result += `   --   `;
-											result += `#${profileUser?.profileRoleId}:  ${profileUser?.profileRole?.name}`;
-											return result;
-										})()}
-									</option>
-								))}
-							</select>
-						</div>
-					</div>
-
-					<div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-2 mb-2">
-						<div className="w-full md:flex-1">
-							<label htmlFor="employerUserId" className="text-xs text-gray-500 block mb-1">
-								{t('labels.employerUser')}:
-							</label>
-							<select
-								id="employerUserId"
-								name="employerUserId"
-								className="w-full h-9 text-sm rounded-md border bg-red-300 border-gray-200 py-0 pl-5 outline-2 cursor-pointer"
-								defaultValue=""
-								aria-describedby="create-invoice-error"
-							>
-								<option value="" disabled>
-									{t('placeholders.employerUser')}
-								</option>
-								<option value="null">
-									{t('placeholders.employerUserNone')}
-								</option>
-								{profileUsers?.data?.map((profileUser: any) => (
-									<option key={profileUser.id} value={profileUser.id}>
-										{(() => {
-											let result = `employerUser #${profileUser.id}: `;
-											result += `${profileUser.username}, ${profileUser.email} `;
-											if (profileUser.phone) result += `, ${profileUser.phone}`;
-											if (profileUser.firstName) result += `, ${profileUser.firstName}`;
-											if (profileUser.lastName) result += `, ${profileUser.lastName}`;
-											result += `   --   `;
-											result += `#${profileUser?.profileRoleId}:  ${profileUser?.profileRole?.name}`;
-											return result;
-										})()}
-									</option>
-								))}
-							</select>
-						</div>
 					</div>
 
 					<div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-3 mb-0">
@@ -275,16 +197,16 @@ export default function TableCreateForm({
 									<p className="text-red-500 text-m flex w-full py-3 pl-5">{createState.message}</p>
 								)}
 								{createState.errors && createState.message && createState.message === 'Success' && (
-									<p className="text-green-500 text-m flex w-full py-3 pl-5">{t("messages.success")}</p>
+									<p className="text-green-500 text-m flex w-full py-3 pl-5">{'t("messages.success")'}</p>
 								)}
 							</div>
 						</div>
 
 						<div className="flex h-9 w-full justify-end gap-3">
 							<Button className="bg-red-500" onClick={() => setCreateFormVisible(false)}>
-								{t('actions.cancel')}
+								{"t('actions.cancel')"}
 							</Button>
-							<Button type="submit">{t('actions.createTicketsInvoice')}</Button>
+							<Button type="submit">{"t('actions.createTicketsInvoice')"}</Button>
 						</div>
 					</div>
 				</form>

@@ -5,30 +5,22 @@ import { useState, useEffect, useActionState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/buttons';
 
-import TicketsItemsForm from './table-items-form';
-
-import { ticketsInvoicesService } from '@/services/tickets-invoices.service';
+import { ticketsCategoriesService } from '@/services/tickets-categories.service';
 
 
 
 export default function TableEditForm({
-  ticketsInvoice,
-  profileUsers,
-  ticketsCategories,
-  partsItems,
+  ticketsCategory,
   onUpdateSuccess,
 }: {
-  ticketsInvoice: any;
-  profileUsers: any;
-  ticketsCategories: any;
-  partsItems: any;
+  ticketsCategory: any;
   onUpdateSuccess: () => void;
 }) {
 
   // params
   const { data: session, status }: any = useSession();
   const token = session?.user?.jwt;
-  const t = useTranslations('TicketsInvoices');
+  const t = useTranslations('TicketsCategories');
 
 
   //// Begin Update Action
@@ -48,11 +40,8 @@ export default function TableEditForm({
     const id = formData.get('id');
     const rawFormData = {
       name: formData.get('name'),
-      ticketsCategoryId: formData.get('ticketsCategoryId'),
       description: formData.get('description'),
-      customerUserId: formData.get('customerUserId'),
-      employerUserId: formData.get('employerUserId'),
-      status: formData.get('status'),
+      // active: formData.get('active'),
     };
     console.log('rawFormData (update):', { id, ...rawFormData });
 
@@ -64,7 +53,7 @@ export default function TableEditForm({
       };
     }
 
-    const serviceResponse: any = await ticketsInvoicesService.updateOne(+id, rawFormData, token);
+    const serviceResponse: any = await ticketsCategoriesService.updateOne(+id, rawFormData, token);
 
     if (serviceResponse.error || serviceResponse.message) {
       const message = serviceResponse.message;
@@ -120,7 +109,7 @@ export default function TableEditForm({
       };
     }
 
-    const serviceResponse: any = await ticketsInvoicesService.deleteOne(+id, token);
+    const serviceResponse: any = await ticketsCategoriesService.deleteOne(+id, token);
 
     if (serviceResponse.error || serviceResponse.message) {
       const message = serviceResponse.message;
@@ -156,26 +145,27 @@ export default function TableEditForm({
       {/* Begin Update Form */}
       <form action={updateFormAction}>
         <h2 className="flex justify-between items-center text-lg font-semibold text-gray-700 mb-3">
-          <span>{t('labels.ticketsInvoice')} #{ticketsInvoice.id}</span>
+          <span>{"t('labels.ticketsInvoice')"} #{ticketsCategory.id}</span>
           <span className="text-sm font-normal">
-            {t('labels.createdAt')}: {new Date(ticketsInvoice.createdAt).toLocaleString()} |{' '}
-            {t('labels.updatedAt')}: {new Date(ticketsInvoice.updatedAt).toLocaleString()}
+            {"t('labels.createdAt')"}: {new Date(ticketsCategory.createdAt).toLocaleString()} |{' '}
+            {"t('labels.updatedAt')"}: {new Date(ticketsCategory.updatedAt).toLocaleString()}
           </span>
         </h2>
 
-        <input type="hidden" name="id" value={ticketsInvoice.id} />
+        <input type="hidden" name="id" value={ticketsCategory.id} />
 
         <div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-2 mb-2">
+
           <div className="w-full md:flex-1">
             <label htmlFor="name" className="text-xs text-gray-500 block mb-1">
-              {t('labels.name')}:
+              {"t('labels.name')"}:
             </label>
             <input
               id="name"
               name="name"
               type="string"
-              defaultValue={ticketsInvoice.name}
-              placeholder={t('placeholders.name')}
+              defaultValue={ticketsCategory.name}
+              placeholder={"t('placeholders.name')"}
               className={`w-full h-9 text-sm rounded-md border py-0 pl-5 
                 ${editFormVisible ? 'border-green-500 outline-2' : 'border-gray-200'}`}
               disabled={!editFormVisible}
@@ -183,38 +173,10 @@ export default function TableEditForm({
             />
           </div>
 
-          <div className="w-full md:flex-1">
-            <label htmlFor="ticketsCategoryId" className="text-xs text-gray-500 block mb-1">
-              {t('labels.ticketsCategory')}:
-            </label>
-            <select
-              id="ticketsCategoryId"
-              name="ticketsCategoryId"
-              className={`w-full h-9 text-sm rounded-md border py-0 pl-5 
-                ${editFormVisible ? 'border-green-500 outline-2 cursor-pointer' : 'border-gray-200 bg-none'}`}
-                defaultValue={
-                  (() => {
-                    // console.log('!!!!!!!!!!!!!!!!!!!!!!! ticketsInvoice.status:', ticketsInvoice.status);
-                   return ticketsInvoice.ticketsCategoryId
-                  })()
-                }
-                key={ticketsInvoice.ticketsCategoryId}
-              disabled={!editFormVisible}
-              aria-describedby="update-invoice-error"
-            >
-              <option value="" disabled>
-                {t('placeholders.ticketsCategoryNone')}
-              </option>
-              {ticketsCategories?.data?.map((ticketsCategory: any) => (
-                <option key={ticketsCategory.id} value={ticketsCategory.id}>
-                  {`#${ticketsCategory.id}:  ${ticketsCategory.name}`}
-                </option>
-              ))}
-            </select>
-          </div>
+
 
           <div className="w-full md:flex-1">
-            <label htmlFor="status" className="text-xs text-gray-500 block mb-1">
+            {/* <label htmlFor="status" className="text-xs text-gray-500 block mb-1">
               {t('labels.status')}:
             </label>
             <select
@@ -241,20 +203,20 @@ export default function TableEditForm({
               <option key="CANCELED" value="CANCELED" className="text-red-500">
                 {t('fields.statusChoices.canceled')}
               </option>
-            </select>
+            </select> */}
           </div>
         </div>
 
         <div className="w-full mt-2 mb-2">
           <label htmlFor="description" className="text-xs text-gray-500 block mb-1">
-            {t('labels.description')}:
+            {"t('labels.description')"}:
           </label>
           <input
             id="description"
             name="description"
             type="string"
-            defaultValue={ticketsInvoice.description || ''}
-            placeholder={t('placeholders.descriptionNone')}
+            defaultValue={ticketsCategory.description || ''}
+            placeholder={"t('placeholders.descriptionNone')"}
             className={`w-full h-9 text-sm rounded-md border py-0 pl-5
               ${editFormVisible ? 'border-green-500 outline-2' : 'border-gray-200'}`}
             disabled={!editFormVisible}
@@ -262,92 +224,6 @@ export default function TableEditForm({
           />
         </div>
 
-        <div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-2 mb-2">
-          <div className="w-full md:flex-1">
-            <label htmlFor="customerUserId" className="text-xs text-gray-500 block mb-1">
-              {t('labels.customerUser')}:
-            </label>
-            <select
-              id="customerUserId"
-              name="customerUserId"
-              className={`w-full h-9 text-sm rounded-md border bg-blue-300 py-0 pl-5
-                ${editFormVisible ? 'border-green-500 outline-2 cursor-pointer' : 'border-gray-200 bg-none'}`}
-                defaultValue={
-                  (() => {
-                    // console.log('!!!!!!!!!!!!!!!!!!!!!!! ticketsInvoice.status:', ticketsInvoice.status);
-                   return ticketsInvoice.customerUserId
-                  })()
-                }
-                key={ticketsInvoice.customerUserId}
-              disabled={!editFormVisible}
-              aria-describedby="update-invoice-error"
-            >
-              <option value="" disabled>
-                {t('placeholders.customerUserNone')}
-              </option>
-              {profileUsers?.data?.map((profileUser: any) => (
-                <option key={profileUser.id} value={profileUser.id}>
-                  {(() => {
-                    let result = `customerUser #${profileUser.id}: `;
-                    result += `${profileUser.username}, ${profileUser.email} `;
-                    if (profileUser.phone) result += `, ${profileUser.phone}`;
-                    if (profileUser.firstName) result += `, ${profileUser.firstName}`;
-                    if (profileUser.lastName) result += `, ${profileUser.lastName}`;
-                    result += `   --   `;
-                    result += `#${profileUser?.profileRoleId}:  ${profileUser?.profileRole?.name}`;
-                    return result;
-                  })()}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        <div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-2 mb-2">
-          <div className="w-full md:flex-1">
-            <label htmlFor="employerUserId" className="text-xs text-gray-500 block mb-1">
-              {t('labels.employerUser')}:
-            </label>
-            <select
-              id="employerUserId"
-              name="employerUserId"
-              className={`w-full h-9 text-sm rounded-md border bg-red-300 py-0 pl-5
-                ${editFormVisible ? 'border-green-500 outline-2 cursor-pointer' : 'border-gray-200 bg-none'}`}
-                defaultValue={
-                  (() => {
-                    // console.log('!!!!!!!!!!!!!!!!!!!!!!! ticketsInvoice.status:', ticketsInvoice.status);
-                   return ticketsInvoice.employerUserId
-                  })()
-                }
-                key={ticketsInvoice.employerUserId}
-              disabled={!editFormVisible}
-              aria-describedby="update-invoice-error"
-            >
-              <option value="" disabled>
-                {t('placeholders.employerUserNone')}
-              </option>
-              {profileUsers?.data?.map((profileUser: any) => (
-                <option key={profileUser.id} value={profileUser.id}>
-                  {(() => {
-                    let result = `employerUser #${profileUser.id}: `;
-                    result += `${profileUser.username}, ${profileUser.email} `;
-
-                    if (profileUser.phone) result += `, ${profileUser.phone}`;
-                    if (profileUser.firstName) result += `, ${profileUser.firstName}`;
-                    if (profileUser.lastName) result += `, ${profileUser.lastName}`;
-
-                    if (profileUser.profileRoleId) {
-                      result += `   --   `;
-                      result += `#${profileUser?.profileRoleId}:  ${profileUser?.profileRole?.name}`;
-                    }
-
-                    return result;
-                  })()}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
 
         <div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-2 mb-2">
           <div className="w-full md:flex">
@@ -356,7 +232,7 @@ export default function TableEditForm({
                 <p className="text-red-500 text-m flex w-full py-3 pl-5">{updateState.message}</p>
               )}
               {updateState.errors && updateState.message && updateState.message === 'Success' && (
-                <p className="text-green-500 text-m flex w-full py-3 pl-5">{t("messages.success")}</p>
+                <p className="text-green-500 text-m flex w-full py-3 pl-5">{'t("messages.success")'}</p>
               )}
             </div>
             <div id="delete-invoice-error" aria-live="polite" aria-atomic="true">
@@ -368,7 +244,7 @@ export default function TableEditForm({
 
           {editFormVisible ? (
             <div className="flex w-full justify-end gap-3 mt-1">
-              <Button type="submit">{t('actions.saveTicketsInvoice')}</Button>
+              <Button type="submit">{"t('actions.saveTicketsInvoice')"}</Button>
               <Button
                 type="button"
                 onClick={(e) => {
@@ -376,7 +252,7 @@ export default function TableEditForm({
                   setEditFormVisible(false);
                 }}
               >
-                {t('actions.cancel')}
+                {"t('actions.cancel')"}
               </Button>
             </div>
           ) : (
@@ -388,7 +264,7 @@ export default function TableEditForm({
                   setEditFormVisible(true);
                 }}
               >
-                {t('actions.editTicketsInvoice')}
+                {"t('actions.editTicketsInvoice')"}
               </Button>
               <Button
                 type="button"
@@ -398,7 +274,7 @@ export default function TableEditForm({
                   setIsDeleteModalOpen(true);
                 }}
               >
-                {t('actions.deleteTicketsInvoice')}
+                {"t('actions.deleteTicketsInvoice')"}
               </Button>
             </div>
           )}
@@ -406,20 +282,14 @@ export default function TableEditForm({
       </form>
       {/* End Update Form */}
 
-      {/* TicketsItems Form */}
-      <TicketsItemsForm
-        ticketsInvoice={ticketsInvoice}
-        partsItems={partsItems}
-        onUpdateSuccess={onUpdateSuccess}
-      />
 
       {/* Begin Delete Form */}
       {isDeleteModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-lg font-semibold mb-4">{t('titles.delete')}</h2>
+            <h2 className="text-lg font-semibold mb-4">{"t('titles.delete')"}</h2>
             <p className="mb-6">
-              {t('messages.deleteTicketsInvoice')} #{ticketsInvoice.id}?
+              {"t('messages.deleteTicketsInvoice')"} #{ticketsCategory.id}?
             </p>
             <div className="flex justify-end gap-3">
               <Button
@@ -427,12 +297,12 @@ export default function TableEditForm({
                 className="bg-gray-500 hover:bg-gray-400"
                 onClick={() => setIsDeleteModalOpen(false)}
               >
-                {t('actions.cancel')}
+                {"t('actions.cancel')"}
               </Button>
               <form action={deleteFormAction}>
-                <input type="hidden" name="id" value={ticketsInvoice.id} />
+                <input type="hidden" name="id" value={ticketsCategory.id} />
                 <Button type="submit" className="bg-red-500 hover:bg-red-400">
-                  {t('actions.deleteTicketsInvoice')}
+                  {"t('actions.deleteTicketsInvoice')"}
                 </Button>
               </form>
             </div>

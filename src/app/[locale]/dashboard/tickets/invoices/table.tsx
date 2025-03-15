@@ -67,6 +67,8 @@ export default function Table({
         ticketsInvoicesService.findMany(searchParams, token),
       ]);
 
+      console.log('fetchAllData: invoicesRes:', {invoicesRes});
+
       setProfileUsers(usersRes);
       setTicketsCategories(categoriesRes);
       setPartsItems(itemsRes);
@@ -81,10 +83,10 @@ export default function Table({
 
   useEffect(() => {
     fetchAllData();
-    const intervalId = setInterval(() => {
-      fetchAllData();
-    }, 10000);
-    return () => clearInterval(intervalId);
+    // const intervalId = setInterval(() => {
+    //   fetchAllData();
+    // }, 10000);
+    // return () => clearInterval(intervalId);
   }, []);
 
   
