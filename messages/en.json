@@ -418,6 +418,7 @@
     "labels": {
       "actions": "Actions",
       "name": "Name",
+      "ticketsInvoice": "Tickets invoice",
       "ticketsCategories": "Tickets categories",
       "ticketsCategoryId": "Tickets category id",
       "ticketsCategory": "Tickets category",
@@ -453,6 +454,7 @@
       "ticketsCategory": "Tickets category",
       "description": "Description",
       "profileUsers": "Users",
+      "profileRole": "Role",
       "customerUserId": "Customer user id",
       "customerUser": "Customer user",
       "employerUserId": "Employer user id",
@@ -523,7 +525,7 @@
       "updateTicketsItem": "Update tickets item",
       "saveTicketsItem": "Save tickets item",
       "deleteTicketsItem": "Delete tickets item",
-      "deleteConfirmTicketsItemt": "Confirm delete tickets item",
+      "deleteConfirmTicketsItem": "Confirm delete tickets item",
       "addTicketsItem": "Add tickets item",
       "createPartsItem": "Create parts item",
       "editPartsItem": "Edit parts item",
@@ -532,6 +534,16 @@
       "deletePartsItem": "Delete parts item",
       "deleteConfirmPartsItem": "Confirm delete parts item",
       "addPartsItem": "Add parts items to this invoice"
+    },
+    "sorting": {
+      "idDesc": "Id by desc",
+      "idAsc": "Id by asc",
+      "createdAtDesc": "Created at by desc",
+      "createdAtAsc": "Created at by asc",
+      "updatedAtDesc": "Updated at by desc",
+      "updatedAtAsc": "Updated at by asc",
+      "statusDesc": "Status by desc",
+      "statusAsc": "Status by asc"
     },
     "errors": {
       "notFound": {

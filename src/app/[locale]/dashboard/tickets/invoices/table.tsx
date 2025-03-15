@@ -1,7 +1,7 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { CheckIcon, XMarkIcon, ClockIcon, TrashIcon, CurrencyDollarIcon } from '@heroicons/react/24/solid';
@@ -24,23 +24,30 @@ import Link from 'next/link';
 
 export default function Table({
   query,
+  sort,
   currentPage,
 }: {
   query: string;
+  sort: string;
   currentPage: number;
 }) {
 
-  // param
+  //// params
   const { data: session, status }: any = useSession();
   const token = session?.user?.jwt;
 
   const locale = useLocale();
   const t = useTranslations('TicketsInvoices');
 
-  let searchParams = `page=${currentPage}`;
-  if (query) {
-    searchParams = `page=${currentPage}&s=${query}`;
-  }
+  const searchParams = useMemo(
+    () => ({
+      page: currentPage || 1,
+      query: query || undefined,
+      sort: sort || undefined,
+    }),
+    [currentPage, query, sort]
+  );
+  console.log('Table: searchParams:', searchParams);
 
 
   ////
@@ -76,10 +83,14 @@ export default function Table({
     fetchAllData();
     const intervalId = setInterval(() => {
       fetchAllData();
-    }, 5000);
+    }, 10000);
     return () => clearInterval(intervalId);
-  }, [searchParams, token]);
+  }, []);
 
+  
+  useEffect(() => {
+    fetchAllData();
+  }, [searchParams]);
 
 
   ////

@@ -152,17 +152,22 @@ export default function TableEditForm({
 
 
   return (
-    <div className="mb-4 w-full rounded-md bg-gray-200 p-4">
-
+    <div className="w-full rounded-md bg-gray-200 text-sm p-4 mb-5 mt-5">
       {/* Begin Update Form */}
       <form action={updateFormAction}>
+        <h2 className="flex justify-between items-center text-lg font-semibold text-gray-700 mb-3">
+          <span>{t('labels.ticketsInvoice')} #{ticketsInvoice.id}</span>
+          <span className="text-sm font-normal">
+            {t('labels.createdAt')}: {new Date(ticketsInvoice.createdAt).toLocaleString()} |{' '}
+            {t('labels.updatedAt')}: {new Date(ticketsInvoice.updatedAt).toLocaleString()}
+          </span>
+        </h2>
+
         <input type="hidden" name="id" value={ticketsInvoice.id} />
 
-
-        <div className="flex w-full items-start justify-between mb-4 gap-4">
-
-          <div className="flex-1">
-            <label htmlFor="name" className="text-sm text-gray-500 block mb-1">
+        <div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-2 mb-2">
+          <div className="w-full md:flex-1">
+            <label htmlFor="name" className="text-xs text-gray-500 block mb-1">
               {t('labels.name')}:
             </label>
             <input
@@ -171,26 +176,22 @@ export default function TableEditForm({
               type="string"
               defaultValue={ticketsInvoice.name}
               placeholder={t('placeholders.name')}
-              className={
-                `w-full h-10 rounded-md border py-2 pl-5 
-                ${editFormVisible ? 'border-green-500 outline-2' : 'border-gray-200'}`
-              }
+              className={`w-full h-9 text-sm rounded-md border py-0 pl-5 
+                ${editFormVisible ? 'border-green-500 outline-2' : 'border-gray-200'}`}
               disabled={!editFormVisible}
               aria-describedby="update-invoice-error"
             />
           </div>
 
-          <div className="flex-1">
-            <label htmlFor="ticketsCategoryId" className="text-sm text-gray-500 block mb-1">
+          <div className="w-full md:flex-1">
+            <label htmlFor="ticketsCategoryId" className="text-xs text-gray-500 block mb-1">
               {t('labels.ticketsCategory')}:
             </label>
             <select
               id="ticketsCategoryId"
               name="ticketsCategoryId"
-              className={
-                `w-full h-10 rounded-md border py-2 pl-5 
-                ${editFormVisible ? 'border-green-500 outline-2 cursor-pointer' : 'border-gray-200 bg-none'}`
-              }
+              className={`w-full h-9 text-sm rounded-md border py-0 pl-5 
+                ${editFormVisible ? 'border-green-500 outline-2 cursor-pointer' : 'border-gray-200 bg-none'}`}
               defaultValue={ticketsInvoice.ticketsCategoryId || ''}
               disabled={!editFormVisible}
               aria-describedby="update-invoice-error"
@@ -200,106 +201,21 @@ export default function TableEditForm({
               </option>
               {ticketsCategories?.data?.map((ticketsCategory: any) => (
                 <option key={ticketsCategory.id} value={ticketsCategory.id}>
-                  {ticketsCategory.name}
+                  {`#${ticketsCategory.id}:  ${ticketsCategory.name}`}
                 </option>
               ))}
             </select>
           </div>
 
-        </div>
-
-
-        <div className="w-full mb-4">
-          <label htmlFor="description" className="text-sm text-gray-500 block mb-1">
-            {t('labels.description')}:
-          </label>
-          <input
-            id="description"
-            name="description"
-            type="string"
-            defaultValue={ticketsInvoice.description || ''}
-            placeholder={t('placeholders.descriptionNone')}
-            className={
-              `w-full h-10 rounded-md border py-2 pl-5
-              ${editFormVisible ? 'border-green-500 outline-2' : 'border-gray-200'}`
-            }
-            disabled={!editFormVisible}
-            aria-describedby="update-invoice-error"
-          />
-        </div>
-
-
-        <div className="flex w-full items-start justify-between mb-4 gap-4">
-          <div className="flex-1">
-            <label htmlFor="customerUserId" className="text-sm text-gray-500 block mb-1">
-              {t('labels.customerUser')}:
-            </label>
-            <select
-              id="customerUserId"
-              name="customerUserId"
-              className={
-                `w-full h-10 rounded-md border bg-blue-300 py-2 pl-5 
-                ${editFormVisible ? 'border-green-500 outline-2 cursor-pointer' : 'border-gray-200 bg-none'}`
-              }
-              defaultValue={ticketsInvoice.customerUserId || ''}
-              disabled={!editFormVisible}
-              aria-describedby="update-invoice-error"
-            >
-              <option value="" disabled>
-                {t('placeholders.customerUserNone')}
-              </option>
-              {profileUsers?.data?.map((profileUser: any) => (
-                <option key={profileUser.id} value={profileUser.id}>
-                  {profileUser.username} - {profileUser.email} {profileUser?.phone} {profileUser?.firstName} {profileUser?.lastName}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-
-        <div className="flex w-full items-start justify-between mb-4 gap-4">
-          <div className="flex-1">
-            <label htmlFor="employerUserId" className="text-sm text-gray-500 block mb-1">
-              {t('labels.employerUser')}:
-            </label>
-            <select
-              id="employerUserId"
-              name="employerUserId"
-              className={
-                `w-full h-10 rounded-md border bg-red-300 py-2 pl-5 
-                ${editFormVisible ? 'border-green-500 outline-2 cursor-pointer' : 'border-gray-200 bg-none'}`
-              }
-              defaultValue={ticketsInvoice.employerUserId || ''}
-              disabled={!editFormVisible}
-              aria-describedby="update-invoice-error"
-            >
-              <option value="" disabled>
-                {t('placeholders.employerUserNone')}
-              </option>
-              {profileUsers?.data?.map((profileUser: any) => (
-                <option key={profileUser.id} value={profileUser.id}>
-                  {profileUser.username} - {profileUser.email} {profileUser?.phone} {profileUser?.firstName} {profileUser?.lastName}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-
-        <div className="flex w-full items-start justify-between mb-4 gap-4">
-
-          <div className="flex-1">
-            <label htmlFor="status" className="text-sm text-gray-500 block mb-1">
+          <div className="w-full md:flex-1">
+            <label htmlFor="status" className="text-xs text-gray-500 block mb-1">
               {t('labels.status')}:
             </label>
             <select
               id="status"
               name="status"
-              className={
-                `w-full h-10 rounded-md border py-2 pl-5
-                ${editFormVisible ? 'border-green-500 outline-2 cursor-pointer' : 'border-gray-200 bg-none'}`
-              }
+              className={`w-full h-9 text-sm rounded-md border py-0 pl-5
+                ${editFormVisible ? 'border-green-500 outline-2 cursor-pointer' : 'border-gray-200 bg-none'}`}
               defaultValue={ticketsInvoice.status}
               disabled={!editFormVisible}
               aria-describedby="update-invoice-error"
@@ -315,57 +231,112 @@ export default function TableEditForm({
               </option>
             </select>
           </div>
+        </div>
 
-          <div className="flex-1">
-            <label htmlFor="createdAt" className="text-sm text-gray-500 block mb-1">
-              {t('labels.createdAt')}:
-            </label>
-            <input
-              id="createdAt"
-              name="createdAt"
-              type="string"
-              defaultValue={new Date(ticketsInvoice.createdAt).toLocaleString()}
-              placeholder={t('placeholders.createdAtNone')}
-              className='w-full h-10 rounded-md border py-2 pl-5 border-gray-200'
-              disabled
-            />
-          </div>
+        <div className="w-full mt-2 mb-2">
+          <label htmlFor="description" className="text-xs text-gray-500 block mb-1">
+            {t('labels.description')}:
+          </label>
+          <input
+            id="description"
+            name="description"
+            type="string"
+            defaultValue={ticketsInvoice.description || ''}
+            placeholder={t('placeholders.descriptionNone')}
+            className={`w-full h-9 text-sm rounded-md border py-0 pl-5
+              ${editFormVisible ? 'border-green-500 outline-2' : 'border-gray-200'}`}
+            disabled={!editFormVisible}
+            aria-describedby="update-invoice-error"
+          />
+        </div>
 
-          <div className="flex-1">
-            <label htmlFor="updatedAt" className="text-sm text-gray-500 block mb-1">
-              {t('labels.updatedAt')}:
+        <div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-2 mb-2">
+          <div className="w-full md:flex-1">
+            <label htmlFor="customerUserId" className="text-xs text-gray-500 block mb-1">
+              {t('labels.customerUser')}:
             </label>
-            <input
-              id="updatedAt"
-              name="updatedAt"
-              type="string"
-              defaultValue={new Date(ticketsInvoice.updatedAt).toLocaleString()}
-              placeholder={t('placeholders.updatedAtNone')}
-              className='w-full h-10 rounded-md border py-2 pl-5 border-gray-200'
-              disabled
-            />
+            <select
+              id="customerUserId"
+              name="customerUserId"
+              className={`w-full h-9 text-sm rounded-md border bg-blue-300 py-0 pl-5
+                ${editFormVisible ? 'border-green-500 outline-2 cursor-pointer' : 'border-gray-200 bg-none'}`}
+              defaultValue={ticketsInvoice.customerUserId || ''}
+              disabled={!editFormVisible}
+              aria-describedby="update-invoice-error"
+            >
+              <option value="" disabled>
+                {t('placeholders.customerUserNone')}
+              </option>
+              {profileUsers?.data?.map((profileUser: any) => (
+                <option key={profileUser.id} value={profileUser.id}>
+                  {(() => {
+                    let result = `customerUser #${profileUser.id}: `;
+                    result += `${profileUser.username}, ${profileUser.email} `;
+                    if (profileUser.phone) result += `, ${profileUser.phone}`;
+                    if (profileUser.firstName) result += `, ${profileUser.firstName}`;
+                    if (profileUser.lastName) result += `, ${profileUser.lastName}`;
+                    result += `   --   `;
+                    result += `${t('fields.profileRole')} #${profileUser.profileRoleId}:  ${profileUser.profileRole.name}`;
+                    return result;
+                  })()}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
+        <div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-2 mb-2">
+          <div className="w-full md:flex-1">
+            <label htmlFor="employerUserId" className="text-xs text-gray-500 block mb-1">
+              {t('labels.employerUser')}:
+            </label>
+            <select
+              id="employerUserId"
+              name="employerUserId"
+              className={`w-full h-9 text-sm rounded-md border bg-red-300 py-0 pl-5
+                ${editFormVisible ? 'border-green-500 outline-2 cursor-pointer' : 'border-gray-200 bg-none'}`}
+              defaultValue={ticketsInvoice.employerUserId || ''}
+              disabled={!editFormVisible}
+              aria-describedby="update-invoice-error"
+            >
+              <option value="" disabled>
+                {t('placeholders.employerUserNone')}
+              </option>
+              {profileUsers?.data?.map((profileUser: any) => (
+                <option key={profileUser.id} value={profileUser.id}>
+                  {(() => {
+                    let result = `employerUser #${profileUser.id}: `;
+                    result += `${profileUser.username}, ${profileUser.email} `;
+                    if (profileUser.phone) result += `, ${profileUser.phone}`;
+                    if (profileUser.firstName) result += `, ${profileUser.firstName}`;
+                    if (profileUser.lastName) result += `, ${profileUser.lastName}`;
+                    result += `   --   `;
+                    result += `${t('fields.profileRole')} #${profileUser.profileRoleId}:  ${profileUser.profileRole.name}`;
+                    return result;
+                  })()}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
 
-        <div className="flex w-full items-start justify-between gap-4">
-
-          <div className="flex-1">
+        <div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-2 mb-2">
+          <div className="w-full md:flex-1">
             <div id="update-invoice-error" aria-live="polite" aria-atomic="true">
               {updateState.errors && updateState.message && (
-                <p className="text-red-500 py-2 pl-5">{updateState.message}</p>
+                <p className="text-red-500 py-0 pl-5">{updateState.message}</p>
               )}
             </div>
             <div id="delete-invoice-error" aria-live="polite" aria-atomic="true">
               {deleteState.errors && deleteState.message && (
-                <p className="text-red-500 py-2 pl-5">{deleteState.message}</p>
+                <p className="text-red-500 py-0 pl-5">{deleteState.message}</p>
               )}
             </div>
           </div>
 
           {editFormVisible ? (
-            <div className="flex w-full justify-end gap-3">
-              <Button type="submit">{t('actions.saveInvoice')}</Button>
+            <div className="flex w-full justify-end gap-3 mt-1">
+              <Button type="submit">{t('actions.saveTicketsInvoice')}</Button>
               <Button
                 type="button"
                 onClick={(e) => {
@@ -377,7 +348,7 @@ export default function TableEditForm({
               </Button>
             </div>
           ) : (
-            <div className="flex w-full justify-end gap-3 mt-2">
+            <div className="flex w-full justify-end gap-3 mt-1">
               <Button
                 type="button"
                 onClick={(e) => {
@@ -400,11 +371,8 @@ export default function TableEditForm({
             </div>
           )}
         </div>
-
-        
       </form>
       {/* End Update Form */}
-
 
       {/* TicketsItems Form */}
       <TicketsItemsForm
@@ -412,7 +380,6 @@ export default function TableEditForm({
         partsItems={partsItems}
         onUpdateSuccess={onUpdateSuccess}
       />
-
 
       {/* Begin Delete Form */}
       {isDeleteModalOpen && (
@@ -441,8 +408,6 @@ export default function TableEditForm({
         </div>
       )}
       {/* End Delete Form */}
-
-
     </div>
   );
 }

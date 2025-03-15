@@ -33,11 +33,30 @@ class TicketsInvoicesService {
 
 
 
-	async findMany(query?: any, token?: string) {
-		// console.log('TicketsInvoicesService: findMany: query:', query);
+	async findMany(queryParams?: any, token?: string) {
+		// console.log('TicketsInvoicesService: findMany: queryParams:', queryParams);
 		// console.log('TicketsInvoicesService: findMany: token:', token);
 
-		const response: any = await apiClient.get(this.CORE_URL, query, token)
+		////
+		let queryStr = '';
+
+		if (queryParams?.page) {
+			queryStr += `?page=${queryParams.page}`;
+		}
+
+		if (queryParams?.sort) {
+			queryStr += `&sort=${queryParams.sort}`;
+		}
+
+		if (queryParams?.query) {
+			queryStr += `&filter=name||$cont||${queryParams.query}`;
+			queryStr += `&filter=description||$cont||${queryParams.query}`;
+		}
+
+		console.log('TicketsInvoicesService: findMany: queryStr:', queryStr);
+
+
+		const response: any = await apiClient.get(this.CORE_URL, queryStr, token)
 		// console.log('TicketsInvoicesService: findMany: response', response);
 
 		return response;
