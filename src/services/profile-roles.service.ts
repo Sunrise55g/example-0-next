@@ -1,11 +1,8 @@
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-
-import {
-	IProfileRolesCreateReq,
-	IProfileRolesReadRes, IProfileRolesReadBulkRes,
-	IProfileRolesUpdateReq
-} from '@/types/profile.roles.d'
+// import {
+// 	IProfileRolesCreateReq,
+// 	IProfileRolesReadRes, IProfileRolesReadBulkRes,
+// 	IProfileRolesUpdateReq
+// } from '@/types/profile.roles.d'
 
 
 import { apiClient } from '@/interceptors/api-client-fetch'
@@ -32,11 +29,28 @@ class ProfileRolesService {
 
 
 
-	async findMany(query?: any, token?: string) {
+	async findMany(queryParams?: any, token?: string) {
 		// console.log('ProfileRolesService: findMany: query:', query);
 		// console.log('ProfileRolesService: findMany: token:', token);
 
-		const response = await apiClient.get(this.CORE_URL, query, token)
+
+		////
+		let queryStr = '';
+
+		if (queryParams?.page) {
+			queryStr += `?page=${queryParams.page}`;
+		}
+
+		if (queryParams?.sort) {
+			queryStr += `&sort=${queryParams.sort}`;
+		}
+
+		if (queryParams?.query) {
+			queryStr += `&filter=name||$cont||${queryParams.query}`;
+		}
+
+
+		const response = await apiClient.get(this.CORE_URL, queryStr, token)
 		// console.log('ProfileRolesService: findMany: response', response);
 
 		return response;

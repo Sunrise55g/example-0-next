@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
 
-import { handlers, auth } from '@/auth';
-import { authConfig } from './auth.config';
+import { 
+  // handlers, 
+  auth 
+} from '@/auth';
+// import { authConfig } from './auth.config';
 import { routing } from './i18n/routing';
 
 

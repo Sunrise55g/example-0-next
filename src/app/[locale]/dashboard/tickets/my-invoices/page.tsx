@@ -10,12 +10,12 @@ import Sorting from '@/components/sorting';
 import Table from './table';
 import { TableSkeleton } from './skeletons';
 
-import { partsItemsService } from '@/services/parts-items.service';
+import { ticketsInvoicesService } from '@/services/tickets-invoices.service';
 
 
 
 export const metadata: Metadata = {
-  title: 'Parts Items',
+  title: 'My Tickets Invoices',
 };
 
 
@@ -37,7 +37,7 @@ export default async function Page(
 
   //
   const { locale } = await props.params;
-  const t = await getTranslations({ locale, namespace: 'PartsItems' });
+  const t = await getTranslations({ locale, namespace: 'TicketsInvoices' });
 
   //
   const searchParams = await props.searchParams;
@@ -46,7 +46,7 @@ export default async function Page(
   // console.log('Page: searchParams:', searchParams);
 
 
-  const invoicesObj: any = await partsItemsService.findMany(searchParams, token);
+  const invoicesObj: any = await ticketsInvoicesService.findManyCurrent(searchParams, token);
   const totalPages = invoicesObj.pageCount
   const currentPage = invoicesObj.page
 
@@ -59,8 +59,8 @@ export default async function Page(
     { value: 'createdAt,ASC', label: t('sorting.createdAtAsc') },
     { value: 'updatedAt,DESC', label: t('sorting.updatedAtDesc') },
     { value: 'updatedAt,ASC', label: t('sorting.updatedAtAsc') },
-    { value: 'active,DESC', label: t('sorting.activeDesc') },
-    { value: 'active,ASC', label: t('sorting.activeAsc') }
+    { value: 'status,DESC', label: t('sorting.statusDesc') },
+    { value: 'status,ASC', label: t('sorting.statusAsc') },
   ];
 
 

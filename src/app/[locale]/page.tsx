@@ -4,7 +4,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 import Logo from '@/components/logo';
-import styles from '@/components/home.module.css';
+// import styles from '@/components/home.module.css';
 import { lusitana } from '@/components/fonts';
 
 

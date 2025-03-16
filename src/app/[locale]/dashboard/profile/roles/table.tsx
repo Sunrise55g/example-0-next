@@ -3,12 +3,6 @@
 import { useSession } from 'next-auth/react';
 import { useState, useEffect, useMemo } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import Image from 'next/image';
-import { CheckIcon, XMarkIcon, ClockIcon, TrashIcon, CurrencyDollarIcon } from '@heroicons/react/24/solid';
-
-import { lusitana } from '@/components/fonts';
-import Search from '@/components/search';
-import { UpdateButton, DeleteButton, Button } from '@/components/buttons';
 
 import TableEditForm from './table-edit-form';
 import TableCreateForm from './table-create-form';

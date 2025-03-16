@@ -1,5 +1,4 @@
 import { DefaultSession } from "next-auth";
-import { IProfileUsersReadRes } from "./profile.users";
 
 
 

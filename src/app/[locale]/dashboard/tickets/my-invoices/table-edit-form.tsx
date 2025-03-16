@@ -13,13 +13,11 @@ import { ticketsInvoicesService } from '@/services/tickets-invoices.service';
 
 export default function TableEditForm({
   ticketsInvoice,
-  profileUsers,
   ticketsCategories,
   partsItems,
   onUpdateSuccess,
 }: {
   ticketsInvoice: any;
-  profileUsers: any;
   ticketsCategories: any;
   partsItems: any;
   onUpdateSuccess: () => void;
@@ -50,9 +48,7 @@ export default function TableEditForm({
       name: formData.get('name'),
       ticketsCategoryId: formData.get('ticketsCategoryId'),
       description: formData.get('description'),
-      customerUserId: formData.get('customerUserId'),
-      employerUserId: formData.get('employerUserId'),
-      status: formData.get('status'),
+      status: formData.get('status')
     };
     // console.log('rawFormData (update):', { id, ...rawFormData });
 
@@ -64,7 +60,7 @@ export default function TableEditForm({
       };
     }
 
-    const serviceResponse: any = await ticketsInvoicesService.updateOne(+id, rawFormData, token);
+    const serviceResponse: any = await ticketsInvoicesService.updateOneCurrent(+id, rawFormData, token);
 
     if (serviceResponse.error || serviceResponse.message) {
       const message = serviceResponse.message;
@@ -95,66 +91,13 @@ export default function TableEditForm({
   //// End Update Action
 
 
-  //// Begin Delete Action
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
-  type IDeleteState = {
-    errors?: {};
-    message?: string;
-    success?: boolean;
-  };
-
-  const deleteInitialState = { message: '', errors: {}, success: false };
-  const [deleteState, deleteFormAction]: any = useActionState(deleteAction, deleteInitialState);
-
-
-  async function deleteAction(prevState: IDeleteState, formData: FormData) {
-    const id = formData.get('id');
-    // console.log('deleteAction - id:', id);
-
-    if (!id) {
-      return {
-        errors: { statusCode: 400 },
-        message: `Error: Received status 400 - Invalid ID`,
-        success: false,
-      };
-    }
-
-    const serviceResponse: any = await ticketsInvoicesService.deleteOne(+id, token);
-
-    if (serviceResponse.error || serviceResponse.message) {
-      const message = serviceResponse.message;
-      const statusCode = serviceResponse.statusCode;
-      return {
-        errors: { statusCode: message },
-        message: `Error: Received status ${statusCode}`,
-        success: false,
-      };
-    }
-
-    return {
-      errors: { statusCode: 204 },
-      message: `Success`,
-      success: true,
-    };
-  }
-
-
-  useEffect(() => {
-    if (deleteState.success) {
-      onUpdateSuccess();
-      setIsDeleteModalOpen(false);
-    }
-  }, [deleteState.success, onUpdateSuccess]);
-
-  //// End Delete Action
-
-
 
   return (
     <div className="w-full rounded-md bg-gray-200 text-sm p-4 mb-5 mt-5">
+
       {/* Begin Update Form */}
       <form action={updateFormAction}>
+
         <h2 className="flex justify-between items-center text-lg font-semibold text-gray-700 mb-3">
           <span>{t('labels.ticketsInvoice')} #{ticketsInvoice.id}</span>
           <span className="text-sm font-normal">
@@ -164,6 +107,7 @@ export default function TableEditForm({
         </h2>
 
         <input type="hidden" name="id" value={ticketsInvoice.id} />
+
 
         <div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-2 mb-2">
           <div className="w-full md:flex-1">
@@ -243,6 +187,7 @@ export default function TableEditForm({
           </div>
         </div>
 
+
         <div className="w-full mt-2 mb-2">
           <label htmlFor="description" className="text-xs text-gray-500 block mb-1">
             {t('labels.description')}:
@@ -260,6 +205,7 @@ export default function TableEditForm({
           />
         </div>
 
+
         <div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-2 mb-2">
           <div className="w-full md:flex-1">
             <label htmlFor="customerUserId" className="text-xs text-gray-500 block mb-1">
@@ -268,23 +214,25 @@ export default function TableEditForm({
             <select
               id="customerUserId"
               name="customerUserId"
-              className={`w-full h-9 text-sm rounded-md border bg-blue-300 py-0 pl-5
-                ${editFormVisible ? 'border-green-500 outline-2 cursor-pointer' : 'border-gray-200 bg-none'}`}
+              className="w-full h-9 text-sm rounded-md border bg-blue-300 py-0 pl-5 border-gray-200 bg-none"
               defaultValue={
                 (() => {
                   return ticketsInvoice.customerUserId
                 })()
               }
               key={ticketsInvoice.customerUserId}
-              disabled={!editFormVisible}
+              disabled
               aria-describedby="update-error"
             >
               <option value="" disabled>
                 {t('placeholders.customerUserNone')}
               </option>
-              {profileUsers?.data?.map((profileUser: any) => (
-                <option key={profileUser.id} value={profileUser.id}>
-                  {(() => {
+              <option key={ticketsInvoice.customerUserId} value={ticketsInvoice.customerUserId}>
+                {(() => {
+
+                  if (ticketsInvoice.customerUser) {
+
+                    const profileUser = ticketsInvoice.customerUser;
                     let result = ``
 
                     result += `${t('labels.customerUser')} #${profileUser.id} `;
@@ -301,12 +249,13 @@ export default function TableEditForm({
                     }
 
                     return result;
-                  })()}
-                </option>
-              ))}
+                  }
+                })()}
+              </option>
             </select>
           </div>
         </div>
+
 
         <div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-2 mb-2">
           <div className="w-full md:flex-1">
@@ -316,8 +265,7 @@ export default function TableEditForm({
             <select
               id="employerUserId"
               name="employerUserId"
-              className={`w-full h-9 text-sm rounded-md border bg-red-300 py-0 pl-5
-                ${editFormVisible ? 'border-green-500 outline-2 cursor-pointer' : 'border-gray-200 bg-none'}`}
+              className="w-full h-9 text-sm rounded-md border bg-red-300 py-0 pl-5 border-gray-200 bg-none"
               defaultValue={ticketsInvoice.employerUserId || ''}
               key={ticketsInvoice.employerUserId}
               disabled={!editFormVisible}
@@ -326,9 +274,12 @@ export default function TableEditForm({
               <option value="" disabled>
                 {t('placeholders.employerUserNone')}
               </option>
-              {profileUsers?.data?.map((profileUser: any) => (
-                <option key={profileUser.id} value={profileUser.id}>
-                  {(() => {
+              <option key={ticketsInvoice.employerUserId} value={ticketsInvoice.employerUserId}>
+                {(() => {
+
+                  if (ticketsInvoice.employerUser) {
+
+                    const profileUser = ticketsInvoice.employerUser;
                     let result = ``
 
                     result += `${t('labels.employerUser')} #${profileUser.id} `;
@@ -345,9 +296,9 @@ export default function TableEditForm({
                     }
 
                     return result;
-                  })()}
-                </option>
-              ))}
+                  }
+                })()}
+              </option>
             </select>
           </div>
         </div>
@@ -360,11 +311,6 @@ export default function TableEditForm({
               )}
               {updateState.errors && updateState.message && updateState.message === 'Success' && (
                 <p className="text-green-500 text-m flex w-full py-3 pl-5">{t("messages.success")}</p>
-              )}
-            </div>
-            <div id="update-error" aria-live="polite" aria-atomic="true">
-              {deleteState.errors && deleteState.message && (
-                <p className="text-red-500 py-0 pl-5">{deleteState.message}</p>
               )}
             </div>
           </div>
@@ -393,21 +339,12 @@ export default function TableEditForm({
               >
                 {t('actions.editTicketsInvoice')}
               </Button>
-              <Button
-                type="button"
-                className="bg-red-500 hover:bg-red-400"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsDeleteModalOpen(true);
-                }}
-              >
-                {t('actions.deleteTicketsInvoice')}
-              </Button>
             </div>
           )}
         </div>
       </form>
       {/* End Update Form */}
+
 
       {/* TicketsItems Form */}
       <TicketsItemsForm
@@ -416,33 +353,7 @@ export default function TableEditForm({
         onUpdateSuccess={onUpdateSuccess}
       />
 
-      {/* Begin Delete Form */}
-      {isDeleteModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-lg font-semibold mb-4">{t('titles.delete')}</h2>
-            <p className="mb-6">
-              {t('actions.deleteTicketsInvoice')} #{ticketsInvoice.id}?
-            </p>
-            <div className="flex justify-end gap-3">
-              <Button
-                type="button"
-                className="bg-gray-500 hover:bg-gray-400"
-                onClick={() => setIsDeleteModalOpen(false)}
-              >
-                {t('actions.cancel')}
-              </Button>
-              <form action={deleteFormAction}>
-                <input type="hidden" name="id" value={ticketsInvoice.id} />
-                <Button type="submit" className="bg-red-500 hover:bg-red-400">
-                  {t('actions.deleteTicketsInvoice')}
-                </Button>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
-      {/* End Delete Form */}
+
     </div>
   );
 }

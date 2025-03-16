@@ -2,16 +2,11 @@
 
 import { useSession } from 'next-auth/react';
 import { useState, useEffect, useActionState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
-import Image from 'next/image';
-import { CheckIcon, XMarkIcon, ClockIcon, TrashIcon, CurrencyDollarIcon } from '@heroicons/react/24/solid';
+import { useTranslations } from 'next-intl';
 
-import { lusitana } from '@/components/fonts';
-import { UpdateButton, DeleteButton, Button } from '@/components/buttons';
+import { Button } from '@/components/buttons';
 
 import { partsItemsService } from '@/services/parts-items.service';
-import Link from 'next/link';
-
 
 
 

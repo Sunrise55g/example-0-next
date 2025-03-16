@@ -13,8 +13,8 @@ import { lusitana } from '@/components/fonts';
 import { profileUsersService } from '@/services/profile-users.service';
 import { partsItemsService } from '@/services/parts-items.service';
 import { ticketsInvoicesService } from '@/services/tickets-invoices.service';
-import { auth } from '@/auth';
 import { useEffect, useState } from 'react';
+
 
 
 
@@ -37,7 +37,6 @@ export default function CardWrapper() {
   const moderator = session?.user?.profileRole?.moderator || false;
 
   //
-  const locale = useLocale();
   const t = useTranslations('Dashboard');
 
   //
@@ -48,49 +47,79 @@ export default function CardWrapper() {
   const [isLoading, setLoading] = useState(true)
 
 
+
+  //
+  const fetchAllData = async (token: string) => {
+
+    //
+    if (administrator || moderator) {
+      try {
+        const [profileUsersRes, partsItemsRes, ticketsInvoicesRes] = await Promise.all([
+          profileUsersService.totalCount(),
+          partsItemsService.totalCount(),
+          ticketsInvoicesService.totalCountCore(token)
+        ]);
+
+        if (profileUsersRes && !profileUsersRes.statusCode) {
+          setUsersTotalCount(profileUsersRes)
+        }
+
+        if (partsItemsRes && !partsItemsRes.statusCode) {
+          setPartsItemsTotalCount(partsItemsRes)
+        }
+
+        if (ticketsInvoicesRes && !ticketsInvoicesRes.statusCode) {
+          setInvoicesTotalCount(ticketsInvoicesRes)
+        }
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    //
+    else {
+      try {
+        const [partsItemsRes, ticketsInvoicesRes] = await Promise.all([
+          partsItemsService.totalCount(),
+          ticketsInvoicesService.totalCountCurrent(token)
+        ]);
+
+        if (partsItemsRes && !partsItemsRes.statusCode) {
+          setPartsItemsTotalCount(partsItemsRes)
+        }
+
+        if (ticketsInvoicesRes && !ticketsInvoicesRes.statusCode) {
+          setInvoicesTotalCount(ticketsInvoicesRes)
+        }
+        else {
+          setInvoicesTotalCount(0)
+        }
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+  };
+
+
   //
   useEffect(() => {
-
-    if (administrator || moderator) {
-      Promise.all([
-        profileUsersService.totalCount()
-          .then((res) => {
-            setUsersTotalCount(res)
-          }),
-        partsItemsService.totalCount()
-          .then((res) => {
-            setPartsItemsTotalCount(res)
-          }),
-        ticketsInvoicesService.totalCountCore(token)
-          .then((res) => {
-            setInvoicesTotalCount(res)
-          })
-
-      ])
-        .then(() => {
-          setLoading(false)
-        })
-    }
-    else {
-      Promise.all([
-        partsItemsService.totalCount()
-          .then((res) => {
-            setPartsItemsTotalCount(res)
-          }),
-        ticketsInvoicesService.totalCountCurrent(token)
-          .then((res) => {
-            setInvoicesTotalCount(res)
-          })
-
-      ])
-        .then(() => {
-          setLoading(false)
-        })
-    }
+    fetchAllData(token);
+    const intervalId = setInterval(() => {
+      fetchAllData(token);
+    }, 3000);
+    return () => clearInterval(intervalId);
+  }, [token]);
 
 
-  }, [])
 
+  ////
   if (isLoading) return <p>{t('loading')}</p>
 
 

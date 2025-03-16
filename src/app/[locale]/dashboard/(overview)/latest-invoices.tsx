@@ -2,9 +2,8 @@
 
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import clsx from 'clsx';
-import Image from 'next/image';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 
 import { lusitana } from '@/components/fonts';
@@ -22,7 +21,6 @@ export default function LatestInvoices() {
   const moderator = session?.user?.profileRole?.moderator || false;
 
   //
-  const locale = useLocale();
   const t = useTranslations('Dashboard');
 
 

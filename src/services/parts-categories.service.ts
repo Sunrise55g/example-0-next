@@ -1,11 +1,8 @@
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-
-import {
-	IPartsCategoriesCreateReq,
-	IPartsCategoriesReadRes, IPartsCategoriesReadBulkRes,
-	IPartsCategoriesUpdateReq
-} from '@/types/parts.categories.d'
+// import {
+// 	IPartsCategoriesCreateReq,
+// 	IPartsCategoriesReadRes, IPartsCategoriesReadBulkRes,
+// 	IPartsCategoriesUpdateReq
+// } from '@/types/parts.categories.d'
 
 
 import { apiClient } from '@/interceptors/api-client-fetch'
@@ -32,11 +29,29 @@ class PartsCategoriesService {
 
 
 
-	async findMany(query?: any, token?: string) {
+	async findMany(queryParams?: any, token?: string) {
 		// console.log('PartsCategoriesService: findMany: query:', query);
 		// console.log('PartsCategoriesService: findMany: token:', token);
 
-		const response = await apiClient.get(this.CORE_URL, query, token)
+
+		////
+		let queryStr = '';
+
+		if (queryParams?.page) {
+			queryStr += `?page=${queryParams.page}`;
+		}
+
+		if (queryParams?.sort) {
+			queryStr += `&sort=${queryParams.sort}`;
+		}
+
+		if (queryParams?.query) {
+			queryStr += `&filter=name||$cont||${queryParams.query}`;
+			queryStr += `&filter=description||$cont||${queryParams.query}`;
+		}
+
+
+		const response = await apiClient.get(this.CORE_URL, queryStr, token)
 		// console.log('PartsCategoriesService: findMany: response', response);
 
 		return response;

@@ -21,7 +21,6 @@ export default function InvoicesChart() {
   const moderator = session?.user?.profileRole?.moderator || false;
 
   //
-  const locale = useLocale();
   const t = useTranslations('Dashboard');
 
   //
@@ -32,36 +31,48 @@ export default function InvoicesChart() {
 
   //
   useEffect(() => {
+    const fetchData = () => {
+      if (administrator && moderator) {
+        ticketsInvoicesService.statsByDaysCore(token)
+          .then((res) => {
+            setDates(res);
+            setLoading(false);
+          })
+          .catch((err) => {
+            console.error('Error fetching core stats:', err);
+            setLoading(false);
+          });
+      } else {
+        ticketsInvoicesService.statsByDaysCurrent(token)
+          .then((res) => {
+            setDates(res);
+            setLoading(false);
+          })
+          .catch((err) => {
+            console.error('Error fetching current stats:', err);
+            setLoading(false);
+          });
+      }
+    };
+    fetchData();
 
-    if (administrator && moderator) {
-      ticketsInvoicesService.statsByDaysCore(token)
-        .then((res) => {
-          setDates(res)
-          setLoading(false)
-        })
-    }
-    else {
-      ticketsInvoicesService.statsByDaysCurrent(token)
-        .then((res) => {
-          setDates(res)
-          setLoading(false)
-        })
-    }
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 5000);
 
-
-
-  }, [])
+    return () => clearInterval(intervalId);
+  }, [token, administrator, moderator]);
   // console.log('InvoicesChart: dates:', dates)
 
+
   if (isLoading) return <p>{t('loading')}</p>
-  if (!dates) return <p>{t('noData')}</p>
+  if (!dates || !Array.isArray(dates)) return <p>{t('noData')}</p>;
 
 
   //
   const chartHeight = 350;
   const { yAxisLabels, topLabel } = generateYAxis(dates);
-
-
+  
 
   return (
     <div className="w-full md:col-span-4">
@@ -106,17 +117,20 @@ export default function InvoicesChart() {
 
 
 export const generateYAxis = (data: any) => {
-  console.log('generateYAxis: data:', data)
-  if (!data || data.statusCode === 403) {
-    return { yAxisLabels: [], topLabel: 0 }
+
+  // console.log('generateYAxis: data:', data);
+
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    return { yAxisLabels: [], topLabel: 0 };
   }
 
   // Calculate what labels we need to display on the y-axis
-  // based on highest record and in 1000s
-  const yAxisLabels = [];
-  const highestRecord = Math.max(...data?.map((date: any) => date.count));
+  // based on highest record
+  const counts = data.map((date: any) => date.count || 0);
+  const highestRecord = Math.max(...counts);
   const topLabel = Math.ceil(highestRecord);
 
+  const yAxisLabels = [];
   for (let i = topLabel; i >= 0; i -= 1) {
     yAxisLabels.push(`${i}`);
   }

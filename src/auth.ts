@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { authConfig } from './auth.config';
 // import type { User } from '@/types/definitions';
 import { apiClient } from '@/interceptors/api-client-fetch';
-import { IAuthLoginRes, IAuthRegistrationRes } from '@/types/auth';
+// import { IAuthLoginRes, IAuthRegistrationRes } from '@/types/auth';
 
 
 
@@ -109,7 +109,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           // console.log('response:', {response});
 
           if (!response.user) {
-            throw new AuthError('CredentialsSignin', { message: response.message || 'Ошибка входа' });
+            throw new AuthError('CredentialsSignin', { cause: { message: response.message || 'Ошибка входа' } });
           }
 
           return {

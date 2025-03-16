@@ -8,7 +8,6 @@ import { useSession } from 'next-auth/react';
 
 
 
-
 export default function TicketsItemsForm({
   ticketsInvoice,
   partsItems,
@@ -44,7 +43,7 @@ export default function TicketsItemsForm({
       partsItemId: formData.get('partsItemId'),
     };
 
-    const serviceResponse: any = await ticketsItemsService.createOne(rawFormData, token);
+    const serviceResponse: any = await ticketsItemsService.createOneCurrent(rawFormData, token);
 
     if (serviceResponse.error || serviceResponse.message) {
       const message = serviceResponse.message;
@@ -75,6 +74,7 @@ export default function TicketsItemsForm({
   //// End Create Action
 
 
+
   //// Begin Delete Action
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<number | null>(null);
@@ -101,7 +101,7 @@ export default function TicketsItemsForm({
       };
     }
 
-    const serviceResponse: any = await ticketsItemsService.deleteOne(+id, token);
+    const serviceResponse: any = await ticketsItemsService.deleteOneCurrent(+id, token);
 
     if (serviceResponse.error || serviceResponse.message) {
       const message = serviceResponse.message;

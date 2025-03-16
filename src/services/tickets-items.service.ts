@@ -1,6 +1,3 @@
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-
 // import {
 // 	ITicketsItemsCreateReq,
 // 	ITicketsItemsReadRes, ITicketsItemsReadBulkRes,
@@ -44,22 +41,58 @@ class TicketsItemsService {
 
 
 
-	async findMany(query?: any, token?: string) {
+	async findMany(queryParams?: any, token?: string) {
 		// console.log('TicketsItemsService: findMany: query:', query);
 		// console.log('TicketsItemsService: findMany: token:', token);
 
-		const response = await apiClient.get(this.CORE_URL, query, token)
+
+		////
+		let queryStr = '';
+
+		if (queryParams?.page) {
+			queryStr += `?page=${queryParams.page}`;
+		}
+
+		if (queryParams?.sort) {
+			queryStr += `&sort=${queryParams.sort}`;
+		}
+
+		if (queryParams?.query) {
+			queryStr += `&filter=name||$cont||${queryParams.query}`;
+			queryStr += `&filter=description||$cont||${queryParams.query}`;
+		}
+
+
+		const response = await apiClient.get(this.CORE_URL, queryStr, token)
 		// console.log('TicketsItemsService: findMany: response', response);
 
 		return response;
 	}
 
 
-	async findManyCurrent(query?: any, token?: string) {
+	async findManyCurrent(queryParams?: any, token?: string) {
 		// console.log('TicketsItemsService: findMany: query:', query);
 		// console.log('TicketsItemsService: findMany: token:', token);
 
-		const response = await apiClient.get(this.CURRENT_URL, query, token)
+
+		////
+		let queryStr = '';
+
+		if (queryParams?.page) {
+			queryStr += `?page=${queryParams.page}`;
+		}
+
+		if (queryParams?.sort) {
+			queryStr += `&sort=${queryParams.sort}`;
+		}
+
+		if (queryParams?.query) {
+			queryStr += `&filter=name||$cont||${queryParams.query}`;
+			queryStr += `&filter=description||$cont||${queryParams.query}`;
+		}
+
+
+		const response = await apiClient.get(this.CURRENT_URL, queryStr, token)
 		// console.log('TicketsItemsService: findMany: response', response);
 
 		return response;

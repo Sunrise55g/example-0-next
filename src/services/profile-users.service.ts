@@ -1,11 +1,8 @@
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-
-import {
-	IProfileUsersCreateReq,
-	IProfileUsersReadRes, IProfileUsersReadBulkRes,
-	IProfileUsersUpdateReq
-} from '@/types/profile.users.d'
+// import {
+// 	IProfileUsersCreateReq,
+// 	IProfileUsersReadRes, IProfileUsersReadBulkRes,
+// 	IProfileUsersUpdateReq
+// } from '@/types/profile.users.d'
 
 
 import { apiClient } from '@/interceptors/api-client-fetch'
@@ -33,11 +30,28 @@ class ProfileUsersService {
 
 
 
-	async findMany(query?: any, token?: string) {
+	async findMany(queryParams?: any, token?: string) {
 		// console.log('ProfileUsersService: findMany: query:', query);
 		// console.log('ProfileUsersService: findMany: token:', token);
 
-		const response = await apiClient.get(this.CORE_URL, query, token)
+
+		////
+		let queryStr = '';
+
+		if (queryParams?.page) {
+			queryStr += `?page=${queryParams.page}`;
+		}
+
+		if (queryParams?.sort) {
+			queryStr += `&sort=${queryParams.sort}`;
+		}
+
+		if (queryParams?.query) {
+			queryStr += `&filter=name||$cont||${queryParams.query}`;
+		}
+
+
+		const response = await apiClient.get(this.CORE_URL, queryStr, token)
 		// console.log('ProfileUsersService: findMany: response', response);
 
 		return response;
@@ -102,7 +116,7 @@ class ProfileUsersService {
 		return response;
 	}
 
-	
+
 }
 
 export const profileUsersService = new ProfileUsersService()

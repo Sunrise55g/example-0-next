@@ -2,16 +2,11 @@
 
 import { useSession } from 'next-auth/react';
 import { useState, useEffect, useActionState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
-import Image from 'next/image';
-import { CheckIcon, XMarkIcon, ClockIcon, TrashIcon, CurrencyDollarIcon } from '@heroicons/react/24/solid';
+import { useTranslations } from 'next-intl';
 
-import { lusitana } from '@/components/fonts';
-import { UpdateButton, DeleteButton, Button } from '@/components/buttons';
+import { Button } from '@/components/buttons';
 
 import { profileUsersService } from '@/services/profile-users.service';
-import Link from 'next/link';
-
 
 
 
@@ -209,7 +204,7 @@ export default function TableCreateForm({
 								name="passwordRepeat"
 								type="password"
 								defaultValue=""
-								placeholder={t('placeholders.phone')}
+								placeholder={t('placeholders.passwordRepeat')}
 								className="w-full h-9 text-sm rounded-md border bg-red-200 border-gray-200 py-0 pl-5 outline-2"
 								aria-describedby="create-error"
 								required

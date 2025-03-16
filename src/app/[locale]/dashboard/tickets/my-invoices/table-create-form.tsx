@@ -12,11 +12,9 @@ import { ticketsInvoicesService } from '@/services/tickets-invoices.service';
 
 
 export default function TableCreateForm({
-	profileUsers,
 	ticketsCategories,
 	onCreateSuccess,
 }: {
-	profileUsers: any;
 	ticketsCategories: any;
 	onCreateSuccess: () => void;
 }) {
@@ -46,16 +44,12 @@ export default function TableCreateForm({
 			name: formData.get('name'),
 			ticketsCategoryId: formData.get('ticketsCategoryId'),
 			description: formData.get('description'),
-			customerUserId: formData.get('customerUserId'),
-			employerUserId: formData.get('employerUserId'),
+			customerUserId: session.user.id,
 		};
 		//console.log('rawFormData:', { rawFormData });
 
-		if (rawFormData.employerUserId === 'null') {
-			rawFormData.employerUserId = null;
-		}
-
-		const serviceResponse: any = await ticketsInvoicesService.createOne(rawFormData, token);
+		//
+		const serviceResponse: any = await ticketsInvoicesService.createOneCurrent(rawFormData, token);
 
 		if (serviceResponse.error || serviceResponse.message) {
 			const message = serviceResponse.message;
@@ -194,91 +188,6 @@ export default function TableCreateForm({
 						/>
 					</div>
 
-					<div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-2 mb-2">
-						<div className="w-full md:flex-1">
-							<label htmlFor="customerUserId" className="text-xs text-gray-500 block mb-1">
-								{t('labels.customerUser')}:
-							</label>
-							<select
-								id="customerUserId"
-								name="customerUserId"
-								className="w-full h-9 text-sm rounded-md border bg-blue-300 border-gray-200 py-0 pl-5 outline-2 cursor-pointer"
-								defaultValue=""
-								aria-describedby="create-error"
-								required
-							>
-								<option value="" disabled>
-									{t('placeholders.customerUser')}
-								</option>
-								{profileUsers?.data?.map((profileUser: any) => (
-									<option key={profileUser.id} value={profileUser.id}>
-										{(() => {
-											let result = ``
-
-											result += `${t('labels.customerUser')} #${profileUser.id} `;
-											result += ` --- username: ${profileUser.username}, email: ${profileUser.email} `;
-
-											if (profileUser.phone) {
-												result += ` --- ${t('labels.phone')}: ${profileUser.phone} `;
-											}
-											if (profileUser.firstName) {
-												result += ` --- ${t('labels.firstName')}: ${profileUser.firstName} `;
-											}
-											if (profileUser.lastName) {
-												result += `${t('labels.lastName')}: ${profileUser.lastName} `;
-											}
-
-											return result;
-										})()}
-									</option>
-								))}
-							</select>
-						</div>
-					</div>
-
-					<div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-2 mb-2">
-						<div className="w-full md:flex-1">
-							<label htmlFor="employerUserId" className="text-xs text-gray-500 block mb-1">
-								{t('labels.employerUser')}:
-							</label>
-							<select
-								id="employerUserId"
-								name="employerUserId"
-								className="w-full h-9 text-sm rounded-md border bg-red-300 border-gray-200 py-0 pl-5 outline-2 cursor-pointer"
-								defaultValue=""
-								aria-describedby="create-error"
-							>
-								<option value="" disabled>
-									{t('placeholders.employerUser')}
-								</option>
-								<option value="null">
-									{t('placeholders.employerUserNone')}
-								</option>
-								{profileUsers?.data?.map((profileUser: any) => (
-									<option key={profileUser.id} value={profileUser.id}>
-										{(() => {
-											let result = ``
-
-											result += `${t('labels.employerUser')} #${profileUser.id} `;
-											result += ` --- username: ${profileUser.username}, email: ${profileUser.email} `;
-
-											if (profileUser.phone) {
-												result += ` --- ${t('labels.phone')}: ${profileUser.phone} `;
-											}
-											if (profileUser.firstName) {
-												result += ` --- ${t('labels.firstName')}: ${profileUser.firstName} `;
-											}
-											if (profileUser.lastName) {
-												result += `${t('labels.lastName')}: ${profileUser.lastName} `;
-											}
-
-											return result;
-										})()}
-									</option>
-								))}
-							</select>
-						</div>
-					</div>
 
 					<div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-3 mb-0">
 						<div className="w-full md:flex-1">

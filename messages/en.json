@@ -96,7 +96,8 @@
       "partsCategories": "Parts Categories",
       "partsItems": "Parts Items",
       "ticketsCategories": "Tickets Categories",
-      "ticketsInvoices": "Tickets Invoices"
+      "ticketsInvoices": "Tickets Invoices",
+      "myTicketsInvoices": "My Tickets Invoices"
     },
     "actions": {
       "logout": "Log Out"
@@ -515,7 +516,10 @@
       "partsItems": "Parts items",
       "partsItem": "Parts item",
       "partsCategories": "Parts categories",
-      "partsCategory": "Parts category"
+      "partsCategory": "Parts category",
+      "phone": "Phone",
+      "firstName": "First Name",
+      "lastName": "Last Name"
     },
     "placeholders": {
       "search": "Search tickets invoices...",

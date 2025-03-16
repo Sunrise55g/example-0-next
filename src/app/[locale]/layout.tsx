@@ -5,9 +5,7 @@ import { getMessages } from 'next-intl/server';
 
 import '@/components/global.css';
 import { inter } from '@/components/fonts';
-import { authConfig } from '@/auth.config';
 import { auth } from '@/auth';
-import { routing } from '@/i18n/routing';
 
 
 

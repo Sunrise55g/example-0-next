@@ -63,7 +63,7 @@ export default function TableEditForm({
       firstName: formData.get('firstName'),
       lastName: formData.get('lastName')
     };
-    // console.log('rawFormData (update):', { id, ...rawFormData });
+    console.log('rawFormData (update):', { id, ...rawFormData });
 
     
     if (rawFormData.password !== rawFormData.passwordRepeat) {
@@ -81,11 +81,17 @@ export default function TableEditForm({
       requestData['username'] = rawFormData.username; 
     }
 
-    if (rawFormData.active &&rawFormData.active !== profileUser.active) { 
-      requestData['active'] = rawFormData.active; 
+    if (rawFormData.active == true && profileUser.active != true) {
+      requestData['active'] = true;
+    }
+    if (rawFormData.active == false && profileUser.active != false) {
+      requestData['active'] = false;
     }
 
     if (rawFormData.profileRoleId && rawFormData.profileRoleId !== profileUser.profileRoleId) { 
+      if (rawFormData.profileRoleId == 'null') {
+        requestData['profileRoleId'] = null;
+      }
       requestData['profileRoleId'] = rawFormData.profileRoleId; 
     }
 
@@ -108,6 +114,9 @@ export default function TableEditForm({
     if (rawFormData.lastName && rawFormData.lastName !== '' && rawFormData.lastName !== profileUser.lastName) {
       requestData['lastName'] = rawFormData.lastName; 
     }
+
+    console.log('requestData (update):', { requestData });
+
 
     //
     const serviceResponse: any = await profileUsersService.updateOne(+id, requestData, token);
@@ -277,6 +286,9 @@ export default function TableEditForm({
             <option value="" disabled>
               {t('placeholders.profileRole')}
             </option>
+            <option value="null">
+              {t('placeholders.profileRoleNone')}
+            </option>
             {profileRoles?.data?.map((profileRole: any) => (
               <option key={profileRole.id} value={profileRole.id}>
                 {`#${profileRole.id}:  ${profileRole.name}`}
@@ -319,7 +331,7 @@ export default function TableEditForm({
                 name="passwordRepeat"
                 type="password"
                 defaultValue=""
-                placeholder={t('placeholders.phone')}
+                placeholder={t('placeholders.passwordRepeat')}
                 className={
                   `w-full h-9 text-sm rounded-md border py-0 pl-5 
                 ${editFormVisible ? 'border-green-500 outline-2' : 'border-gray-200'}`

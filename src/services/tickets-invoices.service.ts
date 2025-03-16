@@ -1,6 +1,3 @@
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-
 // import {
 // 	ITicketsInvoicesCreateReq,
 // 	ITicketsInvoicesReadRes, ITicketsInvoicesReadBulkRes,
@@ -64,8 +61,6 @@ class TicketsInvoicesService {
 			queryStr += `&filter=description||$cont||${queryParams.query}`;
 		}
 
-		// console.log('TicketsInvoicesService: findMany: queryStr:', queryStr);
-
 
 		const response: any = await apiClient.get(this.CORE_URL, queryStr, token)
 		// console.log('TicketsInvoicesService: findMany: response', response);
@@ -93,8 +88,6 @@ class TicketsInvoicesService {
 			queryStr += `&filter=name||$cont||${queryParams.query}`;
 			queryStr += `&filter=description||$cont||${queryParams.query}`;
 		}
-
-		// console.log('TicketsInvoicesService: findMany: queryStr:', queryStr);
 
 
 		const response: any = await apiClient.get(this.CURRENT_URL, queryStr, token)
@@ -156,7 +149,6 @@ class TicketsInvoicesService {
 		}
 
 		const response = await apiClient.patch(`${this.CURRENT_URL}/${id}`, data, token)
-		// console.log('TicketsInvoicesService: findOne: response', response);
 
 		return response;
 	}

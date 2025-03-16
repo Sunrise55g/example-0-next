@@ -96,7 +96,8 @@
       "partsCategories": "Категории предметов",
       "partsItems": "Предметы",
       "ticketsCategories": "Категории заявок",
-      "ticketsInvoices": "Заявки"
+      "ticketsInvoices": "Заявки",
+      "myTicketsInvoices": "Мои заявки"
     },
     "actions": {
       "logout": "Выход"
@@ -515,7 +516,10 @@
       "partsItems": "Предметы",
       "partsItem": "Предмет",
       "partsCategories": "Категории предметов",
-      "partsCategory": "Категория предметов"
+      "partsCategory": "Категория предметов",
+      "phone": "Телефон",
+      "firstName": "Имя",
+      "lastName": "Фамилия"
     },
     "placeholders": {
       "search": "Поиск заявок...",

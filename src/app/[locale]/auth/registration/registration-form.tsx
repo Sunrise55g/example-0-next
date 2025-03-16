@@ -21,7 +21,6 @@ import { registration } from '@/services/auth.service';
 export default function RegistrationForm() {
 
   //
-  const locale = useLocale();
   const t = useTranslations('AuthRegistration');
 
   //

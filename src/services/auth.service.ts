@@ -3,6 +3,9 @@
 import { AuthError } from 'next-auth';
 import { signIn } from '../auth';
 
+
+
+
 export async function login(prevState: string | undefined, formData: FormData) {
 
   try {
@@ -14,8 +17,8 @@ export async function login(prevState: string | undefined, formData: FormData) {
 
   catch (error) {
     if (error instanceof AuthError) {
-
       const customMessage = (error.cause as any)?.message;
+
       if (customMessage) {
         return customMessage;
       }
@@ -24,7 +27,7 @@ export async function login(prevState: string | undefined, formData: FormData) {
         case 'CredentialsSignin':
           return 'Invalid credentials.';
         default:
-          return 'Something went wrong.';
+          return error.message;
       }
     }
 
@@ -39,6 +42,7 @@ export async function registration(prevState: string | undefined, formData: Form
   try {
     const password = formData.get('password');
     const passwordRepeat = formData.get('passwordRepeat');
+
     if (password !== passwordRepeat) {
       return 'Пароли не совпадают';
     }
@@ -53,12 +57,13 @@ export async function registration(prevState: string | undefined, formData: Form
   }
 
   catch (error) {
-
     if (error instanceof AuthError) {
       const customMessage = (error.cause as any)?.message;
+
       if (customMessage) {
         return customMessage;
       }
+
       switch (error.type) {
         case 'CredentialsSignin':
           return 'Неверные учетные данные';
@@ -67,12 +72,13 @@ export async function registration(prevState: string | undefined, formData: Form
         default:
           return 'Что-то пошло не так: ' + error.message;
       }
+
     }
 
     if ((error as any).message === 'NEXT_REDIRECT') {
       throw error;
     }
 
-    return 'Ошибка регистрации: ' + (error instanceof Error ? error.message : 'Неизвестная ошибка');
+    return '' + (error instanceof Error ? error.message : 'Неизвестная ошибка');
   }
 }

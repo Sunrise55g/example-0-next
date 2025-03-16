@@ -84,6 +84,13 @@ export default function NavLinks() {
       protected: true
     },
 
+    {
+      name: 'myTicketsInvoices',
+      href: `/${locale}/dashboard/tickets/my-invoices`,
+      icon: TicketIcon,
+      protected: false
+    },
+
   ];
 
 

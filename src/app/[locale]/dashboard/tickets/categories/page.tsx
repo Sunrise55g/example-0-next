@@ -5,7 +5,6 @@ import { getTranslations } from 'next-intl/server';
 
 import { lusitana } from '@/components/fonts';
 import Pagination from '@/components/pagination';
-import { CreateButton } from '@/components/buttons';
 import Search from '@/components/search';
 import Sorting from '@/components/sorting';
 import Table from './table';

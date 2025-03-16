@@ -7,8 +7,10 @@ import { useLocale, useTranslations } from 'next-intl';
 import TableEditForm from './table-edit-form';
 import TableCreateForm from './table-create-form';
 
-import { profileRolesService } from '@/services/profile-roles.service';
-import { profileUsersService } from '@/services/profile-users.service';
+import { partsItemsService } from '@/services/parts-items.service';
+import { ticketsCategoriesService } from '@/services/tickets-categories.service';
+import { ticketsInvoicesService } from '@/services/tickets-invoices.service';
+
 
 
 
@@ -27,7 +29,7 @@ export default function Table({
   const token = session?.user?.jwt;
 
   const locale = useLocale();
-  const t = useTranslations('ProfileUsers');
+  const t = useTranslations('TicketsInvoices');
 
   const searchParams = useMemo(
     () => ({
@@ -41,23 +43,25 @@ export default function Table({
 
 
   ////
-  const [profileRoles, setProfileRoles]: any = useState(null);
-  const [profileUsers, setProfileUsers]: any = useState(null);
+  const [ticketsCategories, setTicketsCategories]: any = useState(null);
+  const [partsItems, setPartsItems]: any = useState(null);
+  const [ticketsInvoices, setTicketsInvoices]: any = useState(null);
   const [isInitialLoading, setInitialLoading] = useState(true);
 
 
   const fetchAllData = async () => {
     try {
-      const [rolesRes, usersRes] = await Promise.all([
-        profileRolesService.findMany(undefined, token),
-        profileUsersService.findMany(searchParams, token),
+      const [categoriesRes, itemsRes, invoicesRes] = await Promise.all([
+        ticketsCategoriesService.findMany(undefined, token),
+        partsItemsService.findMany(undefined, token),
+        ticketsInvoicesService.findManyCurrent(searchParams, token),
       ]);
-      // console.log('fetchAllData: rolesRes:', { rolesRes });
-      // console.log('fetchAllData: usersRes:', { usersRes });
+      // console.log('fetchAllData: invoicesRes:', { invoicesRes });
 
-      setProfileRoles(rolesRes);
-      setProfileUsers(usersRes);
-
+      setTicketsCategories(categoriesRes);
+      setPartsItems(itemsRes);
+      setTicketsInvoices(invoicesRes);
+      
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -81,23 +85,24 @@ export default function Table({
 
 
   ////
-  if (isInitialLoading) return <p>{t('messages.loading')}</p>;
-  if (!profileUsers) return <p>{t('messages.noData')}</p>;
+  if (isInitialLoading && !ticketsInvoices) return <p>{t('messages.loading')}</p>;
+  if (!ticketsInvoices) return <p>{t('messages.noData')}</p>;
 
 
   return (
     <div className="w-full mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
         <TableCreateForm
-          profileRoles={profileRoles}
+          ticketsCategories={ticketsCategories}
           onCreateSuccess={fetchAllData}
         />
 
-        {profileUsers?.data?.map((profileUser: any) => (
+        {ticketsInvoices?.data?.map((ticketsInvoice: any) => (
           <TableEditForm
-            key={profileUser.id}
-            profileRoles={profileRoles}
-            profileUser={profileUser}
+            key={ticketsInvoice.id}
+            ticketsInvoice={ticketsInvoice}
+            ticketsCategories={ticketsCategories}
+            partsItems={partsItems}
             onUpdateSuccess={fetchAllData}
           />
         ))}

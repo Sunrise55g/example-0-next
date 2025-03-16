@@ -19,7 +19,6 @@ import { login } from '@/services/auth.service';
 export default function LoginForm() {
 
   //
-  const locale = useLocale();
   const t = useTranslations('AuthLogin');
 
   //
