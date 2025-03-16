@@ -14,7 +14,6 @@ export default function Error({
 }) {
 
   //
-  const locale = useLocale();
   const t = useTranslations('TicketsInvoices');
 
 

@@ -63,10 +63,10 @@ export default function Table({
 
   useEffect(() => {
     fetchAllData();
-    // const intervalId = setInterval(() => {
-    //   fetchAllData();
-    // }, 10000);
-    // return () => clearInterval(intervalId);
+    const intervalId = setInterval(() => {
+      fetchAllData();
+    }, 5000);
+    return () => clearInterval(intervalId);
   }, []);
 
 

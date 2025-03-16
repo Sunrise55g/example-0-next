@@ -37,5 +37,5 @@ export interface IProfileUsersReadBulkRes {
 
 export interface IProfileUsersUpdateReq extends Partial<IProfileUsersCreateReq> {
 	password?: string
- }
+}
 

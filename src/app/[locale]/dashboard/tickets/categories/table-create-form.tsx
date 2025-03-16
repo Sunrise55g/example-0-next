@@ -20,7 +20,7 @@ export default function TableCreateForm({
 }) {
 
 	// params
-	const { data: session, status }: any = useSession();
+	const { data: session }: any = useSession();
 	const token = session?.user?.jwt;
 	const administrator = session?.user?.profileRole?.administrator || false;
 	const moderator = session?.user?.profileRole?.moderator || false;

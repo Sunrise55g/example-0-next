@@ -20,7 +20,7 @@ export default function TicketsItemsForm({
 }) {
 
   // params
-  const { data: session, status }: any = useSession();
+  const { data: session }: any = useSession();
   const token = session?.user?.jwt;
   const t = useTranslations('TicketsInvoices');
 
@@ -91,7 +91,6 @@ export default function TicketsItemsForm({
 
   async function deleteAction(prevState: IDeleteState, formData: FormData) {
     const id = formData.get('id');
-    // console.log('deleteAction - id:', id);
 
     if (!id) {
       return {
@@ -144,6 +143,8 @@ export default function TicketsItemsForm({
   return (
     <div className="w-full flow-root text-sm">
       <div className="inline-block min-w-full align-middle">
+
+
         {/* Begin Create Form */}
         <div className="w-full rounded-md bg-gray-300 mt-2 mb-2">
           <button
@@ -193,7 +194,7 @@ export default function TicketsItemsForm({
                 </Button>
               </div>
 
-            
+
               {/* <div className="w-full mt-1 mb-1">
                 <div id="create-item-error" aria-live="polite" aria-atomic="true">
                   {createState.errors && createState.message && (
@@ -206,6 +207,7 @@ export default function TicketsItemsForm({
           </div>
         </div>
         {/* End Create Form */}
+
 
         {/* Begin Tickets Items List */}
         {ticketsInvoice?.ticketsItems.map((ticketsItem: any) => (
@@ -227,6 +229,7 @@ export default function TicketsItemsForm({
           </div>
         ))}
         {/* End Tickets Items List */}
+
 
         {/* Begin Delete Modal */}
         {isDeleteModalOpen && (
@@ -258,6 +261,8 @@ export default function TicketsItemsForm({
           </div>
         )}
         {/* End Delete Modal */}
+
+
       </div>
     </div>
   );

@@ -1,4 +1,6 @@
-import {defineRouting} from 'next-intl/routing';
+import { defineRouting } from 'next-intl/routing';
+
+
 
 export const routing = defineRouting({
   locales: ['en', 'ru'],
@@ -11,6 +13,7 @@ export const routing = defineRouting({
     }
   }
 });
+
 
 export type Pathnames = keyof typeof routing.pathnames;
 export type Locale = (typeof routing.locales)[number];

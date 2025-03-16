@@ -11,6 +11,7 @@ import { ticketsInvoicesService } from '@/services/tickets-invoices.service';
 
 
 
+
 export default function TableEditForm({
   ticketsInvoice,
   ticketsCategories,
@@ -24,7 +25,7 @@ export default function TableEditForm({
 }) {
 
   // params
-  const { data: session, status }: any = useSession();
+  const { data: session }: any = useSession();
   const token = session?.user?.jwt;
   const t = useTranslations('TicketsInvoices');
 
@@ -94,6 +95,7 @@ export default function TableEditForm({
 
   return (
     <div className="w-full rounded-md bg-gray-200 text-sm p-4 mb-5 mt-5">
+
 
       {/* Begin Update Form */}
       <form action={updateFormAction}>

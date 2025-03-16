@@ -20,7 +20,7 @@ export default function TableCreateForm({
 }) {
 
 	// params
-	const { data: session, status }: any = useSession();
+	const { data: session }: any = useSession();
 	const token = session?.user?.jwt;
 	const t = useTranslations('TicketsInvoices');
 
@@ -82,6 +82,7 @@ export default function TableCreateForm({
 
 	return (
 		<div className="w-full rounded-md bg-gray-200 text-sm mb-5">
+
 			{createFormVisible ? (
 				<button
 					onClick={(e) => {
@@ -103,6 +104,7 @@ export default function TableCreateForm({
 					{t('actions.createTicketsInvoice')} +
 				</button>
 			)}
+
 
 			<div
 				className={`overflow-hidden transition-all duration-300 ease-in-out 

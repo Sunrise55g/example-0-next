@@ -10,6 +10,7 @@ import { profileUsersService } from '@/services/profile-users.service';
 
 
 
+
 export default function TableCreateForm({
 	profileRoles,
 	onCreateSuccess,
@@ -19,7 +20,7 @@ export default function TableCreateForm({
 }) {
 
 	// params
-	const { data: session, status }: any = useSession();
+	const { data: session }: any = useSession();
 	const token = session?.user?.jwt;
 	const t = useTranslations('ProfileUsers');
 
@@ -62,13 +63,13 @@ export default function TableCreateForm({
 		//
 		let requestData: any = {};
 
-		if (rawFormData.username && rawFormData.username !== '') {requestData['username'] = rawFormData.username;}
-		if (rawFormData.profileRoleId) {requestData['profileRoleId'] = rawFormData.profileRoleId;}
-		if (rawFormData.password && rawFormData.password !== '') {requestData['password'] = rawFormData.password;}
-		if (rawFormData.email && rawFormData.email !== '') {requestData['email'] = rawFormData.email;}
-		if (rawFormData.phone && rawFormData.phone !== '') {requestData['phone'] = rawFormData.phone;}
-		if (rawFormData.firstName && rawFormData.firstName !== '') {requestData['firstName'] = rawFormData.firstName;}
-		if (rawFormData.lastName && rawFormData.lastName !== '') {requestData['lastName'] = rawFormData.lastName;}
+		if (rawFormData.username && rawFormData.username !== '') { requestData['username'] = rawFormData.username; }
+		if (rawFormData.profileRoleId) { requestData['profileRoleId'] = rawFormData.profileRoleId; }
+		if (rawFormData.password && rawFormData.password !== '') { requestData['password'] = rawFormData.password; }
+		if (rawFormData.email && rawFormData.email !== '') { requestData['email'] = rawFormData.email; }
+		if (rawFormData.phone && rawFormData.phone !== '') { requestData['phone'] = rawFormData.phone; }
+		if (rawFormData.firstName && rawFormData.firstName !== '') { requestData['firstName'] = rawFormData.firstName; }
+		if (rawFormData.lastName && rawFormData.lastName !== '') { requestData['lastName'] = rawFormData.lastName; }
 
 		//
 		const serviceResponse: any = await profileUsersService.createOne(requestData, token);

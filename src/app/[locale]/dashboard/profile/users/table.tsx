@@ -12,6 +12,7 @@ import { profileUsersService } from '@/services/profile-users.service';
 
 
 
+
 export default function Table({
   query,
   sort,
@@ -23,10 +24,9 @@ export default function Table({
 }) {
 
   //// params
-  const { data: session, status }: any = useSession();
+  const { data: session }: any = useSession();
   const token = session?.user?.jwt;
 
-  const locale = useLocale();
   const t = useTranslations('ProfileUsers');
 
   const searchParams = useMemo(
@@ -70,7 +70,7 @@ export default function Table({
     fetchAllData();
     const intervalId = setInterval(() => {
       fetchAllData();
-    }, 10000);
+    }, 5000);
     return () => clearInterval(intervalId);
   }, []);
 

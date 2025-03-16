@@ -9,6 +9,7 @@ import { profileUsersService } from '@/services/profile-users.service';
 
 
 
+
 export default function TableEditForm({
   profileRoles,
   profileUser,
@@ -20,7 +21,7 @@ export default function TableEditForm({
 }) {
 
   // params
-  const { data: session, status }: any = useSession();
+  const { data: session }: any = useSession();
   const token = session?.user?.jwt;
   const t = useTranslations('ProfileUsers');
 
@@ -65,7 +66,7 @@ export default function TableEditForm({
     };
     console.log('rawFormData (update):', { id, ...rawFormData });
 
-    
+
     if (rawFormData.password !== rawFormData.passwordRepeat) {
       return {
         errors: { statusCode: 400 },
@@ -77,8 +78,8 @@ export default function TableEditForm({
     //
     let requestData: any = {};
 
-    if (rawFormData.username && rawFormData.username !== '' && rawFormData.username !== profileUser.username) { 
-      requestData['username'] = rawFormData.username; 
+    if (rawFormData.username && rawFormData.username !== '' && rawFormData.username !== profileUser.username) {
+      requestData['username'] = rawFormData.username;
     }
 
     if (rawFormData.active == true && profileUser.active != true) {
@@ -88,31 +89,31 @@ export default function TableEditForm({
       requestData['active'] = false;
     }
 
-    if (rawFormData.profileRoleId && rawFormData.profileRoleId !== profileUser.profileRoleId) { 
+    if (rawFormData.profileRoleId && rawFormData.profileRoleId !== profileUser.profileRoleId) {
       if (rawFormData.profileRoleId == 'null') {
         requestData['profileRoleId'] = null;
       }
-      requestData['profileRoleId'] = rawFormData.profileRoleId; 
+      requestData['profileRoleId'] = rawFormData.profileRoleId;
     }
 
-    if (rawFormData.password && rawFormData.password !== '') { 
-      requestData['password'] = rawFormData.password; 
+    if (rawFormData.password && rawFormData.password !== '') {
+      requestData['password'] = rawFormData.password;
     }
 
-    if (rawFormData.email && rawFormData.email !== '' && rawFormData.email !== profileUser.email) { 
-      requestData['email'] = rawFormData.email; 
+    if (rawFormData.email && rawFormData.email !== '' && rawFormData.email !== profileUser.email) {
+      requestData['email'] = rawFormData.email;
     }
 
-    if (rawFormData.phone && rawFormData.phone !== '' && rawFormData.phone !== profileUser.phone) { 
-      requestData['phone'] = rawFormData.phone; 
+    if (rawFormData.phone && rawFormData.phone !== '' && rawFormData.phone !== profileUser.phone) {
+      requestData['phone'] = rawFormData.phone;
     }
 
     if (rawFormData.firstName && rawFormData.firstName !== '' && rawFormData.firstName !== profileUser.firstName) {
-      requestData['firstName'] = rawFormData.firstName; 
+      requestData['firstName'] = rawFormData.firstName;
     }
 
     if (rawFormData.lastName && rawFormData.lastName !== '' && rawFormData.lastName !== profileUser.lastName) {
-      requestData['lastName'] = rawFormData.lastName; 
+      requestData['lastName'] = rawFormData.lastName;
     }
 
     console.log('requestData (update):', { requestData });

@@ -6,21 +6,27 @@ import { ChangeEvent, ReactNode, useTransition } from 'react';
 import { Locale } from '@/i18n/routing';
 import { usePathname, useRouter } from '@/i18n/navigation';
 
+
+
 type Props = {
   children: ReactNode;
   defaultValue: string;
   label: string;
 };
 
+
+
 export default function LocaleSwitcherSelect({
   children,
   defaultValue,
   label,
 }: Props) {
+
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const pathname = usePathname();
   const params = useParams();
+
 
   function onSelectChange(event: ChangeEvent<HTMLSelectElement>) {
     const nextLocale = event.target.value as Locale;
@@ -34,6 +40,8 @@ export default function LocaleSwitcherSelect({
       );
     });
   }
+
+
 
   return (
     <div className="relative w-full">

@@ -9,6 +9,7 @@ import { profileRolesService } from '@/services/profile-roles.service';
 
 
 
+
 export default function TableEditForm({
   profileRole,
   onUpdateSuccess,
@@ -18,7 +19,7 @@ export default function TableEditForm({
 }) {
 
   // params
-  const { data: session, status }: any = useSession();
+  const { data: session }: any = useSession();
   const token = session?.user?.jwt;
   const t = useTranslations('ProfileRoles');
 
@@ -44,8 +45,8 @@ export default function TableEditForm({
       name: formData.get('name'),
       description: formData.get('description'),
       administrator: formData.get('administrator') === 'on',
-			moderator: formData.get('moderator') === 'on',
-			active: formData.get('active') === 'on'
+      moderator: formData.get('moderator') === 'on',
+      active: formData.get('active') === 'on'
     };
     // console.log('rawFormData (update):', { id, ...rawFormData });
 
@@ -347,6 +348,8 @@ export default function TableEditForm({
         </div>
       )}
       {/* End Delete Form */}
+
+
     </div>
   );
 }

@@ -3,8 +3,8 @@ import { DefaultSession } from "next-auth";
 
 
 export type User = {
-	id: string;
-	token: string;
+  id: string;
+  token: string;
 }
 
 

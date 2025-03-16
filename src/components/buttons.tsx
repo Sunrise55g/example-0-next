@@ -7,6 +7,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
+
 export function Button({ children, className, ...rest }: ButtonProps) {
   return (
     <button
@@ -23,7 +24,7 @@ export function Button({ children, className, ...rest }: ButtonProps) {
 
 
 export function CreateButton(
-  { href, text }:{ href:string; text?:string }
+  { href, text }: { href: string; text?: string }
 ) {
   return (
     <Link
@@ -37,7 +38,7 @@ export function CreateButton(
 }
 
 export function UpdateButton(
-  { href, text }:{ href:string; text?:string }
+  { href, text }: { href: string; text?: string }
 ) {
   return (
     <Link
@@ -50,7 +51,7 @@ export function UpdateButton(
 }
 
 export function DeleteButton(
-  { href, text }:{ href:string; text?:string }
+  { href, text }: { href: string; text?: string }
 ) {
   return (
     <Link

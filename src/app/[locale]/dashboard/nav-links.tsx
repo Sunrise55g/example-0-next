@@ -25,7 +25,7 @@ export default function NavLinks() {
   const t = useTranslations('SideNav');
 
   //
-  const { data: session, status }: any = useSession();
+  const { data: session }: any = useSession();
   const administrator = session?.user?.profileRole?.administrator || false;
   const moderator = session?.user?.profileRole?.moderator || false;
 
@@ -92,6 +92,7 @@ export default function NavLinks() {
     },
 
   ];
+
 
 
   return (

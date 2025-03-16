@@ -27,12 +27,10 @@ class ApiClient {
             credentials: 'include',
         };
 
-        // Add Authorization header if token is provided
         if (token) {
             (init.headers as { [key: string]: string })['Authorization'] = `Bearer ${token}`;
         }
 
-        // Add body if data is provided
         // console.log('request: data:', data);
         if (data && (method === 'POST' || method === 'PUT' || method === 'PATCH')) {
             init.body = JSON.stringify(data);
@@ -48,7 +46,7 @@ class ApiClient {
             // console.log('request: responseData:', responseData);
 
             return responseData;
-        } 
+        }
         catch (error) {
             console.error('request: Error:', error);
             throw error;

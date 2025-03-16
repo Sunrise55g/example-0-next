@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { useLocale, useTranslations } from 'next-intl';
+import {
+  // useLocale, 
+  useTranslations
+} from 'next-intl';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 import Logo from '@/components/logo';
@@ -12,7 +15,7 @@ import { lusitana } from '@/components/fonts';
 export default function Page() {
 
   //
-  const locale = useLocale();
+  // const locale = useLocale();
   const t = useTranslations('FirstPage');
 
 

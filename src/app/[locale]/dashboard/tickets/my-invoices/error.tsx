@@ -1,7 +1,10 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
+import {
+  // useLocale, 
+  useTranslations
+} from 'next-intl';
 
 
 
@@ -15,7 +18,7 @@ export default function Error({
 }) {
 
   //
-  const locale = useLocale();
+  // const locale = useLocale();
   const t = useTranslations('TicketsInvoices');
 
 

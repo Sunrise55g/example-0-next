@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from 'next-intl';
 
 
 
+
 export default function Error({
   error,
   reset,
@@ -14,7 +15,6 @@ export default function Error({
 }) {
 
   //
-  const locale = useLocale();
   const t = useTranslations('TicketsCategories');
 
 
@@ -22,7 +22,7 @@ export default function Error({
     console.error(error);
   }, [error]);
 
-  
+
 
   return (
     <main className="flex h-full flex-col items-center justify-center">

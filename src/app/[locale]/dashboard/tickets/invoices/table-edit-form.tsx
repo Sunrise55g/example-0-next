@@ -11,6 +11,7 @@ import { ticketsInvoicesService } from '@/services/tickets-invoices.service';
 
 
 
+
 export default function TableEditForm({
   ticketsInvoice,
   profileUsers,
@@ -26,7 +27,7 @@ export default function TableEditForm({
 }) {
 
   // params
-  const { data: session, status }: any = useSession();
+  const { data: session }: any = useSession();
   const token = session?.user?.jwt;
   const t = useTranslations('TicketsInvoices');
 
@@ -153,6 +154,8 @@ export default function TableEditForm({
 
   return (
     <div className="w-full rounded-md bg-gray-200 text-sm p-4 mb-5 mt-5">
+
+
       {/* Begin Update Form */}
       <form action={updateFormAction}>
         <h2 className="flex justify-between items-center text-lg font-semibold text-gray-700 mb-3">
@@ -409,12 +412,14 @@ export default function TableEditForm({
       </form>
       {/* End Update Form */}
 
+
       {/* TicketsItems Form */}
       <TicketsItemsForm
         ticketsInvoice={ticketsInvoice}
         partsItems={partsItems}
         onUpdateSuccess={onUpdateSuccess}
       />
+
 
       {/* Begin Delete Form */}
       {isDeleteModalOpen && (
@@ -443,6 +448,8 @@ export default function TableEditForm({
         </div>
       )}
       {/* End Delete Form */}
+
+
     </div>
   );
 }

@@ -22,10 +22,9 @@ export default function Table({
 }) {
 
   //// params
-  const { data: session, status }: any = useSession();
+  const { data: session }: any = useSession();
   const token = session?.user?.jwt;
 
-  const locale = useLocale();
   const t = useTranslations('TicketsCategories');
 
   const searchParams = useMemo(
@@ -62,10 +61,10 @@ export default function Table({
 
   useEffect(() => {
     fetchAllData();
-    // const intervalId = setInterval(() => {
-    //   fetchAllData();
-    // }, 10000);
-    // return () => clearInterval(intervalId);
+    const intervalId = setInterval(() => {
+      fetchAllData();
+    }, 5000);
+    return () => clearInterval(intervalId);
   }, []);
 
 
