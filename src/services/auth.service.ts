@@ -1,20 +1,25 @@
-'use server'
+'use server';
 
-import { AuthError } from "next-auth";
-import { signIn } from "../auth";
+import { AuthError } from 'next-auth';
+import { signIn } from '../auth';
 
+export async function login(prevState: string | undefined, formData: FormData) {
 
-
-
-
-export async function login(
-  prevState: string | undefined,
-  formData: FormData,
-) {
   try {
-    await signIn('credentials', formData);
-  } catch (error) {
+    await signIn('credentials', {
+      ...Object.fromEntries(formData),
+      callbackUrl: '/dashboard',
+    });
+  }
+
+  catch (error) {
     if (error instanceof AuthError) {
+
+      const customMessage = (error.cause as any)?.message;
+      if (customMessage) {
+        return customMessage;
+      }
+
       switch (error.type) {
         case 'CredentialsSignin':
           return 'Invalid credentials.';
@@ -22,28 +27,52 @@ export async function login(
           return 'Something went wrong.';
       }
     }
+
     throw error;
   }
 }
 
 
-export async function registration(
-  prevState: string | undefined,
-  formData: FormData,
-) {
+
+export async function registration(prevState: string | undefined, formData: FormData) {
+
   try {
-    if(formData.get('password') !== formData.get('passwordRepeat')) return 'Пароли не совпадают'
-    await signIn('credentials', formData);
-    // console.log('AuthService: registration: formData:', formData);
-  } catch (error) {
+    const password = formData.get('password');
+    const passwordRepeat = formData.get('passwordRepeat');
+    if (password !== passwordRepeat) {
+      return 'Пароли не совпадают';
+    }
+
+    await signIn(
+      'credentials',
+      {
+        ...Object.fromEntries(formData),
+        callbackUrl: '/dashboard',
+      }
+    );
+  }
+
+  catch (error) {
+
     if (error instanceof AuthError) {
+      const customMessage = (error.cause as any)?.message;
+      if (customMessage) {
+        return customMessage;
+      }
       switch (error.type) {
         case 'CredentialsSignin':
-          return 'Invalid credentials.';
+          return 'Неверные учетные данные';
+        case 'AccessDenied':
+          return 'Доступ запрещён';
         default:
-          return 'Something went wrong.';
+          return 'Что-то пошло не так: ' + error.message;
       }
     }
-    throw error;
+
+    if ((error as any).message === 'NEXT_REDIRECT') {
+      throw error;
+    }
+
+    return 'Ошибка регистрации: ' + (error instanceof Error ? error.message : 'Неизвестная ошибка');
   }
 }

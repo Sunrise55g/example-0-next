@@ -42,7 +42,7 @@ export default function Table({
     }),
     [currentPage, query, sort]
   );
-  console.log('Table: searchParams:', searchParams);
+  // console.log('Table: searchParams:', searchParams);
 
 
   ////
@@ -53,10 +53,9 @@ export default function Table({
   const fetchAllData = async () => {
     try {
       const [categoriesRes] = await Promise.all([
-        ticketsCategoriesService.findMany(undefined, token),
+        ticketsCategoriesService.findMany(searchParams, token),
       ]);
-
-      console.log('fetchAllData: categoriesRes:', {categoriesRes});
+      // console.log('fetchAllData: categoriesRes:', { categoriesRes });
 
       setTicketsCategories(categoriesRes);
     } catch (error) {
@@ -75,15 +74,15 @@ export default function Table({
     // return () => clearInterval(intervalId);
   }, []);
 
-  
-  // useEffect(() => {
-  //   fetchAllData();
-  // }, [searchParams]);
+
+  useEffect(() => {
+    fetchAllData();
+  }, [searchParams]);
 
 
   ////
-  if (isInitialLoading) return <p>{"t('messages.loading')"}</p>;
-  if (!ticketsCategories) return <p>{"t('messages.noData')"}</p>;
+  if (isInitialLoading) return <p>{t('messages.loading')}</p>;
+  if (!ticketsCategories) return <p>{t('messages.noData')}</p>;
 
 
   return (
@@ -94,7 +93,7 @@ export default function Table({
           onCreateSuccess={fetchAllData}
         />
 
-        {ticketsCategories?.data.map((ticketsCategory: any) => (
+        {ticketsCategories?.data?.map((ticketsCategory: any) => (
           <TableEditForm
             key={ticketsCategory.id}
             ticketsCategory={ticketsCategory}

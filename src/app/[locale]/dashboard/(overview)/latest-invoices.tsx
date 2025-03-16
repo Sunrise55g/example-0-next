@@ -18,6 +18,8 @@ export default function LatestInvoices() {
   //
   const { data: session, status }: any = useSession();
   const token = session?.user?.jwt
+  const administrator = session?.user?.profileRole?.administrator || false;
+  const moderator = session?.user?.profileRole?.moderator || false;
 
   //
   const locale = useLocale();
@@ -29,11 +31,25 @@ export default function LatestInvoices() {
   const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
-    ticketsInvoicesService.findMany(undefined, token)
-      .then((res) => {
-        setLatestInvoices(res)
-        setLoading(false)
-      })
+
+    if (administrator && moderator) {
+
+      ticketsInvoicesService.findMany(undefined, token)
+        .then((res) => {
+          setLatestInvoices(res)
+          setLoading(false)
+        })
+
+    } else {
+
+      ticketsInvoicesService.findManyCurrent(undefined, token)
+        .then((res) => {
+          setLatestInvoices(res)
+          setLoading(false)
+        })
+
+    }
+
   }, [])
   // console.log('LatestInvoices: latestInvoices:', latestInvoices)
 
@@ -50,7 +66,7 @@ export default function LatestInvoices() {
       </h2>
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
         <div className="bg-white px-6">
-          {latestInvoices.data.map((invoice: any, i: any) => {
+          {latestInvoices?.data?.map((invoice: any, i: any) => {
             return (
               <div
                 key={invoice.id}

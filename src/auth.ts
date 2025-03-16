@@ -52,8 +52,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             .safeParse(credentials);
 
           if (!parsedCredentials.success) {
-            return null;
+            throw new AuthError('CredentialsSignin', { message: 'Неверный формат данных' });
           }
+
           const { 
             username, password, email, phone, firstName, lastName
           } = parsedCredentials.data;
@@ -75,17 +76,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           );
           // console.log('response:', response);
 
-          if (!response) {
-            console.log('Invalid credentials');
-            return null;
+          if (!response.user) {
+            throw new AuthError('CredentialsSignin', { cause: { message: response.message || 'Ошибка регистрации' } });
           }
+
+
           return {
             id: response.user.id.toString(),
             email: response.user.email,
             username: response.user.username,
             jwt: response.token,
-            profileRoleId: response.user.profileRoleId.toString(),
-            profileRole: response.user.profileRole
+            profileRoleId: response.user.profileRoleId?.toString() ?? null,
+            profileRole: response.user?.profileRole ?? null
           } as User
         }
         else {
@@ -95,8 +97,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             .safeParse(credentials);
 
           if (!parsedCredentials.success) {
-            console.log('Invalid credentials');
-            return null;
+            throw new AuthError('CredentialsSignin', { message: 'Неверный формат данных' });
           }
 
           const { username, password } = parsedCredentials.data;
@@ -107,9 +108,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           );
           // console.log('response:', {response});
 
-          if (!response) {
-            console.log('Invalid credentials');
-            return null;
+          if (!response.user) {
+            throw new AuthError('CredentialsSignin', { message: response.message || 'Ошибка входа' });
           }
 
           return {
@@ -117,8 +117,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             email: response.user.email,
             username: response.user.username,
             jwt: response.token,
-            profileRoleId: response.user.profileRoleId.toString(),
-            profileRole: response.user.profileRole
+            profileRoleId: response.user.profileRoleId?.toString() ?? null,
+            profileRole: response.user?.profileRole ?? null
           } as User
 
         }

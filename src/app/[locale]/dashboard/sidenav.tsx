@@ -15,7 +15,7 @@ import LocaleSwitcherSelect from './locale-switcher-select';
 export default function SideNav() {
 
   const locale = useLocale();
-  const tSwitcher = useTranslations('LocaleSwitcher');
+  const tSwitcher = useTranslations('Common');
   const t = useTranslations('SideNav');
 
 
@@ -32,10 +32,10 @@ export default function SideNav() {
       <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
         <NavLinks />
         <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
-        <LocaleSwitcherSelect defaultValue={locale} label={tSwitcher('label')}>
+        <LocaleSwitcherSelect defaultValue={locale} label={tSwitcher('localeSwitcher.label')}>
           {routing.locales.map((cur) => (
             <option key={cur} value={cur}>
-              {tSwitcher('locale', { locale: cur })}
+              {tSwitcher('localeSwitcher.locale', { locale: cur })}
             </option>
           ))}
         </LocaleSwitcherSelect>

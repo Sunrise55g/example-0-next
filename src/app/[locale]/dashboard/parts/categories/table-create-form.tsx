@@ -9,17 +9,17 @@ import { CheckIcon, XMarkIcon, ClockIcon, TrashIcon, CurrencyDollarIcon } from '
 import { lusitana } from '@/components/fonts';
 import { UpdateButton, DeleteButton, Button } from '@/components/buttons';
 
-import { ticketsCategoriesService } from '@/services/tickets-categories.service';
+import { partsCategoriesService } from '@/services/parts-categories.service';
 import Link from 'next/link';
 
 
 
 
 export default function TableCreateForm({
-	ticketsCategories,
+	partsCategories,
 	onCreateSuccess,
 }: {
-	ticketsCategories: any;
+	partsCategories: any;
 	onCreateSuccess: () => void;
 }) {
 
@@ -28,7 +28,7 @@ export default function TableCreateForm({
 	const token = session?.user?.jwt;
 	const administrator = session?.user?.profileRole?.administrator || false;
 	const moderator = session?.user?.profileRole?.moderator || false;
-	const t = useTranslations('TicketsCategories');
+	const t = useTranslations('PartsCategories');
 
 
 	//// Begin Create Action
@@ -54,7 +54,7 @@ export default function TableCreateForm({
 		//console.log('rawFormData:', { rawFormData });
 
 
-		const serviceResponse: any = await ticketsCategoriesService.createOne(rawFormData, token);
+		const serviceResponse: any = await partsCategoriesService.createOne(rawFormData, token);
 
 		if (serviceResponse.error || serviceResponse.message) {
 			const message = serviceResponse.message;
@@ -107,7 +107,7 @@ export default function TableCreateForm({
 					}}
 					className="flex w-full h-10 items-center justify-center rounded-lg bg-blue-500 text-sm font-medium text-white transition-colors hover:bg-blue-400"
 				>
-					{t('actions.createTicketsCategory')} +
+					{t('actions.createPartsCategory')} +
 				</button>
 			)}
 
@@ -186,7 +186,7 @@ export default function TableCreateForm({
 							<Button className="bg-red-500" onClick={() => setCreateFormVisible(false)}>
 								{t('actions.cancel')}
 							</Button>
-							<Button type="submit">{t('actions.createTicketsCategory')}</Button>
+							<Button type="submit">{t('actions.createPartsCategory')}</Button>
 						</div>
 
 					</div>

@@ -1,216 +1,106 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
-import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { CheckIcon, XMarkIcon, ClockIcon, TrashIcon, CurrencyDollarIcon } from '@heroicons/react/24/solid';
 
 import { lusitana } from '@/components/fonts';
 import Search from '@/components/search';
-import { UpdateButton, DeleteButton } from '@/components/buttons';
+import { UpdateButton, DeleteButton, Button } from '@/components/buttons';
+
+import TableEditForm from './table-edit-form';
+import TableCreateForm from './table-create-form';
 
 import { profileRolesService } from '@/services/profile-roles.service';
 
 
 
-export default function RolesTable({
+export default function Table({
   query,
+  sort,
   currentPage,
 }: {
   query: string;
+  sort: string;
   currentPage: number;
 }) {
 
-  //
+  //// params
   const { data: session, status }: any = useSession();
-  const token = session?.user?.jwt
+  const token = session?.user?.jwt;
 
-  //
   const locale = useLocale();
   const t = useTranslations('ProfileRoles');
 
-  //
-  const [data, setData]: any = useState(null)
-  const [isLoading, setLoading] = useState(true)
+  const searchParams = useMemo(
+    () => ({
+      page: currentPage || 1,
+      query: query || undefined,
+      sort: sort || undefined,
+    }),
+    [currentPage, query, sort]
+  );
+  // console.log('Table: searchParams:', searchParams);
 
-  //
-  let searchParams = `page=${currentPage}`
-  if (query) {
-    searchParams = `page=${currentPage}&s=${query}`
-  }
-  // console.log('RolesTable: searchParams:', searchParams)
+
+  ////
+  const [profileRoles, setProfileRoles]: any = useState(null);
+  const [isInitialLoading, setInitialLoading] = useState(true);
+
+
+  const fetchAllData = async () => {
+    try {
+      const [rolesRes] = await Promise.all([
+        profileRolesService.findMany(searchParams, token),
+      ]);
+      // console.log('fetchAllData: rolesRes:', { rolesRes });
+
+      setProfileRoles(rolesRes);
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setInitialLoading(false);
+    }
+  };
 
 
   useEffect(() => {
-    profileRolesService.findMany(searchParams, token)
-      .then((res) => {
-        setData(res)
-        setLoading(false)
-      })
-  }, [])
-  // console.log('data', data)
+    fetchAllData();
+    // const intervalId = setInterval(() => {
+    //   fetchAllData();
+    // }, 10000);
+    // return () => clearInterval(intervalId);
+  }, []);
 
 
-  if (isLoading) return <p>{t('loading')}</p>
-  if (!data) return <p>{t('noData')}</p>
+  useEffect(() => {
+    fetchAllData();
+  }, [searchParams]);
 
 
-  const roles: any = data
-  // console.log('roles', roles)
-
+  ////
+  if (isInitialLoading) return <p>{t('messages.loading')}</p>;
+  if (!profileRoles) return <p>{t('messages.noData')}</p>;
 
 
   return (
-    <div className="w-full">
-      <div className="mt-6 flow-root">
-        <div className="overflow-x-auto">
-          <div className="inline-block min-w-full align-middle">
-            <div className="overflow-hidden rounded-md bg-gray-50 p-2 md:pt-0">
-              <div className="md:hidden">
-                {roles?.data.map((role: any) => (
-                  <div
-                    key={role.id}
-                    className="mb-2 w-full rounded-md bg-white p-4"
-                  >
-                    <div className="flex items-center justify-between border-b pb-4">
-                      <div>
-                        <div className="mb-2 flex items-center">
-                          <div className="flex items-center gap-3">
-                            <p>{role.name}</p>
-                          </div>
-                        </div>
-                        <p className="text-sm text-gray-500">
-                          {role.description}
-                        </p>
-                      </div>
-                    </div>
+    <div className="w-full mt-6 flow-root">
+      <div className="inline-block min-w-full align-middle">
+        <TableCreateForm
+          profileRoles={profileRoles}
+          onCreateSuccess={fetchAllData}
+        />
 
-                    <div className="flex w-full items-center justify-between border-b py-5">
-                      <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">{t('fields.administrator')}</p>
-                        <p className="font-medium">
-                          {role.administrator ? (
-                            <CheckIcon className="h-5 w-5 text-green-500" />
-                          ) : (
-                            <XMarkIcon className="h-5 w-5 text-red-500" />
-                          )}
-                        </p>
-                      </div>
-
-                      <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">{t('fields.moderator')}</p>
-                        <p className="font-medium">
-                          {role.moderator ? (
-                            <CheckIcon className="h-5 w-5 text-green-500" />
-                          ) : (
-                            <XMarkIcon className="h-5 w-5 text-red-500" />
-                          )}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="pt-4 text-sm">
-                      <p>
-                        {role.active ? (
-                          <span className="text-green-500">{t('fields.active')}</span>
-                        ) : (
-                          <span className="text-red-500">{t('fields.inactive')}</span>
-                        )}
-                      </p>
-                    </div>
-
-                    <div className="flex w-full items-center justify-between pt-4">
-                      <div className="flex justify-end gap-2">
-                        <UpdateButton href={`/dashboard/profile/roles/${role.id}/edit`} />
-                        <DeleteButton href={`/dashboard/profile/roles/${role.id}/delete`} />
-                      </div>
-                    </div>
-
-                  </div>
-                ))}
-              </div>
-              <table className="hidden min-w-full rounded-md text-gray-900 md:table">
-                <thead className="rounded-md bg-gray-50 text-left text-sm font-normal">
-                  <tr>
-                    <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                      {t('fields.name')}
-                    </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
-                      {t('fields.description')}
-                    </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
-                      {t('fields.administrator')}
-                    </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
-                      {t('fields.moderator')}
-                    </th>
-                    <th scope="col" className="px-4 py-5 font-medium">
-                      {t('fields.active')}
-                    </th>
-                    <th scope="col" className="px-4 py-5 font-medium">
-                      {t('fields.createdAt')}
-                    </th>
-                    <th scope="col" className="px-4 py-5 font-medium">
-                      {t('fields.updatedAt')}
-                    </th>
-                    {/* <th scope="col" className="px-4 py-5 font-medium">
-                      {t('fields.actions')}
-                    </th> */}
-                  </tr>
-                </thead>
-
-                <tbody className="divide-y divide-gray-200 text-gray-900">
-                  {roles.data.map((role: any) => (
-                    <tr key={role.id} className="group">
-                      <td className="whitespace-nowrap bg-white py-5 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6">
-                        <div className="flex items-center gap-3">
-                          <p>{role.name}</p>
-                        </div>
-                      </td>
-                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {role.description}
-                      </td>
-                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {role.administrator ? (
-                          <CheckIcon className="h-5 w-5 text-green-500" />
-                        ) : (
-                          <XMarkIcon className="h-5 w-5 text-red-500" />
-                        )}
-                      </td>
-                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {role.moderator ? (
-                          <CheckIcon className="h-5 w-5 text-green-500" />
-                        ) : (
-                          <XMarkIcon className="h-5 w-5 text-red-500" />
-                        )}
-                      </td>
-                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
-                        {role.active ? (
-                          <span className="text-green-500">{t('fields.active')}</span>
-                        ) : (
-                          <span className="text-red-500">{t('fields.inactive')}</span>
-                        )}
-                      </td>
-                      <td className="whitespace-nowrap bg-white px-3 py-3">
-                        {new Date(role.createdAt).toLocaleDateString()}
-                      </td>
-                      <td className="whitespace-nowrap bg-white px-3 py-3">
-                        {new Date(role.updatedAt).toLocaleDateString()}
-                      </td>
-                      <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
-                        <div className="flex  justify-end gap-3">
-                          <UpdateButton href={`/dashboard/profile/roles/${role.id}/edit`} />
-                          <DeleteButton href={`/dashboard/profile/roles/${role.id}/delete`} />
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+        {profileRoles?.data?.map((profileRole: any) => (
+          <TableEditForm
+            key={profileRole.id}
+            profileRole={profileRole}
+            onUpdateSuccess={fetchAllData}
+          />
+        ))}
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ import { apiClient } from '@/interceptors/api-client-fetch'
 
 class ProfileRolesService {
 
-	private BASE_URL = '/profile/roles/core'
+	private CORE_URL = '/profile/roles/core'
 
 
 
@@ -36,7 +36,7 @@ class ProfileRolesService {
 		// console.log('ProfileRolesService: findMany: query:', query);
 		// console.log('ProfileRolesService: findMany: token:', token);
 
-		const response = await apiClient.get(this.BASE_URL, query, token)
+		const response = await apiClient.get(this.CORE_URL, query, token)
 		// console.log('ProfileRolesService: findMany: response', response);
 
 		return response;
@@ -46,7 +46,7 @@ class ProfileRolesService {
 
 	async findOne(id: number, token?: string) {
 
-		const response = await apiClient.get(`${this.BASE_URL}/${id}`, undefined, token)
+		const response = await apiClient.get(`${this.CORE_URL}/${id}`, undefined, token)
 		// console.log('ProfileRolesService: findOne: response', response);
 
 		return response;
@@ -66,7 +66,7 @@ class ProfileRolesService {
 			delete dataObj.password
 		}
 
-		const response = await apiClient.patch(`${this.BASE_URL}/${id}`, data, token)
+		const response = await apiClient.patch(`${this.CORE_URL}/${id}`, data, token)
 		// console.log('ProfileRolesService: findOne: response', response);
 
 		return response;
@@ -77,7 +77,7 @@ class ProfileRolesService {
 
 	async deleteOne(id: number, token: string) {
 
-		const response = await apiClient.delete(`${this.BASE_URL}/${id}`, token)
+		const response = await apiClient.delete(`${this.CORE_URL}/${id}`, token)
 		// console.log('ProfileRolesService: deleteOne: response', response);
 
 		return response;

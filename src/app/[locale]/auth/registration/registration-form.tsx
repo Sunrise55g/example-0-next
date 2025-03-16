@@ -45,7 +45,7 @@ export default function RegistrationForm() {
               className="mb-3 mt-5 block text-xs font-medium text-gray-900"
               htmlFor="registration"
             >
-              {t('fields.username')}
+              {t('labels.username')}
             </label>
             <div className="relative">
               <input
@@ -64,7 +64,7 @@ export default function RegistrationForm() {
               className="mb-3 mt-5 block text-xs font-medium text-gray-900"
               htmlFor="password"
             >
-              {t('fields.password')}
+              {t('labels.password')}
             </label>
             <div className="relative">
               <input
@@ -84,7 +84,7 @@ export default function RegistrationForm() {
               className="mb-3 mt-5 block text-xs font-medium text-gray-900"
               htmlFor="passwordRepeat"
             >
-              {t('fields.passwordRepeat')}
+              {t('labels.passwordRepeat')}
             </label>
             <div className="relative">
               <input
@@ -105,7 +105,7 @@ export default function RegistrationForm() {
                 className="mb-3 mt-5 block text-xs font-medium text-gray-900"
                 htmlFor="email"
               >
-                {t('fields.email')}
+                {t('labels.email')}
               </label>
               <div className="relative">
                 <input
@@ -126,7 +126,7 @@ export default function RegistrationForm() {
                 className="mb-3 mt-5 block text-xs font-medium text-gray-900"
                 htmlFor="phone"
               >
-                {t('fields.phone')}
+                {t('labels.phone')}
               </label>
               <div className="relative">
                 <input
@@ -146,7 +146,7 @@ export default function RegistrationForm() {
                 className="mb-3 mt-5 block text-xs font-medium text-gray-900"
                 htmlFor="firstName"
               >
-                {t('fields.firstName')}
+                {t('labels.firstName')}
               </label>
               <div className="relative">
                 <input
@@ -166,7 +166,7 @@ export default function RegistrationForm() {
                 className="mb-3 mt-5 block text-xs font-medium text-gray-900"
                 htmlFor="LastName"
               >
-                {t('fields.lastName')}
+                {t('labels.lastName')}
               </label>
               <div className="relative">
                 <input

@@ -17,24 +17,39 @@ export default function InvoicesChart() {
   //
   const { data: session, status }: any = useSession();
   const token = session?.user?.jwt
+  const administrator = session?.user?.profileRole?.administrator || false;
+  const moderator = session?.user?.profileRole?.moderator || false;
 
   //
   const locale = useLocale();
   const t = useTranslations('Dashboard');
-
 
   //
   const [dates, setDates]: any = useState(null)
   const [isLoading, setLoading] = useState(true)
 
 
+
   //
   useEffect(() => {
-    ticketsInvoicesService.statsByDaysCore(token)
-      .then((res) => {
-        setDates(res)
-        setLoading(false)
-      })
+
+    if (administrator && moderator) {
+      ticketsInvoicesService.statsByDaysCore(token)
+        .then((res) => {
+          setDates(res)
+          setLoading(false)
+        })
+    }
+    else {
+      ticketsInvoicesService.statsByDaysCurrent(token)
+        .then((res) => {
+          setDates(res)
+          setLoading(false)
+        })
+    }
+
+
+
   }, [])
   // console.log('InvoicesChart: dates:', dates)
 
@@ -65,7 +80,7 @@ export default function InvoicesChart() {
             ))}
           </div>
 
-          {dates.map((date: any) => (
+          {dates?.map((date: any) => (
             <div key={date?.date} className="flex flex-col items-center gap-2">
               <div
                 className="w-full rounded-md bg-blue-300"
@@ -91,10 +106,15 @@ export default function InvoicesChart() {
 
 
 export const generateYAxis = (data: any) => {
+  console.log('generateYAxis: data:', data)
+  if (!data || data.statusCode === 403) {
+    return { yAxisLabels: [], topLabel: 0 }
+  }
+
   // Calculate what labels we need to display on the y-axis
   // based on highest record and in 1000s
   const yAxisLabels = [];
-  const highestRecord = Math.max(...data.map((date: any) => date.count));
+  const highestRecord = Math.max(...data?.map((date: any) => date.count));
   const topLabel = Math.ceil(highestRecord);
 
   for (let i = topLabel; i >= 0; i -= 1) {

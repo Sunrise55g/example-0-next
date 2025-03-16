@@ -5,15 +5,17 @@ import { useState, useEffect, useActionState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/buttons';
 
-import { ticketsCategoriesService } from '@/services/tickets-categories.service';
+import { partsItemsService } from '@/services/parts-items.service';
 
 
 
 export default function TableEditForm({
-  ticketsCategory,
+  partsCategories,
+  partsItem,
   onUpdateSuccess,
 }: {
-  ticketsCategory: any;
+  partsCategories: any;
+  partsItem: any;
   onUpdateSuccess: () => void;
 }) {
 
@@ -22,7 +24,7 @@ export default function TableEditForm({
   const token = session?.user?.jwt;
   const administrator = session?.user?.profileRole?.administrator || false;
   const moderator = session?.user?.profileRole?.moderator || false;
-  const t = useTranslations('TicketsCategories');
+  const t = useTranslations('PartsItems');
 
 
   //// Begin Update Action
@@ -39,13 +41,9 @@ export default function TableEditForm({
 
 
   async function updateAction(prevState: IUpdateState, formData: FormData) {
+
+    //
     const id = formData.get('id');
-    const rawFormData = {
-      name: formData.get('name'),
-      description: formData.get('description'),
-      active: formData.get('active') === 'on',
-    };
-    // console.log('rawFormData (update):', { id, ...rawFormData });
 
     if (!id) {
       return {
@@ -55,7 +53,36 @@ export default function TableEditForm({
       };
     }
 
-    const serviceResponse: any = await ticketsCategoriesService.updateOne(+id, rawFormData, token);
+    //
+    let rawFormData = {
+      name: formData.get('name'),
+      active: formData.get('active') === 'on',
+      partsCategoryId: formData.get('partsCategoryId'),
+      description: formData.get('description'),
+    };
+    // console.log('rawFormData (update):', { id, ...rawFormData });
+
+    //
+    let requestData: any = {};
+
+    if (rawFormData.name && rawFormData.name !== '' && rawFormData.name !== partsItem.name) {
+      requestData['name'] = rawFormData.name;
+    }
+
+    if (rawFormData.active && rawFormData.active !== partsItem.active) {
+      requestData['active'] = rawFormData.active;
+    }
+
+    if (rawFormData.partsCategoryId && rawFormData.partsCategoryId !== partsItem.partsCategoryId) {
+      requestData['partsCategoryId'] = rawFormData.partsCategoryId;
+    }
+
+    if (rawFormData.description && rawFormData.description !== '' && rawFormData.description !== partsItem.description) {
+      requestData['description'] = rawFormData.description;
+    }
+
+    //
+    const serviceResponse: any = await partsItemsService.updateOne(+id, requestData, token);
 
     if (serviceResponse.error || serviceResponse.message) {
       const message = serviceResponse.message;
@@ -111,7 +138,7 @@ export default function TableEditForm({
       };
     }
 
-    const serviceResponse: any = await ticketsCategoriesService.deleteOne(+id, token);
+    const serviceResponse: any = await partsItemsService.deleteOne(+id, token);
 
     if (serviceResponse.error || serviceResponse.message) {
       const message = serviceResponse.message;
@@ -142,6 +169,7 @@ export default function TableEditForm({
 
 
 
+
   return (
     <div className="w-full rounded-md bg-gray-200 text-sm p-4 mb-5 mt-5">
 
@@ -150,14 +178,14 @@ export default function TableEditForm({
       <form action={updateFormAction}>
 
         <h2 className="flex justify-between items-center text-lg font-semibold text-gray-700 mb-3">
-          <span>{t('labels.ticketsCategory')} #{ticketsCategory.id}</span>
+          <span>{t('labels.partsItem')} #{partsItem.id}</span>
           <span className="text-sm font-normal">
-            {t('labels.createdAt')}: {new Date(ticketsCategory.createdAt).toLocaleString()} |{' '}
-            {t('labels.updatedAt')}: {new Date(ticketsCategory.updatedAt).toLocaleString()}
+            {t('labels.createdAt')}: {new Date(partsItem.createdAt).toLocaleString()} |{' '}
+            {t('labels.updatedAt')}: {new Date(partsItem.updatedAt).toLocaleString()}
           </span>
         </h2>
 
-        <input type="hidden" name="id" value={ticketsCategory.id} />
+        <input type="hidden" name="id" value={partsItem.id} />
 
 
         <div className="flex w-full items-start gap-5 mt-0 mb-2">
@@ -170,7 +198,7 @@ export default function TableEditForm({
               id="name"
               name="name"
               type="string"
-              defaultValue={ticketsCategory.name}
+              defaultValue={partsItem.name}
               placeholder={t('placeholders.name')}
               className={
                 `w-full h-9 text-sm rounded-md border py-0 pl-5 
@@ -194,7 +222,7 @@ export default function TableEditForm({
                 ${editFormVisible ? 'border-green-500 outline-2' : 'border-gray-200'}`
               }
               disabled={!editFormVisible}
-              defaultChecked={ticketsCategory.active}
+              defaultChecked={partsItem.active}
               aria-describedby="update-error"
             />
           </div>
@@ -203,22 +231,54 @@ export default function TableEditForm({
 
 
         <div className="w-full mt-2 mb-2">
-          <label htmlFor="description" className="text-xs text-gray-500 block mb-1">
-            {t('labels.description')}:
+          <label htmlFor="partsCategoryId" className="text-xs text-gray-500 block mb-1">
+            {t('labels.partsCategory')}:
           </label>
-          <input
-            id="description"
-            name="description"
-            type="string"
-            defaultValue={ticketsCategory.description}
-            placeholder={t('placeholders.description')}
+          <select
+            id="partsCategoryId"
+            name="partsCategoryId"
             className={
               `w-full h-9 text-sm rounded-md border py-0 pl-5 
-              ${editFormVisible ? 'border-green-500 outline-2' : 'border-gray-200'}`
+                ${editFormVisible ? 'border-green-500 outline-2 cursor-pointer' : 'border-gray-200'}`
             }
             disabled={!editFormVisible}
+            defaultValue={partsItem.partsCategoryId}
+            key={partsItem.partsCategoryId}
             aria-describedby="update-error"
-          />
+          >
+            <option value="" disabled>
+              {t('placeholders.partsCategory')}
+            </option>
+            {partsCategories?.data?.map((partsCategory: any) => (
+              <option key={partsCategory.id} value={partsCategory.id}>
+                {`#${partsCategory.id}:  ${partsCategory.name}`}
+              </option>
+            ))}
+          </select>
+        </div>
+
+
+        <div className="flex w-full items-start gap-5 mt-0 mb-2">
+
+          <div className="flex-1">
+            <label htmlFor="description" className="text-xs text-gray-500 block mb-1">
+              {t('labels.description')}:
+            </label>
+            <input
+              id="description"
+              name="description"
+              type="string"
+              defaultValue={partsItem.description}
+              placeholder={t('placeholders.description')}
+              className={
+                `w-full h-9 text-sm rounded-md border py-0 pl-5 
+                  ${editFormVisible ? 'border-green-500 outline-2' : 'border-gray-200'}`
+              }
+              disabled={!editFormVisible}
+              aria-describedby="update-error"
+            />
+          </div>
+
         </div>
 
 
@@ -232,7 +292,7 @@ export default function TableEditForm({
                 <p className="text-green-500 text-m flex w-full py-3 pl-5">{t("messages.success")}</p>
               )}
             </div>
-            <div id="delete-invoice-error" aria-live="polite" aria-atomic="true">
+            <div id="delete-error" aria-live="polite" aria-atomic="true">
               {deleteState.errors && deleteState.message && (
                 <p className="text-red-500 py-0 pl-5">{deleteState.message}</p>
               )}
@@ -244,7 +304,7 @@ export default function TableEditForm({
 
             editFormVisible ? (
               <div className="flex w-full justify-end gap-3 mt-1">
-                <Button type="submit">{t('actions.saveTicketsCategory')}</Button>
+                <Button type="submit">{t('actions.savePartsItem')}</Button>
                 <Button
                   type="button"
                   onClick={(e) => {
@@ -264,7 +324,7 @@ export default function TableEditForm({
                     setEditFormVisible(true);
                   }}
                 >
-                  {t('actions.editTicketsCategory')}
+                  {t('actions.editPartsItem')}
                 </Button>
                 <Button
                   type="button"
@@ -274,7 +334,7 @@ export default function TableEditForm({
                     setIsDeleteModalOpen(true);
                   }}
                 >
-                  {t('actions.deleteTicketsCategory')}
+                  {t('actions.deletePartsItem')}
                 </Button>
               </div>
             )
@@ -293,7 +353,7 @@ export default function TableEditForm({
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
             <h2 className="text-lg font-semibold mb-4">{t('titles.delete')}</h2>
             <p className="mb-6">
-              {t('actions.deleteTicketsCategory')} #{ticketsCategory.id}?
+              {t('actions.deletePartsItem')} #{partsItem.id}?
             </p>
             <div className="flex justify-end gap-3">
               <Button
@@ -304,9 +364,9 @@ export default function TableEditForm({
                 {t('actions.cancel')}
               </Button>
               <form action={deleteFormAction}>
-                <input type="hidden" name="id" value={ticketsCategory.id} />
+                <input type="hidden" name="id" value={partsItem.id} />
                 <Button type="submit" className="bg-red-500 hover:bg-red-400">
-                  {t('actions.deleteTicketsCategory')}
+                  {t('actions.deletePartsItem')}
                 </Button>
               </form>
             </div>

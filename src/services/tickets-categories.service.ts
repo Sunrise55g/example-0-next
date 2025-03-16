@@ -52,7 +52,7 @@ class TicketsCategoriesService {
 					queryStr += `&filter=description||$cont||${queryParams.query}`;
 				}
 		
-				console.log('TicketsInvoicesService: findMany: queryStr:', queryStr);
+				// console.log('TicketsInvoicesService: findMany: queryStr:', queryStr);
 		
 		
 				const response: any = await apiClient.get(this.CORE_URL, queryStr, token)
@@ -101,6 +101,17 @@ class TicketsCategoriesService {
 
 		return response;
 	}
+
+
+
+	async totalCount() {
+
+		const response: any = await apiClient.get(`${this.CORE_URL}/totalCount`)
+		// console.log('TicketsCategoriesService: totalCount: response', response);
+
+		return response;
+	}
+
 
 }
 

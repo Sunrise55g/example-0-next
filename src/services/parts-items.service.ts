@@ -84,10 +84,9 @@ class PartsItemsService {
 	}
 
 
-
 	async totalCount() {
 
-		const response: any = await apiClient.get(`${this.CURRENT_URL}/totalCount`)
+		const response: any = await apiClient.get(`${this.CORE_URL}/totalCount`)
 		// console.log('PartsItemsService: totalCount: response', response);
 
 		return response;

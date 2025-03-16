@@ -32,12 +32,34 @@ class TicketsItemsService {
 	}
 
 
+	public async createOneCurrent(data: any, token: string) {
+		// console.log('TicketsItemsService: createOne: data:', data);
+		// console.log('TicketsItemsService: createOne: token:', token);
+
+		const response: any = await apiClient.post(this.CURRENT_URL, data, token)
+		// console.log('TicketsItemsService: createOne: response:', response);
+
+		return response;
+	}
+
+
 
 	async findMany(query?: any, token?: string) {
 		// console.log('TicketsItemsService: findMany: query:', query);
 		// console.log('TicketsItemsService: findMany: token:', token);
 
 		const response = await apiClient.get(this.CORE_URL, query, token)
+		// console.log('TicketsItemsService: findMany: response', response);
+
+		return response;
+	}
+
+
+	async findManyCurrent(query?: any, token?: string) {
+		// console.log('TicketsItemsService: findMany: query:', query);
+		// console.log('TicketsItemsService: findMany: token:', token);
+
+		const response = await apiClient.get(this.CURRENT_URL, query, token)
 		// console.log('TicketsItemsService: findMany: response', response);
 
 		return response;
@@ -54,25 +76,13 @@ class TicketsItemsService {
 	}
 
 
+	async findOneCurrent(id: number, token?: string) {
 
-	async updateOne(id: number, data: any, token: string) {
-
-		let dataObj = data;
-
-		if (!dataObj.roleId || dataObj.roleId === '') {
-			delete dataObj.roleId
-		}
-
-		if (!dataObj.password || dataObj.password === '') {
-			delete dataObj.password
-		}
-
-		const response = await apiClient.patch(`${this.CORE_URL}/${id}`, data, token)
+		const response = await apiClient.get(`${this.CURRENT_URL}/${id}`, undefined, token)
 		// console.log('TicketsItemsService: findOne: response', response);
 
 		return response;
 	}
-
 
 
 
@@ -85,8 +95,26 @@ class TicketsItemsService {
 	}
 
 
+	async deleteOneCurrent(id: number, token: string) {
+
+		const response = await apiClient.delete(`${this.CURRENT_URL}/${id}`, token)
+		// console.log('TicketsItemsService: deleteOne: response', response);
+
+		return response;
+	}
+
+
 
 	async totalCount() {
+
+		const response: any = await apiClient.get(`${this.CORE_URL}/totalCount`)
+		// console.log('TicketsItemsService: totalCount: response', response);
+
+		return response;
+	}
+
+
+	async totalCountCurrent() {
 
 		const response: any = await apiClient.get(`${this.CURRENT_URL}/totalCount`)
 		// console.log('TicketsItemsService: totalCount: response', response);

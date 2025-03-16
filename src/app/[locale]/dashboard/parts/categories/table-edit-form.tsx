@@ -5,15 +5,15 @@ import { useState, useEffect, useActionState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/buttons';
 
-import { ticketsCategoriesService } from '@/services/tickets-categories.service';
+import { partsCategoriesService } from '@/services/parts-categories.service';
 
 
 
 export default function TableEditForm({
-  ticketsCategory,
+  partsCategory,
   onUpdateSuccess,
 }: {
-  ticketsCategory: any;
+  partsCategory: any;
   onUpdateSuccess: () => void;
 }) {
 
@@ -22,7 +22,7 @@ export default function TableEditForm({
   const token = session?.user?.jwt;
   const administrator = session?.user?.profileRole?.administrator || false;
   const moderator = session?.user?.profileRole?.moderator || false;
-  const t = useTranslations('TicketsCategories');
+  const t = useTranslations('PartsCategories');
 
 
   //// Begin Update Action
@@ -55,7 +55,7 @@ export default function TableEditForm({
       };
     }
 
-    const serviceResponse: any = await ticketsCategoriesService.updateOne(+id, rawFormData, token);
+    const serviceResponse: any = await partsCategoriesService.updateOne(+id, rawFormData, token);
 
     if (serviceResponse.error || serviceResponse.message) {
       const message = serviceResponse.message;
@@ -111,7 +111,7 @@ export default function TableEditForm({
       };
     }
 
-    const serviceResponse: any = await ticketsCategoriesService.deleteOne(+id, token);
+    const serviceResponse: any = await partsCategoriesService.deleteOne(+id, token);
 
     if (serviceResponse.error || serviceResponse.message) {
       const message = serviceResponse.message;
@@ -150,14 +150,14 @@ export default function TableEditForm({
       <form action={updateFormAction}>
 
         <h2 className="flex justify-between items-center text-lg font-semibold text-gray-700 mb-3">
-          <span>{t('labels.ticketsCategory')} #{ticketsCategory.id}</span>
+          <span>{t('labels.partsCategory')} #{partsCategory.id}</span>
           <span className="text-sm font-normal">
-            {t('labels.createdAt')}: {new Date(ticketsCategory.createdAt).toLocaleString()} |{' '}
-            {t('labels.updatedAt')}: {new Date(ticketsCategory.updatedAt).toLocaleString()}
+            {t('labels.createdAt')}: {new Date(partsCategory.createdAt).toLocaleString()} |{' '}
+            {t('labels.updatedAt')}: {new Date(partsCategory.updatedAt).toLocaleString()}
           </span>
         </h2>
 
-        <input type="hidden" name="id" value={ticketsCategory.id} />
+        <input type="hidden" name="id" value={partsCategory.id} />
 
 
         <div className="flex w-full items-start gap-5 mt-0 mb-2">
@@ -170,7 +170,7 @@ export default function TableEditForm({
               id="name"
               name="name"
               type="string"
-              defaultValue={ticketsCategory.name}
+              defaultValue={partsCategory.name}
               placeholder={t('placeholders.name')}
               className={
                 `w-full h-9 text-sm rounded-md border py-0 pl-5 
@@ -194,7 +194,7 @@ export default function TableEditForm({
                 ${editFormVisible ? 'border-green-500 outline-2' : 'border-gray-200'}`
               }
               disabled={!editFormVisible}
-              defaultChecked={ticketsCategory.active}
+              defaultChecked={partsCategory.active}
               aria-describedby="update-error"
             />
           </div>
@@ -210,7 +210,7 @@ export default function TableEditForm({
             id="description"
             name="description"
             type="string"
-            defaultValue={ticketsCategory.description}
+            defaultValue={partsCategory.description}
             placeholder={t('placeholders.description')}
             className={
               `w-full h-9 text-sm rounded-md border py-0 pl-5 
@@ -244,7 +244,7 @@ export default function TableEditForm({
 
             editFormVisible ? (
               <div className="flex w-full justify-end gap-3 mt-1">
-                <Button type="submit">{t('actions.saveTicketsCategory')}</Button>
+                <Button type="submit">{t('actions.savePartsCategory')}</Button>
                 <Button
                   type="button"
                   onClick={(e) => {
@@ -264,7 +264,7 @@ export default function TableEditForm({
                     setEditFormVisible(true);
                   }}
                 >
-                  {t('actions.editTicketsCategory')}
+                  {t('actions.editPartsCategory')}
                 </Button>
                 <Button
                   type="button"
@@ -274,7 +274,7 @@ export default function TableEditForm({
                     setIsDeleteModalOpen(true);
                   }}
                 >
-                  {t('actions.deleteTicketsCategory')}
+                  {t('actions.deletePartsCategory')}
                 </Button>
               </div>
             )
@@ -293,7 +293,7 @@ export default function TableEditForm({
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
             <h2 className="text-lg font-semibold mb-4">{t('titles.delete')}</h2>
             <p className="mb-6">
-              {t('actions.deleteTicketsCategory')} #{ticketsCategory.id}?
+              {t('actions.deletePartsCategory')} #{partsCategory.id}?
             </p>
             <div className="flex justify-end gap-3">
               <Button
@@ -304,9 +304,9 @@ export default function TableEditForm({
                 {t('actions.cancel')}
               </Button>
               <form action={deleteFormAction}>
-                <input type="hidden" name="id" value={ticketsCategory.id} />
+                <input type="hidden" name="id" value={partsCategory.id} />
                 <Button type="submit" className="bg-red-500 hover:bg-red-400">
-                  {t('actions.deleteTicketsCategory')}
+                  {t('actions.deletePartsCategory')}
                 </Button>
               </form>
             </div>

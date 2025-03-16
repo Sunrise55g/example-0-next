@@ -9,26 +9,24 @@ import { CheckIcon, XMarkIcon, ClockIcon, TrashIcon, CurrencyDollarIcon } from '
 import { lusitana } from '@/components/fonts';
 import { UpdateButton, DeleteButton, Button } from '@/components/buttons';
 
-import { ticketsCategoriesService } from '@/services/tickets-categories.service';
+import { profileRolesService } from '@/services/profile-roles.service';
 import Link from 'next/link';
 
 
 
 
 export default function TableCreateForm({
-	ticketsCategories,
+	profileRoles,
 	onCreateSuccess,
 }: {
-	ticketsCategories: any;
+	profileRoles: any;
 	onCreateSuccess: () => void;
 }) {
 
 	// params
 	const { data: session, status }: any = useSession();
 	const token = session?.user?.jwt;
-	const administrator = session?.user?.profileRole?.administrator || false;
-	const moderator = session?.user?.profileRole?.moderator || false;
-	const t = useTranslations('TicketsCategories');
+	const t = useTranslations('ProfileRoles');
 
 
 	//// Begin Create Action
@@ -49,12 +47,14 @@ export default function TableCreateForm({
 		let rawFormData = {
 			name: formData.get('name'),
 			description: formData.get('description'),
+			administrator: formData.get('administrator') === 'on',
+			moderator: formData.get('moderator') === 'on',
 			active: formData.get('active') === 'on'
 		};
 		//console.log('rawFormData:', { rawFormData });
 
 
-		const serviceResponse: any = await ticketsCategoriesService.createOne(rawFormData, token);
+		const serviceResponse: any = await profileRolesService.createOne(rawFormData, token);
 
 		if (serviceResponse.error || serviceResponse.message) {
 			const message = serviceResponse.message;
@@ -86,8 +86,6 @@ export default function TableCreateForm({
 
 
 	return (
-		(administrator || moderator) &&
-
 		<div className="w-full rounded-md bg-gray-200 text-sm mb-5">
 			{createFormVisible ? (
 				<button
@@ -107,7 +105,7 @@ export default function TableCreateForm({
 					}}
 					className="flex w-full h-10 items-center justify-center rounded-lg bg-blue-500 text-sm font-medium text-white transition-colors hover:bg-blue-400"
 				>
-					{t('actions.createTicketsCategory')} +
+					{t('actions.createProfileRole')} +
 				</button>
 			)}
 
@@ -133,6 +131,32 @@ export default function TableCreateForm({
 								className="w-full h-9 text-sm rounded-md border border-gray-200 py-0 pl-5 outline-2"
 								aria-describedby="create-error"
 								required
+							/>
+						</div>
+
+						<div className="items-start gap-4 mt-0 mb-2">
+							<label htmlFor="administrator" className="text-xs text-gray-500 block mb-1">
+								{t('labels.administrator')}:
+							</label>
+							<input
+								id="administrator"
+								name="administrator"
+								type="checkbox"
+								className="h-9 w-9 text-sm rounded-md border border-gray-200 py-0 pl-5 outline-2 text-indigo-600 focus:ring-indigo-500"
+								aria-describedby="create-error"
+							/>
+						</div>
+
+						<div className="items-start gap-4 mt-0 mb-2">
+							<label htmlFor="moderator" className="text-xs text-gray-500 block mb-1">
+								{t('labels.moderator')}:
+							</label>
+							<input
+								id="moderator"
+								name="moderator"
+								type="checkbox"
+								className="h-9 w-9 text-sm rounded-md border border-gray-200 py-0 pl-5 outline-2 text-indigo-600 focus:ring-indigo-500"
+								aria-describedby="create-error"
 							/>
 						</div>
 
@@ -186,7 +210,7 @@ export default function TableCreateForm({
 							<Button className="bg-red-500" onClick={() => setCreateFormVisible(false)}>
 								{t('actions.cancel')}
 							</Button>
-							<Button type="submit">{t('actions.createTicketsCategory')}</Button>
+							<Button type="submit">{t('actions.createProfileRole')}</Button>
 						</div>
 
 					</div>

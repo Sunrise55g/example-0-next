@@ -54,7 +54,7 @@ export default function TableEditForm({
       employerUserId: formData.get('employerUserId'),
       status: formData.get('status'),
     };
-    console.log('rawFormData (update):', { id, ...rawFormData });
+    // console.log('rawFormData (update):', { id, ...rawFormData });
 
     if (!id) {
       return {
@@ -110,7 +110,7 @@ export default function TableEditForm({
 
   async function deleteAction(prevState: IDeleteState, formData: FormData) {
     const id = formData.get('id');
-    console.log('deleteAction - id:', id);
+    // console.log('deleteAction - id:', id);
 
     if (!id) {
       return {
@@ -179,7 +179,7 @@ export default function TableEditForm({
               className={`w-full h-9 text-sm rounded-md border py-0 pl-5 
                 ${editFormVisible ? 'border-green-500 outline-2' : 'border-gray-200'}`}
               disabled={!editFormVisible}
-              aria-describedby="update-invoice-error"
+              aria-describedby="update-error"
             />
           </div>
 
@@ -192,18 +192,17 @@ export default function TableEditForm({
               name="ticketsCategoryId"
               className={`w-full h-9 text-sm rounded-md border py-0 pl-5 
                 ${editFormVisible ? 'border-green-500 outline-2 cursor-pointer' : 'border-gray-200 bg-none'}`}
-                defaultValue={
-                  (() => {
-                    // console.log('!!!!!!!!!!!!!!!!!!!!!!! ticketsInvoice.status:', ticketsInvoice.status);
-                   return ticketsInvoice.ticketsCategoryId
-                  })()
-                }
-                key={ticketsInvoice.ticketsCategoryId}
+              defaultValue={
+                (() => {
+                  return ticketsInvoice.ticketsCategoryId
+                })()
+              }
+              key={ticketsInvoice.ticketsCategoryId}
               disabled={!editFormVisible}
-              aria-describedby="update-invoice-error"
+              aria-describedby="update-error"
             >
               <option value="" disabled>
-                {t('placeholders.ticketsCategoryNone')}
+                {t('placeholders.ticketsCategory')}
               </option>
               {ticketsCategories?.data?.map((ticketsCategory: any) => (
                 <option key={ticketsCategory.id} value={ticketsCategory.id}>
@@ -224,22 +223,21 @@ export default function TableEditForm({
                 ${editFormVisible ? 'border-green-500 outline-2 cursor-pointer' : 'border-gray-200 bg-none'}`}
               defaultValue={
                 (() => {
-                  // console.log('!!!!!!!!!!!!!!!!!!!!!!! ticketsInvoice.status:', ticketsInvoice.status);
-                 return ticketsInvoice.status
+                  return ticketsInvoice.status
                 })()
               }
               key={ticketsInvoice.status}
               disabled={!editFormVisible}
-              aria-describedby="update-invoice-error"
+              aria-describedby="update-error"
             >
               <option key="OPEN" value="OPEN" className="text-blue-500">
-                {t('fields.statusChoices.open')}
+                {t('labels.statusChoices.open')}
               </option>
               <option key="CLOSED" value="CLOSED" className="text-green-500">
-                {t('fields.statusChoices.closed')}
+                {t('labels.statusChoices.closed')}
               </option>
               <option key="CANCELED" value="CANCELED" className="text-red-500">
-                {t('fields.statusChoices.canceled')}
+                {t('labels.statusChoices.canceled')}
               </option>
             </select>
           </div>
@@ -258,7 +256,7 @@ export default function TableEditForm({
             className={`w-full h-9 text-sm rounded-md border py-0 pl-5
               ${editFormVisible ? 'border-green-500 outline-2' : 'border-gray-200'}`}
             disabled={!editFormVisible}
-            aria-describedby="update-invoice-error"
+            aria-describedby="update-error"
           />
         </div>
 
@@ -272,15 +270,14 @@ export default function TableEditForm({
               name="customerUserId"
               className={`w-full h-9 text-sm rounded-md border bg-blue-300 py-0 pl-5
                 ${editFormVisible ? 'border-green-500 outline-2 cursor-pointer' : 'border-gray-200 bg-none'}`}
-                defaultValue={
-                  (() => {
-                    // console.log('!!!!!!!!!!!!!!!!!!!!!!! ticketsInvoice.status:', ticketsInvoice.status);
-                   return ticketsInvoice.customerUserId
-                  })()
-                }
-                key={ticketsInvoice.customerUserId}
+              defaultValue={
+                (() => {
+                  return ticketsInvoice.customerUserId
+                })()
+              }
+              key={ticketsInvoice.customerUserId}
               disabled={!editFormVisible}
-              aria-describedby="update-invoice-error"
+              aria-describedby="update-error"
             >
               <option value="" disabled>
                 {t('placeholders.customerUserNone')}
@@ -313,15 +310,10 @@ export default function TableEditForm({
               name="employerUserId"
               className={`w-full h-9 text-sm rounded-md border bg-red-300 py-0 pl-5
                 ${editFormVisible ? 'border-green-500 outline-2 cursor-pointer' : 'border-gray-200 bg-none'}`}
-                defaultValue={
-                  (() => {
-                    // console.log('!!!!!!!!!!!!!!!!!!!!!!! ticketsInvoice.status:', ticketsInvoice.status);
-                   return ticketsInvoice.employerUserId
-                  })()
-                }
-                key={ticketsInvoice.employerUserId}
+              defaultValue={ticketsInvoice.employerUserId || ''}
+              key={ticketsInvoice.employerUserId}
               disabled={!editFormVisible}
-              aria-describedby="update-invoice-error"
+              aria-describedby="update-error"
             >
               <option value="" disabled>
                 {t('placeholders.employerUserNone')}
@@ -351,7 +343,7 @@ export default function TableEditForm({
 
         <div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-2 mb-2">
           <div className="w-full md:flex">
-            <div id="update-invoice-error" aria-live="polite" aria-atomic="true">
+            <div id="update-error" aria-live="polite" aria-atomic="true">
               {updateState.errors && updateState.message && updateState.message !== 'Success' && (
                 <p className="text-red-500 text-m flex w-full py-3 pl-5">{updateState.message}</p>
               )}
@@ -359,7 +351,7 @@ export default function TableEditForm({
                 <p className="text-green-500 text-m flex w-full py-3 pl-5">{t("messages.success")}</p>
               )}
             </div>
-            <div id="delete-invoice-error" aria-live="polite" aria-atomic="true">
+            <div id="update-error" aria-live="polite" aria-atomic="true">
               {deleteState.errors && deleteState.message && (
                 <p className="text-red-500 py-0 pl-5">{deleteState.message}</p>
               )}
@@ -419,7 +411,7 @@ export default function TableEditForm({
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
             <h2 className="text-lg font-semibold mb-4">{t('titles.delete')}</h2>
             <p className="mb-6">
-              {t('messages.deleteTicketsInvoice')} #{ticketsInvoice.id}?
+              {t('actions.deleteTicketsInvoice')} #{ticketsInvoice.id}?
             </p>
             <div className="flex justify-end gap-3">
               <Button

@@ -44,7 +44,7 @@ export default async function Page(
   const searchParams = await props.searchParams;
   const query = searchParams?.query || '';
   const sort = searchParams?.sort || 'id,DESC';
-  console.log('Page: searchParams:', searchParams);
+  // console.log('Page: searchParams:', searchParams);
 
 
   const invoicesObj: any = await ticketsInvoicesService.findMany(searchParams, token);

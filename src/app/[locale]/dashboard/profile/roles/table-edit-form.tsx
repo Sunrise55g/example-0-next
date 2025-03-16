@@ -5,24 +5,22 @@ import { useState, useEffect, useActionState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/buttons';
 
-import { ticketsCategoriesService } from '@/services/tickets-categories.service';
+import { profileRolesService } from '@/services/profile-roles.service';
 
 
 
 export default function TableEditForm({
-  ticketsCategory,
+  profileRole,
   onUpdateSuccess,
 }: {
-  ticketsCategory: any;
+  profileRole: any;
   onUpdateSuccess: () => void;
 }) {
 
   // params
   const { data: session, status }: any = useSession();
   const token = session?.user?.jwt;
-  const administrator = session?.user?.profileRole?.administrator || false;
-  const moderator = session?.user?.profileRole?.moderator || false;
-  const t = useTranslations('TicketsCategories');
+  const t = useTranslations('ProfileRoles');
 
 
   //// Begin Update Action
@@ -39,11 +37,15 @@ export default function TableEditForm({
 
 
   async function updateAction(prevState: IUpdateState, formData: FormData) {
+
     const id = formData.get('id');
+
     const rawFormData = {
       name: formData.get('name'),
       description: formData.get('description'),
-      active: formData.get('active') === 'on',
+      administrator: formData.get('administrator') === 'on',
+			moderator: formData.get('moderator') === 'on',
+			active: formData.get('active') === 'on'
     };
     // console.log('rawFormData (update):', { id, ...rawFormData });
 
@@ -55,7 +57,7 @@ export default function TableEditForm({
       };
     }
 
-    const serviceResponse: any = await ticketsCategoriesService.updateOne(+id, rawFormData, token);
+    const serviceResponse: any = await profileRolesService.updateOne(+id, rawFormData, token);
 
     if (serviceResponse.error || serviceResponse.message) {
       const message = serviceResponse.message;
@@ -111,7 +113,7 @@ export default function TableEditForm({
       };
     }
 
-    const serviceResponse: any = await ticketsCategoriesService.deleteOne(+id, token);
+    const serviceResponse: any = await profileRolesService.deleteOne(+id, token);
 
     if (serviceResponse.error || serviceResponse.message) {
       const message = serviceResponse.message;
@@ -142,6 +144,7 @@ export default function TableEditForm({
 
 
 
+
   return (
     <div className="w-full rounded-md bg-gray-200 text-sm p-4 mb-5 mt-5">
 
@@ -150,14 +153,14 @@ export default function TableEditForm({
       <form action={updateFormAction}>
 
         <h2 className="flex justify-between items-center text-lg font-semibold text-gray-700 mb-3">
-          <span>{t('labels.ticketsCategory')} #{ticketsCategory.id}</span>
+          <span>{t('labels.profileRole')} #{profileRole.id}</span>
           <span className="text-sm font-normal">
-            {t('labels.createdAt')}: {new Date(ticketsCategory.createdAt).toLocaleString()} |{' '}
-            {t('labels.updatedAt')}: {new Date(ticketsCategory.updatedAt).toLocaleString()}
+            {t('labels.createdAt')}: {new Date(profileRole.createdAt).toLocaleString()} |{' '}
+            {t('labels.updatedAt')}: {new Date(profileRole.updatedAt).toLocaleString()}
           </span>
         </h2>
 
-        <input type="hidden" name="id" value={ticketsCategory.id} />
+        <input type="hidden" name="id" value={profileRole.id} />
 
 
         <div className="flex w-full items-start gap-5 mt-0 mb-2">
@@ -170,13 +173,49 @@ export default function TableEditForm({
               id="name"
               name="name"
               type="string"
-              defaultValue={ticketsCategory.name}
+              defaultValue={profileRole.name}
               placeholder={t('placeholders.name')}
               className={
                 `w-full h-9 text-sm rounded-md border py-0 pl-5 
                 ${editFormVisible ? 'border-green-500 outline-2' : 'border-gray-200'}`
               }
               disabled={!editFormVisible}
+              aria-describedby="update-error"
+            />
+          </div>
+
+          <div className="items-start gap-4 mt-0 mb-2">
+            <label htmlFor="administrator" className="text-xs text-gray-500 block mb-1">
+              {t('labels.administrator')}:
+            </label>
+            <input
+              id="administrator"
+              name="administrator"
+              type="checkbox"
+              className={
+                `h-9 w-9 text-sm rounded-md border py-0 pl-5 text-indigo-600 focus:ring-indigo-500
+                ${editFormVisible ? 'border-green-500 outline-2' : 'border-gray-200'}`
+              }
+              disabled={!editFormVisible}
+              defaultChecked={profileRole.administrator}
+              aria-describedby="update-error"
+            />
+          </div>
+
+          <div className="items-start gap-4 mt-0 mb-2">
+            <label htmlFor="moderator" className="text-xs text-gray-500 block mb-1">
+              {t('labels.moderator')}:
+            </label>
+            <input
+              id="moderator"
+              name="moderator"
+              type="checkbox"
+              className={
+                `h-9 w-9 text-sm rounded-md border py-0 pl-5 text-indigo-600 focus:ring-indigo-500
+                ${editFormVisible ? 'border-green-500 outline-2' : 'border-gray-200'}`
+              }
+              disabled={!editFormVisible}
+              defaultChecked={profileRole.moderator}
               aria-describedby="update-error"
             />
           </div>
@@ -194,7 +233,7 @@ export default function TableEditForm({
                 ${editFormVisible ? 'border-green-500 outline-2' : 'border-gray-200'}`
               }
               disabled={!editFormVisible}
-              defaultChecked={ticketsCategory.active}
+              defaultChecked={profileRole.active}
               aria-describedby="update-error"
             />
           </div>
@@ -210,7 +249,7 @@ export default function TableEditForm({
             id="description"
             name="description"
             type="string"
-            defaultValue={ticketsCategory.description}
+            defaultValue={profileRole.description}
             placeholder={t('placeholders.description')}
             className={
               `w-full h-9 text-sm rounded-md border py-0 pl-5 
@@ -240,48 +279,42 @@ export default function TableEditForm({
           </div>
 
 
-          {(administrator || moderator) && (
-
-            editFormVisible ? (
-              <div className="flex w-full justify-end gap-3 mt-1">
-                <Button type="submit">{t('actions.saveTicketsCategory')}</Button>
-                <Button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setEditFormVisible(false);
-                  }}
-                >
-                  {t('actions.cancel')}
-                </Button>
-              </div>
-            ) : (
-              <div className="flex w-full justify-end gap-3 mt-1">
-                <Button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setEditFormVisible(true);
-                  }}
-                >
-                  {t('actions.editTicketsCategory')}
-                </Button>
-                <Button
-                  type="button"
-                  className="bg-red-500 hover:bg-red-400"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setIsDeleteModalOpen(true);
-                  }}
-                >
-                  {t('actions.deleteTicketsCategory')}
-                </Button>
-              </div>
-            )
-
+          {editFormVisible ? (
+            <div className="flex w-full justify-end gap-3 mt-1">
+              <Button type="submit">{t('actions.saveProfileRole')}</Button>
+              <Button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setEditFormVisible(false);
+                }}
+              >
+                {t('actions.cancel')}
+              </Button>
+            </div>
+          ) : (
+            <div className="flex w-full justify-end gap-3 mt-1">
+              <Button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setEditFormVisible(true);
+                }}
+              >
+                {t('actions.editProfileRole')}
+              </Button>
+              <Button
+                type="button"
+                className="bg-red-500 hover:bg-red-400"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsDeleteModalOpen(true);
+                }}
+              >
+                {t('actions.deleteProfileRole')}
+              </Button>
+            </div>
           )}
-
-
         </div>
       </form>
       {/* End Update Form */}
@@ -293,7 +326,7 @@ export default function TableEditForm({
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
             <h2 className="text-lg font-semibold mb-4">{t('titles.delete')}</h2>
             <p className="mb-6">
-              {t('actions.deleteTicketsCategory')} #{ticketsCategory.id}?
+              {t('actions.deleteProfileRole')} #{profileRole.id}?
             </p>
             <div className="flex justify-end gap-3">
               <Button
@@ -304,9 +337,9 @@ export default function TableEditForm({
                 {t('actions.cancel')}
               </Button>
               <form action={deleteFormAction}>
-                <input type="hidden" name="id" value={ticketsCategory.id} />
+                <input type="hidden" name="id" value={profileRole.id} />
                 <Button type="submit" className="bg-red-500 hover:bg-red-400">
-                  {t('actions.deleteTicketsCategory')}
+                  {t('actions.deleteProfileRole')}
                 </Button>
               </form>
             </div>

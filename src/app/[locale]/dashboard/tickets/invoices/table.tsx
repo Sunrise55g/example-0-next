@@ -47,7 +47,7 @@ export default function Table({
     }),
     [currentPage, query, sort]
   );
-  console.log('Table: searchParams:', searchParams);
+  // console.log('Table: searchParams:', searchParams);
 
 
   ////
@@ -66,13 +66,13 @@ export default function Table({
         partsItemsService.findMany(undefined, token),
         ticketsInvoicesService.findMany(searchParams, token),
       ]);
-
-      console.log('fetchAllData: invoicesRes:', {invoicesRes});
+      // console.log('fetchAllData: invoicesRes:', { invoicesRes });
 
       setProfileUsers(usersRes);
       setTicketsCategories(categoriesRes);
       setPartsItems(itemsRes);
       setTicketsInvoices(invoicesRes);
+      
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -89,7 +89,7 @@ export default function Table({
     // return () => clearInterval(intervalId);
   }, []);
 
-  
+
   useEffect(() => {
     fetchAllData();
   }, [searchParams]);
@@ -109,7 +109,7 @@ export default function Table({
           onCreateSuccess={fetchAllData}
         />
 
-        {ticketsInvoices?.data.map((ticketsInvoice: any) => (
+        {ticketsInvoices?.data?.map((ticketsInvoice: any) => (
           <TableEditForm
             key={ticketsInvoice.id}
             ticketsInvoice={ticketsInvoice}

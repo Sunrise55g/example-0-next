@@ -87,12 +87,22 @@ class ProfileUsersService {
 
 	async totalCount() {
 
-		const response: any = await apiClient.get(`${this.CURRENT_URL}/totalCount`)
+		const response: any = await apiClient.get(`${this.CORE_URL}/totalCount`)
 		// console.log('ProfileUsersService: totalCount: response', response);
 
 		return response;
 	}
 
+
+	async getCurrent(token: string) {
+
+		const response: any = await apiClient.get(`${this.CURRENT_URL}`, undefined, token)
+		// console.log('ProfileUsersService: getCurrent: response', response);
+
+		return response;
+	}
+
+	
 }
 
 export const profileUsersService = new ProfileUsersService()

@@ -43,7 +43,7 @@ export default function LoginForm() {
               className="mb-3 mt-5 block text-xs font-medium text-gray-900"
               htmlFor="login"
             >
-              {t('fields.usernameOrEmail')}
+              {t('labels.usernameOrEmail')}
             </label>
             <div className="relative">
               <input
@@ -62,7 +62,7 @@ export default function LoginForm() {
               className="mb-3 mt-5 block text-xs font-medium text-gray-900"
               htmlFor="password"
             >
-              {t('fields.password')}
+              {t('labels.password')}
             </label>
             <div className="relative">
               <input
@@ -70,7 +70,7 @@ export default function LoginForm() {
                 id="password"
                 type="password"
                 name="password"
-                placeholder={t('fields.password')}
+                placeholder={t('labels.password')}
                 required
                 minLength={6}
               />

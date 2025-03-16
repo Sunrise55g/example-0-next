@@ -131,7 +131,7 @@ export default function TableCreateForm({
 								defaultValue=""
 								placeholder={t('placeholders.name')}
 								className="w-full h-9 text-sm rounded-md border border-gray-200 py-0 pl-5 outline-2"
-								aria-describedby="create-invoice-error"
+								aria-describedby="create-error"
 								required
 							/>
 						</div>
@@ -145,7 +145,7 @@ export default function TableCreateForm({
 								name="ticketsCategoryId"
 								className="w-full h-9 text-sm rounded-md border border-gray-200 py-0 pl-5 outline-2 cursor-pointer"
 								defaultValue=""
-								aria-describedby="create-invoice-error"
+								aria-describedby="create-error"
 								required
 							>
 								<option value="" disabled>
@@ -168,16 +168,16 @@ export default function TableCreateForm({
 								name="status"
 								className="w-full h-9 text-sm rounded-md border border-gray-200 py-0 pl-5 outline-2 cursor-pointer"
 								defaultValue="OPEN"
-								aria-describedby="create-invoice-error"
+								aria-describedby="create-error"
 							>
 								<option value="OPEN" className="text-blue-500">
-									{t('fields.statusChoices.open')}
+									{t('labels.statusChoices.open')}
 								</option>
 								<option value="CLOSED" className="text-green-500">
-									{t('fields.statusChoices.closed')}
+									{t('labels.statusChoices.closed')}
 								</option>
 								<option value="CANCELED" className="text-red-500">
-									{t('fields.statusChoices.canceled')}
+									{t('labels.statusChoices.canceled')}
 								</option>
 							</select>
 						</div>
@@ -194,7 +194,7 @@ export default function TableCreateForm({
 							defaultValue=""
 							placeholder={t('placeholders.description')}
 							className="w-full h-9 text-sm rounded-md border border-gray-200 py-0 pl-5 outline-2"
-							aria-describedby="create-invoice-error"
+							aria-describedby="create-error"
 						/>
 					</div>
 
@@ -208,7 +208,7 @@ export default function TableCreateForm({
 								name="customerUserId"
 								className="w-full h-9 text-sm rounded-md border bg-blue-300 border-gray-200 py-0 pl-5 outline-2 cursor-pointer"
 								defaultValue=""
-								aria-describedby="create-invoice-error"
+								aria-describedby="create-error"
 								required
 							>
 								<option value="" disabled>
@@ -242,7 +242,7 @@ export default function TableCreateForm({
 								name="employerUserId"
 								className="w-full h-9 text-sm rounded-md border bg-red-300 border-gray-200 py-0 pl-5 outline-2 cursor-pointer"
 								defaultValue=""
-								aria-describedby="create-invoice-error"
+								aria-describedby="create-error"
 							>
 								<option value="" disabled>
 									{t('placeholders.employerUser')}
@@ -270,7 +270,7 @@ export default function TableCreateForm({
 
 					<div className="flex flex-col md:flex-row w-full items-start justify-between gap-4 mt-3 mb-0">
 						<div className="w-full md:flex-1">
-							<div id="create-invoice-error" aria-live="polite" aria-atomic="true">
+							<div id="create-error" aria-live="polite" aria-atomic="true">
 								{createState.errors && createState.message && createState.message !== 'Success' && (
 									<p className="text-red-500 text-m flex w-full py-3 pl-5">{createState.message}</p>
 								)}

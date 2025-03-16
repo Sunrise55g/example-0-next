@@ -9,6 +9,7 @@ import { routing } from './i18n/routing';
 //
 const publicRoutes = ['/_next', '/api/auth'];
 const noLoginRoutes = ['/', '/auth/login', '/auth/registration'];
+const protectedRoutes = ['/dashboard/profile/roles', '/dashboard/profile/users', '/dashboard/tickets/invoices'];
 
 //
 const locales = routing.locales;
@@ -22,6 +23,11 @@ export default async function middleware(req: NextRequest) {
   //// extract session
   const session = await auth();
   // console.log('middleware: session:', { session })
+
+  const moderator = session?.user?.profileRole?.moderator || false;
+  const administrator = session?.user?.profileRole?.administrator || false;
+  console.log('middleware: moderator:', moderator)
+  console.log('middleware: administrator:', administrator)
 
 
   //// extract pathname
@@ -68,6 +74,21 @@ export default async function middleware(req: NextRequest) {
   });
   // console.log('middleware: isNoLoginRoute:', isNoLoginRoute)
 
+  //
+  const isProtectedRoute = protectedRoutes.some(route => {
+    if (pathname === route) return true;
+
+    if (route === '/') {
+      return locales.some(locale => pathname === `/${locale}`) || pathname === '/';
+    }
+
+    return locales.some(locale =>
+      pathname === `/${locale}${route}` ||
+      pathname.startsWith(`/${locale}${route}/`)
+    ) || pathname.startsWith(route + '/');
+  });
+  console.log('middleware: isProtectedRoute:', isProtectedRoute)
+
 
   ////
   const isStaticFile = pathname.startsWith('/_next') ||
@@ -98,6 +119,11 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(dashboardUrl);
   }
 
+  if (!moderator && !administrator && isProtectedRoute) {
+    const dashboardUrl = new URL(`/${currentLocale}/dashboard`, req.url);
+    dashboardUrl.searchParams.set('callbackUrl', encodeURIComponent(pathname));
+    return NextResponse.redirect(dashboardUrl);
+  }
 
   return intlResponse;
 }

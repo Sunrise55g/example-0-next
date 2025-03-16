@@ -88,7 +88,7 @@ export default function TicketsItemsForm({
 
   async function deleteAction(prevState: IDeleteState, formData: FormData) {
     const id = formData.get('id');
-    console.log('deleteAction - id:', id);
+    // console.log('deleteAction - id:', id);
 
     if (!id) {
       return {
@@ -150,7 +150,7 @@ export default function TicketsItemsForm({
             }}
             className="flex w-full h-9 text-sm items-center justify-center rounded-lg bg-blue-500 text-white transition-colors hover:bg-blue-400"
           >
-            {!createFormVisible && `${t('actions.addPartsItem')} +`}
+            {!createFormVisible && `${t('actions.createTicketsItem')} +`}
           </button>
 
           <div
@@ -172,7 +172,7 @@ export default function TicketsItemsForm({
                   </option>
                   {partsItems?.data?.map((item: any) => (
                     <option key={item.id} value={item.id}>
-                      {`${t('fields.partsItem')} #${item.id}: ${item.name} -- ${t('fields.partsCategory')} #${item.partsCategoryId}: ${item.partsCategory.name}`}
+                      {`${t('labels.partsItem')} #${item.id}: ${item.name} -- ${t('labels.partsCategory')} #${item.partsCategoryId}: ${item.partsCategory.name}`}
                     </option>
                   ))}
                 </select>
@@ -186,11 +186,11 @@ export default function TicketsItemsForm({
                 </Button>
 
                 <Button type="submit" className="w-full md:w-auto h-9 px-4 mt-2 md:mt-0">
-                  {t('actions.addPartsItem')}
+                  {t('actions.createTicketsItem')}
                 </Button>
               </div>
 
-              {/* Uncomment if you want to show errors */}
+            
               {/* <div className="w-full mt-1 mb-1">
                 <div id="create-item-error" aria-live="polite" aria-atomic="true">
                   {createState.errors && createState.message && (
@@ -198,6 +198,7 @@ export default function TicketsItemsForm({
                   )}
                 </div>
               </div> */}
+
             </form>
           </div>
         </div>
@@ -210,7 +211,7 @@ export default function TicketsItemsForm({
             className="w-full flex flex-col md:flex-row items-center gap-2 rounded-md mt-2 mb-2"
           >
             <p className="w-full md:flex-1 h-9 text-sm flex items-center rounded-md bg-gray-400 pl-3">
-              {`${t('fields.partsItem')} #${ticketsItem.partsItem.id}: ${ticketsItem?.partsItem.name} -- ${t('fields.partsCategory')} #${ticketsItem.partsItem.partsCategoryId}: ${ticketsItem.partsItem.partsCategory.name}`}
+              {`${t('labels.partsItem')} #${ticketsItem.partsItem.id}: ${ticketsItem?.partsItem.name} -- ${t('labels.partsCategory')} #${ticketsItem.partsItem.partsCategoryId}: ${ticketsItem.partsItem.partsCategory.name}`}
             </p>
 
             <Button
@@ -230,7 +231,7 @@ export default function TicketsItemsForm({
             <div className="bg-white p-6 rounded-lg shadow-lg w-96">
               <h2 className="text-lg font-semibold mb-4">{t('titles.delete')}</h2>
               <p className="mb-6">
-                {t('messages.deleteTicketsItem')} #{itemToDelete}?
+                {t('actions.deleteTicketsItem')} #{itemToDelete}?
               </p>
               <div className="flex justify-end gap-3">
                 <Button

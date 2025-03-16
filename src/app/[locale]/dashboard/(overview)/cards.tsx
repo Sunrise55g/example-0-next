@@ -33,6 +33,8 @@ export default function CardWrapper() {
   //
   const { data: session, status }: any = useSession();
   const token = session?.user?.jwt
+  const administrator = session?.user?.profileRole?.administrator || false;
+  const moderator = session?.user?.profileRole?.moderator || false;
 
   //
   const locale = useLocale();
@@ -49,24 +51,43 @@ export default function CardWrapper() {
   //
   useEffect(() => {
 
-    Promise.all([
-      profileUsersService.totalCount()
-        .then((res) => {
-          setUsersTotalCount(res)
-        }),
-      partsItemsService.totalCount()
-        .then((res) => {
-          setPartsItemsTotalCount(res)
-        }),
-      ticketsInvoicesService.totalCountCore(token)
-        .then((res) => {
-          setInvoicesTotalCount(res)
-        })
+    if (administrator || moderator) {
+      Promise.all([
+        profileUsersService.totalCount()
+          .then((res) => {
+            setUsersTotalCount(res)
+          }),
+        partsItemsService.totalCount()
+          .then((res) => {
+            setPartsItemsTotalCount(res)
+          }),
+        ticketsInvoicesService.totalCountCore(token)
+          .then((res) => {
+            setInvoicesTotalCount(res)
+          })
 
-    ])
-      .then(() => {
-        setLoading(false)
-      })
+      ])
+        .then(() => {
+          setLoading(false)
+        })
+    }
+    else {
+      Promise.all([
+        partsItemsService.totalCount()
+          .then((res) => {
+            setPartsItemsTotalCount(res)
+          }),
+        ticketsInvoicesService.totalCountCurrent(token)
+          .then((res) => {
+            setInvoicesTotalCount(res)
+          })
+
+      ])
+        .then(() => {
+          setLoading(false)
+        })
+    }
+
 
   }, [])
 
@@ -77,7 +98,7 @@ export default function CardWrapper() {
     <>
       <Card title={t('texts.totalItems')} value={partsItemsTotalCount} type="collected" />
       <Card title={t('texts.totalInvoices')} value={invoicesTotalCount} type="invoices" />
-      <Card title={t('texts.totalUsers')} value={usersTotalCount} type="users" />
+      {administrator || moderator && (<Card title={t('texts.totalUsers')} value={usersTotalCount} type="users" />)}
     </>
   );
 }

@@ -9,17 +9,17 @@ import { CheckIcon, XMarkIcon, ClockIcon, TrashIcon, CurrencyDollarIcon } from '
 import { lusitana } from '@/components/fonts';
 import { UpdateButton, DeleteButton, Button } from '@/components/buttons';
 
-import { ticketsCategoriesService } from '@/services/tickets-categories.service';
+import { partsItemsService } from '@/services/parts-items.service';
 import Link from 'next/link';
 
 
 
 
 export default function TableCreateForm({
-	ticketsCategories,
+	partsCategories,
 	onCreateSuccess,
 }: {
-	ticketsCategories: any;
+	partsCategories: any;
 	onCreateSuccess: () => void;
 }) {
 
@@ -28,7 +28,7 @@ export default function TableCreateForm({
 	const token = session?.user?.jwt;
 	const administrator = session?.user?.profileRole?.administrator || false;
 	const moderator = session?.user?.profileRole?.moderator || false;
-	const t = useTranslations('TicketsCategories');
+	const t = useTranslations('PartsItems');
 
 
 	//// Begin Create Action
@@ -48,13 +48,22 @@ export default function TableCreateForm({
 
 		let rawFormData = {
 			name: formData.get('name'),
+			active: formData.get('active') === 'on',
+			partsCategoryId: formData.get('partsCategoryId'),
 			description: formData.get('description'),
-			active: formData.get('active') === 'on'
 		};
 		//console.log('rawFormData:', { rawFormData });
 
+		//
+		let requestData: any = {};
 
-		const serviceResponse: any = await ticketsCategoriesService.createOne(rawFormData, token);
+		if (rawFormData.name && rawFormData.name !== '') { requestData['name'] = rawFormData.name; }
+		if (rawFormData.active) { requestData['active'] = rawFormData.active; }
+		if (rawFormData.partsCategoryId) { requestData['partsCategoryId'] = rawFormData.partsCategoryId; }
+		if (rawFormData.description && rawFormData.description !== '') { requestData['description'] = rawFormData.description; }
+
+		//
+		const serviceResponse: any = await partsItemsService.createOne(requestData, token);
 
 		if (serviceResponse.error || serviceResponse.message) {
 			const message = serviceResponse.message;
@@ -107,7 +116,7 @@ export default function TableCreateForm({
 					}}
 					className="flex w-full h-10 items-center justify-center rounded-lg bg-blue-500 text-sm font-medium text-white transition-colors hover:bg-blue-400"
 				>
-					{t('actions.createTicketsCategory')} +
+					{t('actions.createPartsItem')} +
 				</button>
 			)}
 
@@ -154,18 +163,44 @@ export default function TableCreateForm({
 
 
 					<div className="w-full mt-2 mb-2">
-						<label htmlFor="description" className="text-xs text-gray-500 block mb-1">
-							{t('labels.description')}:
+						<label htmlFor="partsCategoryId" className="text-xs text-gray-500 block mb-1">
+							{t('labels.partsCategory')}:
 						</label>
-						<input
-							id="description"
-							name="description"
-							type="string"
+						<select
+							id="partsCategoryId"
+							name="partsCategoryId"
+							className="w-full h-9 text-sm rounded-md border bg-green-200 border-gray-200 py-0 pl-5 outline-2 cursor-pointer"
 							defaultValue=""
-							placeholder={t('placeholders.description')}
-							className="w-full h-9 text-sm rounded-md border border-gray-200 py-0 pl-5 outline-2"
 							aria-describedby="create-error"
-						/>
+							required
+						>
+							<option value="" disabled>
+								{t('placeholders.partsCategory')}
+							</option>
+							{partsCategories?.data?.map((partsCategory: any) => (
+								<option key={partsCategory.id} value={partsCategory.id}>
+									{`#${partsCategory.id}:  ${partsCategory.name}`}
+								</option>
+							))}
+						</select>
+					</div>
+
+
+					<div className="flex w-full items-start gap-5 mt-0 mb-2">
+						<div className="flex-1">
+							<label htmlFor="description" className="text-xs text-gray-500 block mb-1">
+								{t('labels.description')}:
+							</label>
+							<input
+								id="description"
+								name="description"
+								type="string"
+								defaultValue=""
+								placeholder={t('placeholders.description')}
+								className="w-full h-9 text-sm rounded-md border border-gray-200 py-0 pl-5 outline-2"
+								aria-describedby="create-error"
+							/>
+						</div>
 					</div>
 
 
@@ -186,7 +221,7 @@ export default function TableCreateForm({
 							<Button className="bg-red-500" onClick={() => setCreateFormVisible(false)}>
 								{t('actions.cancel')}
 							</Button>
-							<Button type="submit">{t('actions.createTicketsCategory')}</Button>
+							<Button type="submit">{t('actions.createPartsItem')}</Button>
 						</div>
 
 					</div>

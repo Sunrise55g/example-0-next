@@ -32,6 +32,17 @@ class TicketsInvoicesService {
 	}
 
 
+	public async createOneCurrent(data: any, token: string) {
+		// console.log('TicketsInvoicesService: createOne: data:', data);
+		// console.log('TicketsInvoicesService: createOne: token:', token);
+
+		const response: any = await apiClient.post(this.CURRENT_URL, data, token)
+		// console.log('TicketsInvoicesService: createOne: response:', response);
+
+		return response;
+	}
+
+
 
 	async findMany(queryParams?: any, token?: string) {
 		// console.log('TicketsInvoicesService: findMany: queryParams:', queryParams);
@@ -53,10 +64,40 @@ class TicketsInvoicesService {
 			queryStr += `&filter=description||$cont||${queryParams.query}`;
 		}
 
-		console.log('TicketsInvoicesService: findMany: queryStr:', queryStr);
+		// console.log('TicketsInvoicesService: findMany: queryStr:', queryStr);
 
 
 		const response: any = await apiClient.get(this.CORE_URL, queryStr, token)
+		// console.log('TicketsInvoicesService: findMany: response', response);
+
+		return response;
+	}
+
+
+	async findManyCurrent(queryParams?: any, token?: string) {
+		// console.log('TicketsInvoicesService: findMany: queryParams:', queryParams);
+		// console.log('TicketsInvoicesService: findMany: token:', token);
+
+		////
+		let queryStr = '';
+
+		if (queryParams?.page) {
+			queryStr += `?page=${queryParams.page}`;
+		}
+
+		if (queryParams?.sort) {
+			queryStr += `&sort=${queryParams.sort}`;
+		}
+
+		if (queryParams?.query) {
+			queryStr += `&filter=name||$cont||${queryParams.query}`;
+			queryStr += `&filter=description||$cont||${queryParams.query}`;
+		}
+
+		// console.log('TicketsInvoicesService: findMany: queryStr:', queryStr);
+
+
+		const response: any = await apiClient.get(this.CURRENT_URL, queryStr, token)
 		// console.log('TicketsInvoicesService: findMany: response', response);
 
 		return response;
@@ -67,6 +108,15 @@ class TicketsInvoicesService {
 	async findOne(id: number, token?: string) {
 
 		const response = await apiClient.get(`${this.CORE_URL}/${id}`, undefined, token)
+		// console.log('TicketsInvoicesService: findOne: response', response);
+
+		return response;
+	}
+
+
+	async findOneCurrent(id: number, token?: string) {
+
+		const response = await apiClient.get(`${this.CURRENT_URL}/${id}`, undefined, token)
 		// console.log('TicketsInvoicesService: findOne: response', response);
 
 		return response;
@@ -87,6 +137,25 @@ class TicketsInvoicesService {
 		}
 
 		const response = await apiClient.patch(`${this.CORE_URL}/${id}`, data, token)
+		// console.log('TicketsInvoicesService: findOne: response', response);
+
+		return response;
+	}
+
+
+	async updateOneCurrent(id: number, data: any, token: string) {
+
+		let dataObj = data;
+
+		if (!dataObj.roleId || dataObj.roleId === '') {
+			delete dataObj.roleId
+		}
+
+		if (!dataObj.password || dataObj.password === '') {
+			delete dataObj.password
+		}
+
+		const response = await apiClient.patch(`${this.CURRENT_URL}/${id}`, data, token)
 		// console.log('TicketsInvoicesService: findOne: response', response);
 
 		return response;
