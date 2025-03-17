@@ -29,7 +29,7 @@ export default function Sorting({ sortOptions }: { sortOptions: any }) {
 
 
   return (
-    <div className="relative flex flex-shrink-0 w-1/4">
+    <div className="relative flex shrink-0 w-1/4">
 
       <label htmlFor="sorting" className="sr-only">
         Sorting

@@ -54,8 +54,8 @@ export default function LocaleSwitcherSelect({
         <span className="sr-only">{label}</span>
         <select
           className={clsx(
-            'w-full appearance-none rounded-md border border-gray-300 bg-white py-2 pl-3 pr-8 text-sm font-medium text-gray-700 shadow-sm',
-            'focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none',
+            'w-full appearance-none rounded-md border border-gray-300 bg-white py-2 pl-3 pr-8 text-sm font-medium text-gray-700 shadow-xs',
+            'focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-hidden',
             'hover:bg-gray-50 transition-all duration-200 cursor-pointer',
             isPending && 'cursor-not-allowed opacity-50'
           )}
