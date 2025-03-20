@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { SessionProvider } from 'next-auth/react';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
+import { ThemeProvider } from "next-themes";
 
 import '@/components/global.css';
 import { inter } from '@/components/fonts';
@@ -35,11 +36,13 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
-      <body className={`${inter.className} antialiased`}>
+    <html lang={locale} suppressHydrationWarning>
+      <body className={`${inter.className} antialiased h-100 dark:bg-dark-bg dark:text-dark-text bg-light-bg text-light-text`}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <SessionProvider session={session}>
-            {children}
+            <ThemeProvider attribute="data-theme">
+              {children}
+            </ThemeProvider>
           </SessionProvider>
         </NextIntlClientProvider>
       </body>

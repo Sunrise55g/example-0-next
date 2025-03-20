@@ -8,6 +8,7 @@ import Logo from '@/components/logo';
 import { signOut } from '@/auth';
 
 import LocaleSwitcherSelect from './locale-switcher-select';
+import ThemeSwitcher from './theme-switcher'
 
 
 
@@ -32,6 +33,7 @@ export default function SideNav() {
       <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
         <NavLinks />
         <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
+        <ThemeSwitcher></ThemeSwitcher>
         <LocaleSwitcherSelect defaultValue={locale} label={tSwitcher('localeSwitcher.label')}>
           {routing.locales.map((cur) => (
             <option key={cur} value={cur}>
