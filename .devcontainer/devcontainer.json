@@ -1,0 +1,74 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-in-docker
+{
+	"name": "Docker in Docker",
+	"containerName": "example-0-next-dev",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "ubuntu:24.04",
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {
+			"version": "latest",
+			"enableNonRootDocker": "true",
+			"moby": "true"
+		}
+	},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [
+	// 	5432,
+	// 	5433,
+	// 	4000
+	// ],
+	"runArgs": [
+		"--name", "example-0-next-dev",
+		"-p", "3000:3000"
+	],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "bash /workspaces/example-0-next/.devcontainer/post-create.sh",
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-azuretools.vscode-docker",
+				"pflannery.vscode-versionlens",
+				// "kvcvc.sequelize-snippets",
+				"ms-vscode.remote-repositories",
+				"msjsdiag.vscode-react-native",
+				// "KevinRose.vsc-python-indent",
+				// "donjayamanne.python-extension-pack",
+				// "donjayamanne.python-environment-manager",
+				// "ms-python.debugpy",
+				// "ms-python.python",
+				// "ms-python.vscode-pylance",
+				"christian-kohler.path-intellisense",
+				"christian-kohler.npm-intellisense",
+				"Swellaby.node-pack",
+				"ritwickdey.LiveServer",
+				// "onecentlin.laravel5-snippets",
+				// "ms-toolsai.jupyter-keymap",
+				// "wholroyd.jinja",
+				"ms-vscode.vscode-typescript-next",
+				"VisualStudioExptTeam.intellicode-api-usage-examples",
+				"VisualStudioExptTeam.vscodeintellicode",
+				"eamodio.gitlens",
+				"GitHub.remotehub",
+				"dsznajder.es7-react-js-snippets",
+				"mikestead.dotenv",
+				// "batisteo.vscode-django",
+				"Codeium.codeium",
+				// "ms-vscode.cmake-tools",
+				// "twxs.cmake",
+				// "ms-dotnettools.csharp",
+				// "ms-vscode.cpptools-themes",
+				// "ms-vscode.cpptools-extension-pack",
+				// "ms-vscode.cpptools",
+				"ms-vscode.azure-repos",
+				"njpwerner.autodocstring",
+				"formulahendry.auto-rename-tag",
+				"formulahendry.auto-close-tag"
+				// "ms-dotnettools.vscode-dotnet-runtime"
+			]
+		}
+	}
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
+}
