@@ -1,9 +1,18 @@
 class ApiClient {
-    private backendUrl: string;
+    
+    private getApiUrl(): string {
 
-    constructor() {
-        this.backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || '';
-    }
+        const serverUrl = process.env.NEXT_SERVER_API_URL
+        const publicUrl = process.env.NEXT_PUBLIC_API_URL
+    
+        // Проверяем, находимся ли мы на серверной стороне
+        const isServer = typeof window === 'undefined';
+    
+        // На сервере используем serverRuntimeConfig, на клиенте — publicRuntimeConfig
+        return isServer
+          ? serverUrl || 'http://host.docker.internal:4000/api'
+          : publicUrl || 'http://localhost:4000/api';
+      }
 
 
     private buildUrlWithQuery(url: string, query?: any): string {
@@ -16,7 +25,8 @@ class ApiClient {
 
     private async request(method: string, url: string, query?: any, data?: any, token?: string): Promise<Response> {
 
-        const finalUrl = this.buildUrlWithQuery(`${this.backendUrl}${url}`, query);
+        const apiUrl = this.getApiUrl()
+        const finalUrl = this.buildUrlWithQuery(`${apiUrl}${url}`, query);
 
         let init: RequestInit = {
             method: method,
